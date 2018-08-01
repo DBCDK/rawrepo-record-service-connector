@@ -154,7 +154,27 @@ public class RecordServiceConnector {
              * allow-deleted: used to specify whether a record should
              * be returned in case the record is deleted
              */
-            ALLOW_DELETED("allow-deleted");
+            ALLOW_DELETED("allow-deleted"),
+            /**
+             * exclude-dbc-fields: used to specify if DBC letter fields
+             * should be returned
+             */
+            EXCLUDE_DBC_FIELDS("exclude-dbc-fields"),
+            /**
+             * keep-aut-fields: if true, subfields *5 and *6 will not
+             * be removed when expanded
+             */
+            KEEP_AUT_FIELDS("keep-aut-fields"),
+            /**
+             * mode: used to determine whether the returned record
+             * content should be raw, merged or expanded
+             */
+            MODE("mode"),
+            /**
+             * use-parent-agency: setting use-parent-agency to true
+             * returns record with the parent agency
+             */
+            USE_PARENT_AGENCY("use-parent-agency");
 
             private final String keyName;
             
@@ -166,6 +186,15 @@ public class RecordServiceConnector {
             }
         }
 
+        public enum Mode {
+            RAW, MERGED, EXPANDED;
+
+            @Override
+            public String toString() {
+                return name().toLowerCase();
+            }
+        }
+
         public Params withAllowDeleted(Boolean allowDeleted) {
             putOrRemoveOnNull(Key.ALLOW_DELETED, allowDeleted);
             return this;
@@ -173,6 +202,42 @@ public class RecordServiceConnector {
 
         public Optional<Boolean> getAllowDeleted() {
             return Optional.ofNullable((Boolean) this.get(Key.ALLOW_DELETED));
+        }
+
+        public Params withExcludeDbcFields(Boolean excludeDbcFields) {
+            putOrRemoveOnNull(Key.EXCLUDE_DBC_FIELDS, excludeDbcFields);
+            return this;
+        }
+
+        public Optional<Boolean> getExcludeDbcFields() {
+            return Optional.ofNullable((Boolean) this.get(Key.EXCLUDE_DBC_FIELDS));
+        }
+
+        public Params withKeepAutFields(Boolean keepAutFields) {
+            putOrRemoveOnNull(Key.KEEP_AUT_FIELDS, keepAutFields);
+            return this;
+        }
+
+        public Optional<Boolean> getKeepAutFields() {
+            return Optional.ofNullable((Boolean) this.get(Key.KEEP_AUT_FIELDS));
+        }
+
+        public Params withMode(Mode mode) {
+            putOrRemoveOnNull(Key.MODE, mode);
+            return this;
+        }
+
+        public Optional<Mode> getMode() {
+            return Optional.ofNullable((Mode) this.get(Key.MODE));
+        }
+
+        public Params withUseParentAgency(Boolean useParentAgency) {
+            putOrRemoveOnNull(Key.USE_PARENT_AGENCY, useParentAgency);
+            return this;
+        }
+
+        public Optional<Boolean> getUseParentAgency() {
+            return Optional.ofNullable((Boolean) this.get(Key.USE_PARENT_AGENCY));
         }
 
         private void putOrRemoveOnNull(Key param, Object value) {
