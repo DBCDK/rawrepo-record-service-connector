@@ -1,0 +1,18 @@
+{
+  "id" : "7acaa40d-e338-3b0c-956b-057f70c7fe3c",
+  "request" : {
+    "url" : "/api/v1/record/870979/NoSuchRecord/exists?allow-deleted=true",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-NoSuchRecord-exists-Rl7zM.json",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Wed, 01 Aug 2018 12:05:58 GMT",
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "7acaa40d-e338-3b0c-956b-057f70c7fe3c"
+}

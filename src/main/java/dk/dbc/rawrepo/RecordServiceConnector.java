@@ -151,10 +151,10 @@ public class RecordServiceConnector {
     public static class Params extends HashMap<String, Object> {
         public enum Key {
             /**
-             * allowDeleted: used to specify whether a record should
+             * allow-deleted: used to specify whether a record should
              * be returned in case the record is deleted
              */
-            ALLOW_DELETED("allowDeleted");
+            ALLOW_DELETED("allow-deleted");
 
             private final String keyName;
             
