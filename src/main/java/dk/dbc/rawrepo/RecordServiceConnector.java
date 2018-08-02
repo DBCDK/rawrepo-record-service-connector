@@ -40,6 +40,8 @@ public class RecordServiceConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordServiceConnector.class);
     private static final String PATH_VARIABLE_AGENCY_ID = "agencyId";
     private static final String PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID = "bibliographicRecordId";
+    private static final String PATH_RECORD_CONTENT = String.format("/api/v1/record/{%s}/{%s}/content",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_EXISTS = String.format("/api/v1/record/{%s}/{%s}/exists",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
 
@@ -79,7 +81,7 @@ public class RecordServiceConnector {
      * @param agencyId agency ID
      * @param bibliographicRecordId bibliographic record ID
      * @return true if records exists, otherwise false
-     * @throws RecordServiceConnectorException on failure to read result entities from response
+     * @throws RecordServiceConnectorException on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
     public boolean recordExists(String agencyId, String bibliographicRecordId)
@@ -92,7 +94,7 @@ public class RecordServiceConnector {
      * @param bibliographicRecordId bibliographic record ID
      * @param params request query parameters
      * @return true if records exists, otherwise false
-     * @throws RecordServiceConnectorException on failure to read result entities from response
+     * @throws RecordServiceConnectorException on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
     public boolean recordExists(String agencyId, String bibliographicRecordId, Params params)
@@ -117,6 +119,53 @@ public class RecordServiceConnector {
             return readResponseEntity(response, RecordExistsResponseEntity.class).value;
         } finally {
             LOGGER.info("recordExists({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record content as MarcXchange XML
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRecordContent(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordContent(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return record content as MarcXchange XML
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    private byte[] getRecordContent(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
+            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
+            final PathBuilder path = new PathBuilder(PATH_RECORD_CONTENT)
+                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
+                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
+            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
+                    .withBaseUrl(baseUrl)
+                    .withPathElements(path.build());
+            if (params != null) {
+                for (Map.Entry<String, Object> param : params.entrySet()) {
+                    httpGet.withQueryParameter(param.getKey(), param.getValue());
+                }
+            }
+            final Response response = httpGet.execute();
+            assertResponseStatus(response, Response.Status.OK);
+            return readResponseEntity(response, byte[].class);
+        } finally {
+            LOGGER.info("getRecordContent({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }

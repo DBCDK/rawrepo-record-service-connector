@@ -18,15 +18,21 @@ public class RecordServiceConnectorTestWireMockRecorder {
      */
 
     public static void main(String[] args) throws RecordServiceConnectorException {
-        final RecordServiceConnectorTest recordServiceConnectorTest = new RecordServiceConnectorTest();
-        recordServiceConnectorTest.connector = new RecordServiceConnector(
+        RecordServiceConnectorTest.connector = new RecordServiceConnector(
                 RecordServiceConnectorTest.CLIENT, "http://localhost:8080");
+        final RecordServiceConnectorTest recordServiceConnectorTest = new RecordServiceConnectorTest();
         recordRecordExistsRequests(recordServiceConnectorTest);
+        recordGetRecordContentRequests(recordServiceConnectorTest);
     }
 
     private static void recordRecordExistsRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callRecordExistsForExistingRecord();
         connectorTest.callRecordExistsForNonExistingRecord();
+    }
+
+    private static void recordGetRecordContentRequests(RecordServiceConnectorTest connectorTest)
+            throws RecordServiceConnectorException {
+        connectorTest.callGetRecordContentForExistingRecord();
     }
 }

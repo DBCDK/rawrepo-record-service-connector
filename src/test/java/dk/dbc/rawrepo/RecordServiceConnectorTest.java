@@ -18,6 +18,7 @@ import javax.ws.rs.client.Client;
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 class RecordServiceConnectorTest {
@@ -74,4 +75,9 @@ class RecordServiceConnectorTest {
                 is(false));
     }
 
+    @Test
+    void callGetRecordContentForExistingRecord() throws RecordServiceConnectorException {
+        assertThat(connector.getRecordContent("870979", "68135699"),
+                is(notNullValue()));
+    }
 }
