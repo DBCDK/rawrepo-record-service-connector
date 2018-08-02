@@ -77,6 +77,10 @@ public class RecordServiceConnector {
                 baseUrl, "baseUrl");
     }
 
+    public void close() {
+        failSafeHttpClient.getClient().close();
+    }
+
     /**
      * @param agencyId agency ID
      * @param bibliographicRecordId bibliographic record ID
