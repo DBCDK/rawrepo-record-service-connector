@@ -188,7 +188,7 @@ public class RecordServiceConnector {
                 Response.Status.fromStatusCode(response.getStatus());
         if (actualStatus != expectedStatus) {
             throw new RecordServiceConnectorUnexpectedStatusCodeException(
-                    String.format("file-store service returned with unexpected status code: %s",
+                    String.format("Record service returned with unexpected status code: %s",
                             actualStatus),
                     actualStatus.getStatusCode());
         }
