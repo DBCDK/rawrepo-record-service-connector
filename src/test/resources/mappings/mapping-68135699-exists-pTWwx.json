@@ -1,0 +1,18 @@
+{
+  "id" : "842b7f95-ac37-3726-98a6-0c04f0473fb3",
+  "request" : {
+    "url" : "/api/v1/record/870979/68135699/exists",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-68135699-exists-pTWwx.json",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Wed, 01 Aug 2018 11:38:56 GMT",
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "842b7f95-ac37-3726-98a6-0c04f0473fb3"
+}
