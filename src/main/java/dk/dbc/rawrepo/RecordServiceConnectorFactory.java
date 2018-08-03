@@ -24,20 +24,18 @@ import javax.ws.rs.client.Client;
  * <p>
  * Synopsis:
  * <pre>
- * {@code
  *    // New instance
  *    RecordServiceConnector rsc = RecordServiceConnector.create("http://record-service");
  *
  *    // Singleton instance in CDI enabled environment
- *    @Inject
+ *    {@literal @}Inject
  *    RecordServiceConnectorFactory factory;
  *    ...
  *    RecordServiceConnector rsc = factory.getInstance();
  *
  *    // or simply
- *    @Inject
+ *    {@literal @}Inject
  *    RecordServiceConnector rsc;
- * }
  * </pre>
  * </p>
  * <p>
