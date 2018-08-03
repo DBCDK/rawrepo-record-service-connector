@@ -19,6 +19,14 @@
     </repository>
   </repositories>
 
+  <distributionManagement>
+    <repository>
+      <id>mavenrepo.dbc.dk</id>
+      <name>mavenrepo</name>
+      <url>http://mavenrepo.dbc.dk/content/repositories/snapshots</url>
+    </repository>
+  </distributionManagement>
+
   <properties>
     <hamcrest.version>1.3</hamcrest.version>
     <httpclient.version>0.1.0</httpclient.version>
