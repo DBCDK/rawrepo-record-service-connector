@@ -23,6 +23,7 @@ import javax.ws.rs.client.Client;
  * RecordServerConnector factory
  * <p>
  * Synopsis:
+ * </p>
  * <pre>
  *    // New instance
  *    RecordServiceConnector rsc = RecordServiceConnector.create("http://record-service");
@@ -37,7 +38,6 @@ import javax.ws.rs.client.Client;
  *    {@literal @}Inject
  *    RecordServiceConnector rsc;
  * </pre>
- * </p>
  * <p>
  * CDI case depends on the rawrepo record service baseurl being defined as
  * the value of either a system property or environment variable
