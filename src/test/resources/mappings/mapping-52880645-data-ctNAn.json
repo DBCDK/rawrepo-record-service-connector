@@ -1,0 +1,19 @@
+{
+  "id" : "108dd40d-8f7c-32a5-834a-11322c038e03",
+  "request" : {
+    "url" : "/api/v1/record/870970/52880645",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-52880645-data-ctNAn.json",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Tue, 09 Oct 2018 15:14:12 GMT",
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN",
+      "Transfer-Encoding" : "chunked"
+    }
+  },
+  "uuid" : "108dd40d-8f7c-32a5-834a-11322c038e03"
+}
