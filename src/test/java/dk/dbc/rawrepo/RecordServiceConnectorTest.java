@@ -84,7 +84,7 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordDataForExistingRecord() throws RecordServiceConnectorException {
-        final Record record = connector.getRecordData ("870970", "52880645");
+        final RecordData record = connector.getRecordData ("870970", "52880645");
         assertThat (record, is (notNullValue ()));
         assertThat (record.getRecordId (), is (notNullValue ()));
         assertThat (record.getRecordId ().getAgencyId (), is (870970));

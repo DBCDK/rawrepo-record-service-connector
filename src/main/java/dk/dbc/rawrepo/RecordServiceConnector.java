@@ -177,7 +177,7 @@ public class RecordServiceConnector {
         }
     }
 
-    public Record getRecordData(String agencyId, String bibliographicRecordId)
+    public RecordData getRecordData(String agencyId, String bibliographicRecordId)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
@@ -191,7 +191,7 @@ public class RecordServiceConnector {
                     .withPathElements(path.build());
             final Response response = httpGet.execute();
             assertResponseStatus(response, Response.Status.OK);
-            return readResponseEntity(response, Record.class);
+            return readResponseEntity(response, RecordData.class);
         } finally {
             LOGGER.info("getRecordData({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
