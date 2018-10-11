@@ -38,6 +38,7 @@ public class RecordData {
     private String modified;
     private String trackingId;
     private byte[] content;
+    private String enrichmentTrail = "Todo: service must deliver this field";
 
     public RecordId getRecordId() {
         return recordId;
@@ -66,6 +67,8 @@ public class RecordData {
     public byte[] getContent() {
         return content;
     }
+
+    public String getEnrichmentTrail() { return enrichmentTrail; }
 
     @Override
     public String toString () {
