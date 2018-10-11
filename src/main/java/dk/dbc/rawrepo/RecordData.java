@@ -2,6 +2,8 @@ package dk.dbc.rawrepo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Arrays;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecordData {
 
@@ -18,6 +20,14 @@ public class RecordData {
 
         public int getAgencyId () {
             return agencyId;
+        }
+
+        @Override
+        public String toString () {
+            return "RecordId{" +
+                    "bibliographicRecordId='" + bibliographicRecordId + '\'' +
+                    ", agencyId=" + agencyId +
+                    '}';
         }
     }
 
@@ -55,5 +65,18 @@ public class RecordData {
 
     public byte[] getContent() {
         return content;
+    }
+
+    @Override
+    public String toString () {
+        return "RecordData{" +
+                "recordId=" + recordId +
+                ", deleted=" + deleted +
+                ", mimetype='" + mimetype + '\'' +
+                ", created='" + created + '\'' +
+                ", modified='" + modified + '\'' +
+                ", trackingId='" + trackingId + '\'' +
+                ", content=" + Arrays.toString (content) +
+                '}';
     }
 }
