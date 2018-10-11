@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecordData {
 
-    public class RecordId {
+    public static class RecordId {
         private String bibliographicRecordId;
         private int agencyId;
 
