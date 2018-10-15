@@ -111,22 +111,7 @@ public class RecordServiceConnector {
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
-            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
-            final PathBuilder path = new PathBuilder(PATH_RECORD_EXISTS)
-                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
-                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
-            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
-                    .withBaseUrl(baseUrl)
-                    .withPathElements(path.build());
-            if (params != null) {
-                for (Map.Entry<String, Object> param : params.entrySet()) {
-                    httpGet.withQueryParameter(param.getKey(), param.getValue());
-                }
-            }
-            final Response response = httpGet.execute();
-            assertResponseStatus(response, Response.Status.OK);
-            return readResponseEntity(response, RecordExistsResponseEntity.class).value;
+            return sendRequest(PATH_RECORD_EXISTS, agencyId, bibliographicRecordId, params, RecordExistsResponseEntity.class).value;
         } finally {
             LOGGER.info("recordExists({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
@@ -158,22 +143,7 @@ public class RecordServiceConnector {
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
-            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
-            final PathBuilder path = new PathBuilder(PATH_RECORD_CONTENT)
-                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
-                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
-            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
-                    .withBaseUrl(baseUrl)
-                    .withPathElements(path.build());
-            if (params != null) {
-                for (Map.Entry<String, Object> param : params.entrySet()) {
-                    httpGet.withQueryParameter(param.getKey(), param.getValue());
-                }
-            }
-            final Response response = httpGet.execute();
-            assertResponseStatus(response, Response.Status.OK);
-            return readResponseEntity(response, byte[].class);
+            return sendRequest(PATH_RECORD_CONTENT, agencyId, bibliographicRecordId, params, byte[].class);
         } finally {
             LOGGER.info("getRecordContent({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
@@ -205,17 +175,7 @@ public class RecordServiceConnector {
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
-            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
-            final PathBuilder path = new PathBuilder(PATH_RECORD_DATA)
-                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
-                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
-            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
-                    .withBaseUrl(baseUrl)
-                    .withPathElements(path.build());
-            final Response response = httpGet.execute();
-            assertResponseStatus(response, Response.Status.OK);
-            return readResponseEntity(response, RecordData.class);
+            return sendRequest(PATH_RECORD_DATA, agencyId, bibliographicRecordId, params, RecordData.class);
         } finally {
             LOGGER.info("getRecordData({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
@@ -247,23 +207,7 @@ public class RecordServiceConnector {
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
-            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
-            final PathBuilder path = new PathBuilder(PATH_RECORD_DATA_COLLECTION)
-                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
-                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
-            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
-                    .withBaseUrl(baseUrl)
-                    .withPathElements(path.build());
-            if (params != null) {
-                for (Map.Entry<String, Object> param : params.entrySet()) {
-                    httpGet.withQueryParameter(param.getKey(), param.getValue());
-                }
-            }
-            final Response response = httpGet.execute();
-            assertResponseStatus(response, Response.Status.OK);
-            RecordDataCollection recordCollection = readResponseEntity(response, RecordDataCollection.class);
-            return recordCollection.toMap();
+            return sendRequest(PATH_RECORD_DATA_COLLECTION, agencyId, bibliographicRecordId, params, RecordDataCollection.class).toMap();
         } finally {
             LOGGER.info("getRecordDataCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
@@ -295,27 +239,32 @@ public class RecordServiceConnector {
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
-            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
-            final PathBuilder path = new PathBuilder(PATH_RECORD_META)
-                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
-                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
-            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
-                    .withBaseUrl(baseUrl)
-                    .withPathElements(path.build());
-            if (params != null) {
-                for (Map.Entry<String, Object> param : params.entrySet()) {
-                    httpGet.withQueryParameter(param.getKey(), param.getValue());
-                }
-            }
-            final Response response = httpGet.execute();
-            assertResponseStatus(response, Response.Status.OK);
-            return readResponseEntity(response, RecordData.class);
+            return sendRequest(PATH_RECORD_META, agencyId, bibliographicRecordId, params, RecordData.class);
         } finally {
             LOGGER.info("getRecordMeta({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
+    }
+
+    private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, Params params, Class<T> tClass)
+            throws RecordServiceConnectorException {
+        InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
+        InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
+        final PathBuilder path = new PathBuilder(basePath)
+                .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
+                .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
+        final HttpGet httpGet = new HttpGet(failSafeHttpClient)
+                .withBaseUrl(baseUrl)
+                .withPathElements(path.build());
+        if (params != null) {
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                httpGet.withQueryParameter(param.getKey(), param.getValue());
+            }
+        }
+        final Response response = httpGet.execute();
+        assertResponseStatus(response, Response.Status.OK);
+        return readResponseEntity(response, tClass);
     }
 
     private <T> T readResponseEntity(Response response, Class<T> tClass)
