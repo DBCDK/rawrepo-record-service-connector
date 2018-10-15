@@ -51,6 +51,7 @@ class RecordServiceConnectorTest {
         wireMockServer.stop();
     }
 
+
     @Test
     void params() {
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params();
@@ -109,5 +110,21 @@ class RecordServiceConnectorTest {
         assertThat(recordCollection.size (), is(2));
         assertThat("Record from 870970", recordCollection.values ().stream().filter(s -> s.getRecordId ().getAgencyId () == 870970).findFirst().isPresent());
         assertThat("Record from 870979", recordCollection.values ().stream().filter(s -> s.getRecordId ().getAgencyId () == 870979).findFirst().isPresent());
+    }
+
+    @Test
+    void callGetRecordMetaForExistingRecord() throws RecordServiceConnectorException {
+        final RecordData recordMeta = connector.getRecordMeta ("870970", "52880645");
+        assertThat(recordMeta, is(notNullValue ()));
+        assertThat(recordMeta.getRecordId(), is(notNullValue()));
+        assertThat(recordMeta.getRecordId().getAgencyId (), is(870970));
+        assertThat(recordMeta.getRecordId().getBibliographicRecordId(), is("52880645"));
+        assertThat(recordMeta.isDeleted(), is(false));
+        assertThat(recordMeta.getMimetype(), is("text/marcxchange"));
+        assertThat(recordMeta.getCreated(), is("2017-01-16T23:00:00Z"));
+        assertThat(recordMeta.getModified(), is("2018-06-01T13:43:13.147Z"));
+        assertThat(recordMeta.getTrackingId(), is("{52880645:870970}-68944211-{52880645:870970}"));
+        assertThat("Content is null", recordMeta.getContent() == null);
+        assertThat(recordMeta.getEnrichmentTrail(), is("870970"));
     }
 }
