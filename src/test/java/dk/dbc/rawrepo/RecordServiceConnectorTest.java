@@ -87,17 +87,17 @@ class RecordServiceConnectorTest {
     @Test
     void callGetRecordDataForExistingRecord() throws RecordServiceConnectorException {
         final RecordData record = connector.getRecordData ("870970", "52880645");
-        assertThat (record, is (notNullValue ()));
-        assertThat (record.getRecordId (), is (notNullValue ()));
-        assertThat (record.getRecordId ().getAgencyId (), is (870970));
-        assertThat (record.getRecordId ().getBibliographicRecordId (), is ("52880645"));
-        assertThat (record.isDeleted (), is (false));
-        assertThat (record.getMimetype (), is ("text/marcxchange"));
-        assertThat (record.getCreated (), is ("2017-01-16T23:00:00Z"));
-        assertThat (record.getModified (), is ("2018-06-01T13:43:13.147Z"));
-        assertThat (record.getTrackingId (), is ("{52880645:870970}-68944211-{52880645:870970}"));
-        assertThat (new String (record.getContent ()), containsString ("lokomotivmænd i krig"));
-        assertThat(record.getEnrichmentTrail (), is("870970"));
+        assertThat(record, is(notNullValue ()));
+        assertThat(record.getRecordId(), is(notNullValue()));
+        assertThat(record.getRecordId().getAgencyId (), is(870970));
+        assertThat(record.getRecordId().getBibliographicRecordId(), is("52880645"));
+        assertThat(record.isDeleted(), is(false));
+        assertThat(record.getMimetype(), is("text/marcxchange"));
+        assertThat(record.getCreated(), is("2017-01-16T23:00:00Z"));
+        assertThat(record.getModified(), is("2018-06-01T13:43:13.147Z"));
+        assertThat(record.getTrackingId(), is("{52880645:870970}-68944211-{52880645:870970}"));
+        assertThat(new String(record.getContent()), containsString ("lokomotivmænd i krig"));
+        assertThat(record.getEnrichmentTrail(), is("870970"));
     }
 
     @Test
