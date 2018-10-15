@@ -38,7 +38,7 @@ public class RecordData {
     private String modified;
     private String trackingId;
     private byte[] content;
-    private String enrichmentTrail = "Todo: service must deliver this field";
+    private String enrichmentTrail;
 
     public RecordId getRecordId() {
         return recordId;
@@ -79,7 +79,7 @@ public class RecordData {
                 ", created='" + created + '\'' +
                 ", modified='" + modified + '\'' +
                 ", trackingId='" + trackingId + '\'' +
-                ", content=" + Arrays.toString (content) +
+                    ", enrichmentTrail='" + enrichmentTrail + '\'' +
                 '}';
     }
 }

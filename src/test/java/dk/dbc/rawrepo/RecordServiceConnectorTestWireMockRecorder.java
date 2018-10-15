@@ -23,7 +23,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
         final RecordServiceConnectorTest recordServiceConnectorTest = new RecordServiceConnectorTest();
         recordRecordExistsRequests(recordServiceConnectorTest);
         recordGetRecordContentRequests(recordServiceConnectorTest);
-        recordGetRecordDataRequests (recordServiceConnectorTest);
+        recordGetRecordDataRequests(recordServiceConnectorTest);
     }
 
     private static void recordRecordExistsRequests(RecordServiceConnectorTest connectorTest)

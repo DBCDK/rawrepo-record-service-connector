@@ -95,5 +95,6 @@ class RecordServiceConnectorTest {
         assertThat (record.getModified (), is ("2018-06-01T13:43:13.147Z"));
         assertThat (record.getTrackingId (), is ("{52880645:870970}-68944211-{52880645:870970}"));
         assertThat (new String (record.getContent ()), containsString ("lokomotivmænd i krig"));
+        assertThat(record.getEnrichmentTrail (), is("870970"));
     }
 }
