@@ -181,7 +181,27 @@ public class RecordServiceConnector {
         }
     }
 
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record content as RecordData object
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
     public RecordData getRecordData(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordData(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return record content as RecordData object
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData getRecordData(String agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
@@ -203,6 +223,26 @@ public class RecordServiceConnector {
         }
     }
 
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record content as map of agencyId:RecordData-object
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public HashMap<String, RecordData> getRecordDataCollection(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordDataCollection(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record content as map of agencyId:RecordData-object
+     * @param params request query parameters
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
     public HashMap<String, RecordData> getRecordDataCollection(String agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
@@ -234,7 +274,7 @@ public class RecordServiceConnector {
     /**
      * @param agencyId agency ID
      * @param bibliographicRecordId bibliographic record ID
-     * @return record content as MarcXchange XML
+     * @return record content as RecordData object
      * @throws RecordServiceConnectorException on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
@@ -247,7 +287,7 @@ public class RecordServiceConnector {
      * @param agencyId agency ID
      * @param bibliographicRecordId bibliographic record ID
      * @param params request query parameters
-     * @return record content as MarcXchange XML
+     * @return record content as RecordData object
      * @throws RecordServiceConnectorException on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
