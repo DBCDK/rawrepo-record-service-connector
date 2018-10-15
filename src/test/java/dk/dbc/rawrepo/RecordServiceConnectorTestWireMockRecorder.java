@@ -25,6 +25,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
         recordGetRecordContentRequests(recordServiceConnectorTest);
         recordGetRecordDataRequests(recordServiceConnectorTest);
         recordGetRecordDataCollectionRequests(recordServiceConnectorTest);
+        recordGetRecordMetaRequests(recordServiceConnectorTest);
     }
 
     private static void recordRecordExistsRequests(RecordServiceConnectorTest connectorTest)
@@ -46,5 +47,10 @@ public class RecordServiceConnectorTestWireMockRecorder {
     private static void recordGetRecordDataCollectionRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordDataCollection();
+    }
+
+    private static void recordGetRecordMetaRequests(RecordServiceConnectorTest connectorTest)
+            throws RecordServiceConnectorException {
+        connectorTest.callGetRecordMetaForExistingRecord();
     }
 }

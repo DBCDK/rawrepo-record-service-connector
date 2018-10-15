@@ -42,6 +42,8 @@ public class RecordServiceConnector {
     private static final String PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID = "bibliographicRecordId";
     private static final String PATH_RECORD_CONTENT = String.format("/api/v1/record/{%s}/{%s}/content",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_META = String.format("/api/v1/record/{%s}/{%s}/meta",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_DATA = String.format("/api/v1/record/{%s}/{%s}",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_DATA_COLLECTION = String.format("/api/v1/records/{%s}/{%s}",
@@ -224,6 +226,53 @@ public class RecordServiceConnector {
             return recordCollection.toMap();
         } finally {
             LOGGER.info("getRecordDataCollection({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record content as MarcXchange XML
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData getRecordMeta(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordMeta(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return record content as MarcXchange XML
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData getRecordMeta(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
+            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
+            final PathBuilder path = new PathBuilder(PATH_RECORD_META)
+                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
+                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
+            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
+                    .withBaseUrl(baseUrl)
+                    .withPathElements(path.build());
+            if (params != null) {
+                for (Map.Entry<String, Object> param : params.entrySet()) {
+                    httpGet.withQueryParameter(param.getKey(), param.getValue());
+                }
+            }
+            final Response response = httpGet.execute();
+            assertResponseStatus(response, Response.Status.OK);
+            return readResponseEntity(response, RecordData.class);
+        } finally {
+            LOGGER.info("getRecordMeta({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }

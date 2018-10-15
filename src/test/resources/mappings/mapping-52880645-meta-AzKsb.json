@@ -1,0 +1,18 @@
+{
+  "id" : "1d115e5a-81ca-3bfe-84a9-3d47ec0bcbaa",
+  "request" : {
+    "url" : "/api/v1/record/870970/52880645/meta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-52880645-meta-AzKsb.json",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 15 Oct 2018 10:37:15 GMT",
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "1d115e5a-81ca-3bfe-84a9-3d47ec0bcbaa"
+}
