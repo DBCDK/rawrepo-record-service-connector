@@ -51,7 +51,6 @@ class RecordServiceConnectorTest {
         wireMockServer.stop();
     }
 
-
     @Test
     void params() {
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params();
