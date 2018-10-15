@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
 
+import java.util.HashMap;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.CoreMatchers.is;
@@ -96,5 +98,16 @@ class RecordServiceConnectorTest {
         assertThat (record.getTrackingId (), is ("{52880645:870970}-68944211-{52880645:870970}"));
         assertThat (new String (record.getContent ()), containsString ("lokomotivmænd i krig"));
         assertThat(record.getEnrichmentTrail (), is("870970"));
+    }
+
+    @Test
+    void callGetRecordDataCollection() throws RecordServiceConnectorException {
+        final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
+                .withAllowDeleted(true)
+                .withMode (RecordServiceConnector.Params.Mode.EXPANDED);
+        final HashMap<String, RecordData> recordCollection = connector.getRecordDataCollection ("870970", "52880645", params);
+        assertThat(recordCollection.size (), is(2));
+        assertThat("Record from 870970", recordCollection.values ().stream().filter(s -> s.getRecordId ().getAgencyId () == 870970).findFirst().isPresent());
+        assertThat("Record from 870979", recordCollection.values ().stream().filter(s -> s.getRecordId ().getAgencyId () == 870979).findFirst().isPresent());
     }
 }

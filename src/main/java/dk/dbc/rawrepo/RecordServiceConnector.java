@@ -44,6 +44,8 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_DATA = String.format("/api/v1/record/{%s}/{%s}",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_DATA_COLLECTION = String.format("/api/v1/records/{%s}/{%s}",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_EXISTS = String.format("/api/v1/record/{%s}/{%s}/exists",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
 
@@ -194,6 +196,34 @@ public class RecordServiceConnector {
             return readResponseEntity(response, RecordData.class);
         } finally {
             LOGGER.info("getRecordData({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    public HashMap<String, RecordData> getRecordDataCollection(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
+            InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
+            final PathBuilder path = new PathBuilder(PATH_RECORD_DATA_COLLECTION)
+                    .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
+                    .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId);
+            final HttpGet httpGet = new HttpGet(failSafeHttpClient)
+                    .withBaseUrl(baseUrl)
+                    .withPathElements(path.build());
+            if (params != null) {
+                for (Map.Entry<String, Object> param : params.entrySet()) {
+                    httpGet.withQueryParameter(param.getKey(), param.getValue());
+                }
+            }
+            final Response response = httpGet.execute();
+            assertResponseStatus(response, Response.Status.OK);
+            RecordDataCollection recordCollection = readResponseEntity(response, RecordDataCollection.class);
+            return recordCollection.toMap();
+        } finally {
+            LOGGER.info("getRecordDataCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
