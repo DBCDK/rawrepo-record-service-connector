@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
@@ -23,6 +24,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RecordServiceConnectorTest {
     private static WireMockServer wireMockServer;
@@ -125,5 +128,10 @@ class RecordServiceConnectorTest {
         assertThat(recordMeta.getTrackingId(), is("{52880645:870970}-68944211-{52880645:870970}"));
         assertThat("Content is null", recordMeta.getContent() == null);
         assertThat(recordMeta.getEnrichmentTrail(), is("870970"));
+    }
+
+    @Test
+    public void callGetRecordDataIdArgIsNullThrows() {
+        assertThrows(NullPointerException.class, () -> connector.getRecordData(null, null));
     }
 }
