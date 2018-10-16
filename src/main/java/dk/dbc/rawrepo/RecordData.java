@@ -14,6 +14,11 @@ public class RecordData {
         public RecordId () {
         }
 
+        public RecordId (String bibliographicRecordId, int agencyId) {
+            this.bibliographicRecordId = bibliographicRecordId;
+            this.agencyId = agencyId;
+        }
+
         public String getBibliographicRecordId () {
             return bibliographicRecordId;
         }
