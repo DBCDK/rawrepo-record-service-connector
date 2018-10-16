@@ -94,9 +94,34 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
+    public boolean recordExists(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return recordExists(Integer.toString(agencyId), bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return true if records exists, otherwise false
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
     public boolean recordExists(String agencyId, String bibliographicRecordId)
             throws RecordServiceConnectorException {
         return recordExists(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return true if records exists, otherwise false
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public boolean recordExists(int agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        return recordExists(Integer.toString(agencyId), bibliographicRecordId, params);
     }
 
     /**
