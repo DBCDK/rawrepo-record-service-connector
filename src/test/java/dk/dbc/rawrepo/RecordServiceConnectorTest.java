@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
