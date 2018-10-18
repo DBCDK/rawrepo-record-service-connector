@@ -418,7 +418,7 @@ public class RecordServiceConnector {
         }
     }
 
-    private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, Params params, Class<T> tClass)
+    private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, Params params, Class<T> type)
             throws RecordServiceConnectorException {
         InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
         InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
@@ -435,16 +435,16 @@ public class RecordServiceConnector {
         }
         final Response response = httpGet.execute();
         assertResponseStatus(response, Response.Status.OK);
-        return readResponseEntity(response, tClass);
+        return readResponseEntity(response, type);
     }
 
-    private <T> T readResponseEntity(Response response, Class<T> tClass)
+    private <T> T readResponseEntity(Response response, Class<T> type)
             throws RecordServiceConnectorException {
-        final T entity = response.readEntity(tClass);
+        final T entity = response.readEntity(type);
         if (entity == null) {
             throw new RecordServiceConnectorException (
                     String.format("Record service returned with null-valued %s entity",
-                            tClass.getName()));
+                            type.getName()));
         }
         return entity;
     }
