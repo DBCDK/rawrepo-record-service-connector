@@ -53,6 +53,10 @@ public class RecordData {
         return deleted;
     }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public String getMimetype() {
         return mimetype;
     }
@@ -69,8 +73,17 @@ public class RecordData {
         return trackingId;
     }
 
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
+    }
+
     public byte[] getContent() {
         return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = new byte[content.length];
+        System.arraycopy(content, 0, this.content, 0, content.length);
     }
 
     public String getEnrichmentTrail() { return enrichmentTrail; }
