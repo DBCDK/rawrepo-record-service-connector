@@ -110,8 +110,8 @@ class RecordServiceConnectorTest {
                 .withMode (RecordServiceConnector.Params.Mode.EXPANDED);
         final HashMap<String, RecordData> recordCollection = connector.getRecordDataCollection ("870970", "52880645", params);
         assertThat(recordCollection.size (), is(2));
-        assertThat("Record from 870970", recordCollection.values ().stream().filter(s -> s.getRecordId ().getAgencyId () == 870970).findFirst().isPresent());
-        assertThat("Record from 870979", recordCollection.values ().stream().filter(s -> s.getRecordId ().getAgencyId () == 870979).findFirst().isPresent());
+        assertThat("Record from 870970", recordCollection.values ().stream().anyMatch(r ->  r.getRecordId().getAgencyId() == 870970));
+        assertThat("Record from 870979", recordCollection.values ().stream().anyMatch(r ->  r.getRecordId().getAgencyId() == 870979));
     }
 
     @Test
