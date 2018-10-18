@@ -23,6 +23,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -126,7 +127,7 @@ class RecordServiceConnectorTest {
         assertThat(recordMeta.getCreated(), is("2017-01-16T23:00:00Z"));
         assertThat(recordMeta.getModified(), is("2018-06-01T13:43:13.147Z"));
         assertThat(recordMeta.getTrackingId(), is("{52880645:870970}-68944211-{52880645:870970}"));
-        assertThat("Content is null", recordMeta.getContent() == null);
+        assertThat(recordMeta.getContent(), is(nullValue()));
         assertThat(recordMeta.getEnrichmentTrail(), is("870970"));
     }
 
