@@ -131,12 +131,12 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    public void callGetRecordDataIdArgIsNullThrows() {
+    void callGetRecordDataIdArgIsNullThrows() {
         assertThrows(NullPointerException.class, () -> connector.getRecordData(null));
     }
 
     @Test
-    public void callGetRecordDataCollectionIdArgIsNullThrows() {
+    void callGetRecordDataCollectionIdArgIsNullThrows() {
         assertThrows(NullPointerException.class, () -> connector.getRecordDataCollection(null));
     }
 }
