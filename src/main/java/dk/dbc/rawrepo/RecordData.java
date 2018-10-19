@@ -34,6 +34,20 @@ public class RecordData {
                     ", agencyId=" + agencyId +
                     '}';
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == this) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            RecordId that = (RecordId) o;
+
+            return agencyId == that.agencyId && bibliographicRecordId.equals(that.bibliographicRecordId);
+        }
     }
 
     private RecordData.RecordId recordId;
