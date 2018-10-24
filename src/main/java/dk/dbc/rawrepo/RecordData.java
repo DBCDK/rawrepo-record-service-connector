@@ -96,8 +96,7 @@ public class RecordData {
     }
 
     public void setContent(byte[] content) {
-        this.content = new byte[content.length];
-        System.arraycopy(content, 0, this.content, 0, content.length);
+        this.content = content.clone();
     }
 
     public String getEnrichmentTrail() { return enrichmentTrail; }
