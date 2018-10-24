@@ -3,6 +3,7 @@ package dk.dbc.rawrepo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecordData {
@@ -47,6 +48,11 @@ public class RecordData {
             RecordId that = (RecordId) o;
 
             return agencyId == that.agencyId && bibliographicRecordId.equals(that.bibliographicRecordId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(bibliographicRecordId, agencyId);
         }
     }
 
