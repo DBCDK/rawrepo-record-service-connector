@@ -1,0 +1,19 @@
+{
+  "id" : "b82a57a0-ea20-31c2-a1e7-7e8aa2565f5c",
+  "request" : {
+    "url" : "/api/v1/record/870970/52880645",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-870970-52880645-wjHCk.json",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Fri, 12 Oct 2018 14:22:47 GMT",
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN",
+      "Transfer-Encoding" : "chunked"
+    }
+  },
+  "uuid" : "b82a57a0-ea20-31c2-a1e7-7e8aa2565f5c"
+}

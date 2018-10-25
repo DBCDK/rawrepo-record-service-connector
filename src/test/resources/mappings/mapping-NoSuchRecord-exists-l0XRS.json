@@ -1,18 +1,18 @@
 {
-  "id" : "7acaa40d-e338-3b0c-956b-057f70c7fe3c",
+  "id" : "1b3b1790-20d0-38dc-82e4-eb8e366ef0e5",
   "request" : {
     "url" : "/api/v1/record/870979/NoSuchRecord/exists?allow-deleted=true",
     "method" : "GET"
   },
   "response" : {
     "status" : 200,
-    "bodyFileName" : "body-NoSuchRecord-exists-Rl7zM.json",
+    "bodyFileName" : "body-NoSuchRecord-exists-l0XRS.json",
     "headers" : {
       "Content-Type" : "application/json",
-      "Date" : "Wed, 01 Aug 2018 12:05:58 GMT",
+      "Date" : "Fri, 12 Oct 2018 14:22:47 GMT",
       "Server" : "Payara Micro #badassfish",
       "X-Frame-Options" : "SAMEORIGIN"
     }
   },
-  "uuid" : "7acaa40d-e338-3b0c-956b-057f70c7fe3c"
+  "uuid" : "1b3b1790-20d0-38dc-82e4-eb8e366ef0e5"
 }
