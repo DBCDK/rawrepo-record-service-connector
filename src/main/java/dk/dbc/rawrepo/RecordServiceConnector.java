@@ -472,6 +472,11 @@ public class RecordServiceConnector {
              */
             ALLOW_DELETED("allow-deleted"),
             /**
+             * exclude-aut-records: used to specify if authority records
+             * should be included in a returned collection
+             */
+            EXCLUDE_AUT_RECORDS("exclude-aut-records"),
+            /**
              * exclude-dbc-fields: used to specify if DBC letter fields
              * should be returned
              */
@@ -490,7 +495,11 @@ public class RecordServiceConnector {
              * use-parent-agency: setting use-parent-agency to true
              * returns record with the parent agency
              */
-            USE_PARENT_AGENCY("use-parent-agency");
+            USE_PARENT_AGENCY("use-parent-agency"),
+            /**
+             * expand: if true the content is expanded in addition to merged
+             */
+            EXPAND("expand");
 
             private final String keyName;
             
@@ -529,6 +538,15 @@ public class RecordServiceConnector {
             return Optional.ofNullable((Boolean) this.get(Key.EXCLUDE_DBC_FIELDS));
         }
 
+        public Params withExcludeAutRecords(Boolean excludeAutRecords) {
+            putOrRemoveOnNull(Key.EXCLUDE_AUT_RECORDS, excludeAutRecords);
+            return this;
+        }
+
+        public Optional<Boolean> getExcludeAutRecords() {
+            return Optional.ofNullable((Boolean) this.get(Key.EXCLUDE_AUT_RECORDS));
+        }
+
         public Params withKeepAutFields(Boolean keepAutFields) {
             putOrRemoveOnNull(Key.KEEP_AUT_FIELDS, keepAutFields);
             return this;
@@ -554,6 +572,15 @@ public class RecordServiceConnector {
 
         public Optional<Boolean> getUseParentAgency() {
             return Optional.ofNullable((Boolean) this.get(Key.USE_PARENT_AGENCY));
+        }
+
+        public Params withExpand(Boolean expand) {
+            putOrRemoveOnNull(Key.EXPAND, expand);
+            return this;
+        }
+
+        public Optional<Boolean> getExpand() {
+            return Optional.ofNullable((Boolean) this.get(Key.EXPAND));
         }
 
         private void putOrRemoveOnNull(Key param, Object value) {
