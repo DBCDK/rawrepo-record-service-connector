@@ -420,20 +420,20 @@ public class RecordServiceConnector {
         }
     }
 
-    public RecordData recordFetch(String agencyId, String bibliographicRecordId)
+    public RecordData recordFetch(RecordData.RecordId recordId)
             throws RecordServiceConnectorException {
-        return recordFetch(agencyId, bibliographicRecordId, null);
+        return recordFetch(recordId, null);
     }
 
-    public RecordData recordFetch(String agencyId, String bibliographicRecordId, Params params)
+    public RecordData recordFetch(RecordData.RecordId recordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            return sendRequest(PATH_RECORD_FETCH, agencyId, bibliographicRecordId, params, RecordData.class);
+            return sendRequest(PATH_RECORD_FETCH, Integer.toString(recordId.getAgencyId()),
+                    recordId.getBibliographicRecordId(), params, RecordData.class);
         } finally {
-            LOGGER.info("recordFetch({}, {}) took {} milliseconds",
-                    agencyId, bibliographicRecordId,
-                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+            LOGGER.info("recordFetch({}) took {} milliseconds",
+                    recordId, stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
     }
 
