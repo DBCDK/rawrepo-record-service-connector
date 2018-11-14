@@ -50,6 +50,8 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_EXISTS = String.format("/api/v1/record/{%s}/{%s}/exists",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_FETCH = String.format("/api/v1/record/{%s}/{%s}/fetch",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
 
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
             .retryOn(Collections.singletonList(ProcessingException.class))
@@ -413,6 +415,23 @@ public class RecordServiceConnector {
             return sendRequest(PATH_RECORD_META, agencyId, bibliographicRecordId, params, RecordData.class);
         } finally {
             LOGGER.info("getRecordMeta({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    public RecordData recordFetch(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return recordFetch(agencyId, bibliographicRecordId, null);
+    }
+
+    public RecordData recordFetch(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_FETCH, agencyId, bibliographicRecordId, params, RecordData.class);
+        } finally {
+            LOGGER.info("recordFetch({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
