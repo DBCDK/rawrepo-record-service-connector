@@ -4,6 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Objects;
 
+/**
+ * Record data (meta + content) value object
+ * <p>
+ * Be advised that the byte[] exposed by the setContent() and getContent()
+ * methods is a reference to the original data passed to the object
+ * and therefore risks external mutation.
+ * </p>
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecordData {
 
