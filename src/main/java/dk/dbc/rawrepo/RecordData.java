@@ -101,7 +101,7 @@ public class RecordData {
     }
 
     public void setContent(byte[] content) {
-        this.content = content.clone();
+        this.content = content;
     }
 
     public String getEnrichmentTrail() { return enrichmentTrail; }
