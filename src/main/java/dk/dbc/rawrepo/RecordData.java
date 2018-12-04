@@ -15,7 +15,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecordData {
 
-    public static class RecordId {
+    public static class RecordId implements Comparable<RecordId>{
         private String bibliographicRecordId;
         private int agencyId;
 
@@ -60,6 +60,14 @@ public class RecordData {
         @Override
         public int hashCode() {
             return Objects.hash(bibliographicRecordId, agencyId);
+        }
+
+        @Override
+        public int compareTo(RecordId other) {
+            int ret = Integer.compare(agencyId, other.agencyId);
+            if(ret == 0)
+                ret = bibliographicRecordId.compareTo(other.bibliographicRecordId);
+            return ret;
         }
     }
 
