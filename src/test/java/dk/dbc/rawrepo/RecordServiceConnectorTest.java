@@ -24,6 +24,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayContaining;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -138,5 +139,22 @@ class RecordServiceConnectorTest {
     @Test
     void callGetRecordDataCollectionIdArgIsNullThrows() {
         assertThrows(NullPointerException.class, () -> connector.getRecordDataCollection(null));
+    }
+
+    @Test
+    void callGetRecordParents() throws RecordServiceConnectorException {
+        RecordData.RecordId[] ids = connector.getRecordParents("870970", "44816687");
+        assertThat(ids, arrayContaining(new RecordData.RecordId("44783851", 870970)));
+    }
+
+    @Test
+    void callGetRecordChildren() throws RecordServiceConnectorException {
+        RecordData.RecordId[] ids = connector.getRecordChildren("870970", "44783851");
+        assertThat(ids, arrayContaining(new RecordData.RecordId("44741172", 870970),
+                                        new RecordData.RecordId("44816660", 870970),
+                                        new RecordData.RecordId("44816679", 870970),
+                                        new RecordData.RecordId("44816687", 870970),
+                                        new RecordData.RecordId("44871106", 870970),
+                                        new RecordData.RecordId("45015920", 870970)));
     }
 }

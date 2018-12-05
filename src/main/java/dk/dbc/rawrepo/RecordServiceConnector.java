@@ -52,6 +52,10 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_FETCH = String.format("/api/v1/record/{%s}/{%s}/fetch",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_PARENTS = String.format("/api/v1/record/{%s}/{%s}/parents",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_CHILDREN = String.format("/api/v1/record/{%s}/{%s}/children",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
 
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
             .retryOn(Collections.singletonList(ProcessingException.class))
@@ -437,6 +441,122 @@ public class RecordServiceConnector {
         }
     }
 
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Array of recordId of parent nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordParents(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordParents(Integer.toString(agencyId), bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return Array of recordId of parent nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordParents(int agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        return getRecordParents(Integer.toString(agencyId), bibliographicRecordId, params);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Array of recordId of parent nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordParents(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordParents(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return Array of recordId of parent nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordParents(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_PARENTS, agencyId, bibliographicRecordId, params, RecordIdCollection.class)
+                    .toArray();
+        } finally {
+            LOGGER.info("getRecordParents({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Array of recordId of child nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordChildren(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordChildren(Integer.toString(agencyId), bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return Array of recordId of child nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordChildren(int agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        return getRecordChildren(Integer.toString(agencyId), bibliographicRecordId, params);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Array of recordId of child nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordChildren(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordChildren(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params request query parameters
+     * @return Array of recordId of child nodes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordData.RecordId[] getRecordChildren(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_CHILDREN, agencyId, bibliographicRecordId, params, RecordIdCollection.class)
+                    .toArray();
+        } finally {
+            LOGGER.info("getRecordChildren({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
     private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, Params params, Class<T> type)
             throws RecordServiceConnectorException {
         InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
@@ -521,7 +641,7 @@ public class RecordServiceConnector {
             EXPAND("expand");
 
             private final String keyName;
-            
+
             Key(String keyName) {
                 this.keyName = keyName;
             }
