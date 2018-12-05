@@ -6,6 +6,7 @@
 package dk.dbc.rawrepo;
 
 import dk.dbc.httpclient.HttpClient;
+import dk.dbc.rawrepo.RecordServiceConnector.TimingLogLevel;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -41,7 +42,9 @@ import javax.ws.rs.client.Client;
  * <p>
  * CDI case depends on the rawrepo record service baseurl being defined as
  * the value of either a system property or environment variable
- * named RAWREPO_RECORD_SERVICE_URL.
+ * named RAWREPO_RECORD_SERVICE_URL. RAWREPO_RECORD_SERVICE_TIMING_LOG_LEVEL
+ * should be one of TRACE, DEBUG, INFO(default), WARN or ERROR, for setting
+ * log level
  * </p>
  */
 @ApplicationScoped
@@ -55,15 +58,26 @@ public class RecordServiceConnectorFactory {
         return new RecordServiceConnector(client, recordServiceBaseUrl);
     }
 
+    public static RecordServiceConnector create(String recordServiceBaseUrl, TimingLogLevel level) {
+        final Client client = HttpClient.newClient(new ClientConfig()
+                .register(new JacksonFeature()));
+        LOGGER.info("Creating RecordServiceConnector for: {}", recordServiceBaseUrl);
+        return new RecordServiceConnector(client, recordServiceBaseUrl, level);
+    }
+
     @Inject
     @ConfigProperty(name = "RAWREPO_RECORD_SERVICE_URL")
     private String recordServiceBaseUrl;
+
+    @Inject
+    @ConfigProperty(name = "RAWREPO_RECORD_SERVICE_TIMING_LOG_LEVEL", defaultValue = "INFO")
+    private TimingLogLevel level;
 
     RecordServiceConnector recordServiceConnector;
 
     @PostConstruct
     public void initializeConnector() {
-        recordServiceConnector = RecordServiceConnectorFactory.create(recordServiceBaseUrl);
+        recordServiceConnector = RecordServiceConnectorFactory.create(recordServiceBaseUrl, level);
     }
 
     @Produces

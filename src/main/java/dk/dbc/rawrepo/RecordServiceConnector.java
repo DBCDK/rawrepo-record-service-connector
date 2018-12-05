@@ -37,6 +37,10 @@ import java.util.concurrent.TimeUnit;
  * </p>
  */
 public class RecordServiceConnector {
+    public enum TimingLogLevel {
+        TRACE, DEBUG, INFO, WARN, ERROR
+    }
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordServiceConnector.class);
     private static final String PATH_VARIABLE_AGENCY_ID = "agencyId";
     private static final String PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID = "bibliographicRecordId";
@@ -67,6 +71,7 @@ public class RecordServiceConnector {
 
     private final FailSafeHttpClient failSafeHttpClient;
     private final String baseUrl;
+    private final LogLevelMethod logger;
 
     /**
      * Returns new instance with default retry policy
@@ -74,7 +79,17 @@ public class RecordServiceConnector {
      * @param baseUrl base URL for record service endpoint
      */
     public RecordServiceConnector(Client httpClient, String baseUrl) {
-        this(FailSafeHttpClient.create(httpClient, RETRY_POLICY), baseUrl);
+        this(FailSafeHttpClient.create(httpClient, RETRY_POLICY), baseUrl, TimingLogLevel.INFO);
+    }
+
+    /**
+     * Returns new instance with default retry policy
+     * @param httpClient web resources client
+     * @param baseUrl base URL for record service endpoint
+     * @param level
+     */
+    public RecordServiceConnector(Client httpClient, String baseUrl, TimingLogLevel level) {
+        this(FailSafeHttpClient.create(httpClient, RETRY_POLICY), baseUrl, level);
     }
 
     /**
@@ -83,10 +98,39 @@ public class RecordServiceConnector {
      * @param baseUrl base URL for record service endpoint
      */
     public RecordServiceConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl) {
+        this(failSafeHttpClient, baseUrl, TimingLogLevel.INFO);
+    }
+    /**
+     * Returns new instance with custom retry policy
+     * @param failSafeHttpClient web resources client with custom retry policy
+     * @param baseUrl base URL for record service endpoint
+     * @param level
+     */
+    public RecordServiceConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl, TimingLogLevel level) {
         this.failSafeHttpClient = InvariantUtil.checkNotNullOrThrow(
                 failSafeHttpClient, "failSafeHttpClient");
         this.baseUrl = InvariantUtil.checkNotNullNotEmptyOrThrow(
                 baseUrl, "baseUrl");
+        switch (level) {
+            case TRACE:
+                logger = LOGGER::trace;
+                break;
+            case DEBUG:
+                logger = LOGGER::debug;
+                break;
+            case INFO:
+                logger = LOGGER::info;
+                break;
+            case WARN:
+                logger = LOGGER::warn;
+                break;
+            case ERROR:
+                logger = LOGGER::error;
+                break;
+            default:
+                logger = LOGGER::info;
+                break;
+        }
     }
 
     public void close() {
@@ -144,7 +188,7 @@ public class RecordServiceConnector {
         try {
             return sendRequest(PATH_RECORD_EXISTS, agencyId, bibliographicRecordId, params, RecordExistsResponseEntity.class).value;
         } finally {
-            LOGGER.info("recordExists({}, {}) took {} milliseconds",
+            logger.log("recordExists({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -201,7 +245,7 @@ public class RecordServiceConnector {
         try {
             return sendRequest(PATH_RECORD_CONTENT, agencyId, bibliographicRecordId, params, byte[].class);
         } finally {
-            LOGGER.info("getRecordContent({}, {}) took {} milliseconds",
+            logger.log("getRecordContent({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -281,7 +325,7 @@ public class RecordServiceConnector {
         try {
             return sendRequest(PATH_RECORD_DATA, agencyId, bibliographicRecordId, params, RecordData.class);
         } finally {
-            LOGGER.info("getRecordData({}, {}) took {} milliseconds",
+            logger.log("getRecordData({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -361,7 +405,7 @@ public class RecordServiceConnector {
         try {
             return sendRequest(PATH_RECORD_DATA_COLLECTION, agencyId, bibliographicRecordId, params, RecordDataCollection.class).toMap();
         } finally {
-            LOGGER.info("getRecordDataCollection({}, {}) took {} milliseconds",
+            logger.log("getRecordDataCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -418,7 +462,7 @@ public class RecordServiceConnector {
         try {
             return sendRequest(PATH_RECORD_META, agencyId, bibliographicRecordId, params, RecordData.class);
         } finally {
-            LOGGER.info("getRecordMeta({}, {}) took {} milliseconds",
+            logger.log("getRecordMeta({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -436,7 +480,7 @@ public class RecordServiceConnector {
             return sendRequest(PATH_RECORD_FETCH, Integer.toString(recordId.getAgencyId()),
                     recordId.getBibliographicRecordId(), params, RecordData.class);
         } finally {
-            LOGGER.info("recordFetch({}) took {} milliseconds",
+            logger.log("recordFetch({}) took {} milliseconds",
                     recordId, stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
     }
@@ -493,7 +537,7 @@ public class RecordServiceConnector {
             return sendRequest(PATH_RECORD_PARENTS, agencyId, bibliographicRecordId, params, RecordIdCollection.class)
                     .toArray();
         } finally {
-            LOGGER.info("getRecordParents({}, {}) took {} milliseconds",
+            logger.log("getRecordParents({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -551,7 +595,7 @@ public class RecordServiceConnector {
             return sendRequest(PATH_RECORD_CHILDREN, agencyId, bibliographicRecordId, params, RecordIdCollection.class)
                     .toArray();
         } finally {
-            LOGGER.info("getRecordChildren({}, {}) took {} milliseconds",
+            logger.log("getRecordChildren({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
@@ -742,5 +786,10 @@ public class RecordServiceConnector {
         public void setValue(boolean value) {
             this.value = value;
         }
+    }
+
+    @FunctionalInterface
+    interface LogLevelMethod {
+        void log(String format, Object... objs);
     }
 }

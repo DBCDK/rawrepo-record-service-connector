@@ -47,7 +47,7 @@ class RecordServiceConnectorTest {
 
     @BeforeAll
     static void setConnector() {
-        connector = new RecordServiceConnector(CLIENT, wireMockHost);
+        connector = new RecordServiceConnector(CLIENT, wireMockHost, RecordServiceConnector.TimingLogLevel.INFO);
     }
 
     @AfterAll
