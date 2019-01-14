@@ -86,7 +86,7 @@ public class RecordServiceConnector {
      * Returns new instance with default retry policy
      * @param httpClient web resources client
      * @param baseUrl base URL for record service endpoint
-     * @param level
+     * @param level timings log level
      */
     public RecordServiceConnector(Client httpClient, String baseUrl, TimingLogLevel level) {
         this(FailSafeHttpClient.create(httpClient, RETRY_POLICY), baseUrl, level);
@@ -104,7 +104,7 @@ public class RecordServiceConnector {
      * Returns new instance with custom retry policy
      * @param failSafeHttpClient web resources client with custom retry policy
      * @param baseUrl base URL for record service endpoint
-     * @param level
+     * @param level timings log level
      */
     public RecordServiceConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl, TimingLogLevel level) {
         this.failSafeHttpClient = InvariantUtil.checkNotNullOrThrow(
