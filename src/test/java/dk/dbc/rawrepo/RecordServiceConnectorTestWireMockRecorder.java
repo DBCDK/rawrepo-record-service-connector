@@ -5,6 +5,8 @@
 
 package dk.dbc.rawrepo;
 
+import java.io.IOException;
+
 public class RecordServiceConnectorTestWireMockRecorder {
     /*
         Steps to reproduce wiremock recording:
@@ -17,15 +19,18 @@ public class RecordServiceConnectorTestWireMockRecorder {
         * Replace content of src/test/resources/{__files|mappings} with that produced by the standalone runner
      */
 
-    public static void main(String[] args) throws RecordServiceConnectorException {
+    public static void main(String[] args) throws Exception {
         RecordServiceConnectorTest.connector = new RecordServiceConnector(
                 RecordServiceConnectorTest.CLIENT, "http://localhost:8080");
         final RecordServiceConnectorTest recordServiceConnectorTest = new RecordServiceConnectorTest();
+        final RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest =
+                new RecordDumpServiceConnectorTest();
         recordRecordExistsRequests(recordServiceConnectorTest);
         recordGetRecordContentRequests(recordServiceConnectorTest);
         recordGetRecordDataRequests(recordServiceConnectorTest);
         recordGetRecordDataCollectionRequests(recordServiceConnectorTest);
         recordGetRecordMetaRequests(recordServiceConnectorTest);
+        recordDumpServiceRequests(recordRecordDumpServiceConnectorTest);
     }
 
     private static void recordRecordExistsRequests(RecordServiceConnectorTest connectorTest)
@@ -52,5 +57,11 @@ public class RecordServiceConnectorTestWireMockRecorder {
     private static void recordGetRecordMetaRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordMetaForExistingRecord();
+    }
+
+    private static void recordDumpServiceRequests(RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest)
+            throws RecordDumpServiceConnectorException, IOException {
+        recordRecordDumpServiceConnectorTest.callDumpDryRun();
+        recordRecordDumpServiceConnectorTest.callDump();
     }
 }

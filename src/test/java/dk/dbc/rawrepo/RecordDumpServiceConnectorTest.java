@@ -1,0 +1,123 @@
+/*
+ * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
+ * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
+ */
+
+package dk.dbc.rawrepo;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import dk.dbc.httpclient.HttpClient;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import javax.ws.rs.client.Client;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+public class RecordDumpServiceConnectorTest {
+    private static WireMockServer wireMockServer;
+    private static String wireMockHost;
+
+    private final static Client CLIENT = HttpClient.newClient(new ClientConfig()
+            .register(new JacksonFeature()));
+    private static RecordDumpServiceConnector connector;
+
+    @BeforeAll
+    static void startWireMockServer() {
+        wireMockServer = new WireMockServer(options().dynamicPort()
+                .dynamicHttpsPort());
+        wireMockServer.start();
+        wireMockHost = "http://localhost:" + wireMockServer.port();
+        configureFor("localhost", wireMockServer.port());
+    }
+
+    @BeforeAll
+    static void setConnector() {
+        connector = new RecordDumpServiceConnector(CLIENT, wireMockHost, RecordDumpServiceConnector.TimingLogLevel.INFO);
+    }
+
+    @AfterAll
+    static void stopWireMockServer() {
+        wireMockServer.stop();
+    }
+
+    @Test
+    void params() {
+        final RecordDumpServiceConnector.Params params = new RecordDumpServiceConnector.Params();
+        params.withAgencies(Collections.singletonList(710100));
+        assertThat("param set",
+                params.getAgencies().isPresent(), is(true));
+        assertThat("param value",
+                params.getAgencies().get(), is(Collections.singletonList(710100)));
+        params.withAgencies(null);
+        assertThat("param removed on null",
+                params.getAgencies().isPresent(), is(false));
+    }
+
+    @Test
+    void callDumpDryRun() throws RecordDumpServiceConnectorException, IOException {
+        RecordDumpServiceConnector.Params params = new RecordDumpServiceConnector.Params()
+                .withAgencies(Collections.singletonList(710100))
+                .withRecordType(Arrays.asList(RecordDumpServiceConnector.Params.RecordType.LOCAL,
+                        RecordDumpServiceConnector.Params.RecordType.ENRICHMENT,
+                        RecordDumpServiceConnector.Params.RecordType.HOLDINGS))
+                .withRecordStatus(RecordDumpServiceConnector.Params.RecordStatus.ACTIVE);
+
+        try (InputStream inputStream = connector.dumpAgenciesDryRun(params)) {
+            String result = new BufferedReader(new InputStreamReader(inputStream))
+                    .lines().collect(Collectors.joining("\n"));
+
+            assertThat(result, is("1"));
+        }
+    }
+
+    @Test
+    void callDump() throws RecordDumpServiceConnectorException, IOException {
+        RecordDumpServiceConnector.Params params = new RecordDumpServiceConnector.Params()
+                .withAgencies(Collections.singletonList(710100))
+                .withRecordType(Arrays.asList(RecordDumpServiceConnector.Params.RecordType.LOCAL,
+                        RecordDumpServiceConnector.Params.RecordType.ENRICHMENT,
+                        RecordDumpServiceConnector.Params.RecordType.HOLDINGS))
+                .withRecordStatus(RecordDumpServiceConnector.Params.RecordStatus.ACTIVE);
+
+        String expected = "001 00 *a01118633*b710100*c20190305091812*d19760504*fa\n" +
+                "004 00 *rn*ae\n" +
+                "008 00 *tm*uf*a1972*bde*dy*lger*v1\n" +
+                "009 00 *aa*gxx\n" +
+                "021 00 *a3-462-00858-7\n" +
+                "100 00 *aUngers*hLiselotte\n" +
+                "245 00 *aKommunen in der Neuen Welt 1740-1971*evon Liselotte und O.M. Ungers\n" +
+                "260 00 *aKöln*bKiepenheuer & Witsch*c1972\n" +
+                "300 00 *a102 sider, 32 tavler*d1kort\n" +
+                "440 00 *aPocket*v32\n" +
+                "532 00 *aBibliographie: side 101-102\n" +
+                "652 00 *m30.17\n" +
+                "652 00 *p32.2863\n" +
+                "652 00 *p98.63\n" +
+                "700 00 *aUngers*hO. M.\n" +
+                "996 00 *aDBC\n" +
+                "$";
+
+        try (InputStream inputStream = connector.dumpAgencies(params)) {
+            String result = new BufferedReader(new InputStreamReader(inputStream))
+                    .lines().collect(Collectors.joining("\n"));
+
+            assertThat(result, is(expected));
+        }
+
+
+    }
+}

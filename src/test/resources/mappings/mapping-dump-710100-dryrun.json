@@ -1,0 +1,26 @@
+{
+  "id": "17bd3049-961e-3986-9e3c-1e2735ce863b",
+  "request": {
+    "url": "/api/v1/dump/dryrun",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"agencies\": [710100],\"recordType\": [\"LOCAL\",\"ENRICHMENT\",\"HOLDINGS\"],\"recordStatus\": \"ACTIVE\"}",
+        "ignoreArrayOrder": true,
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "body-dump-710100-dryrun.txt",
+    "headers": {
+      "Content-Type": "application/json",
+      "Date": "Fri, 12 Oct 2018 14:22:48 GMT",
+      "Server": "Payara Micro #badassfish",
+      "X-Frame-Options": "SAMEORIGIN",
+      "Transfer-Encoding": "chunked"
+    }
+  },
+  "uuid": "17bd3049-961e-3986-9e3c-1e2735ce863b"
+}

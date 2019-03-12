@@ -1,0 +1,17 @@
+001 00 *a01118633*b710100*c20190305091812*d19760504*fa
+004 00 *rn*ae
+008 00 *tm*uf*a1972*bde*dy*lger*v1
+009 00 *aa*gxx
+021 00 *a3-462-00858-7
+100 00 *aUngers*hLiselotte
+245 00 *aKommunen in der Neuen Welt 1740-1971*evon Liselotte und O.M. Ungers
+260 00 *aKöln*bKiepenheuer & Witsch*c1972
+300 00 *a102 sider, 32 tavler*d1kort
+440 00 *aPocket*v32
+532 00 *aBibliographie: side 101-102
+652 00 *m30.17
+652 00 *p32.2863
+652 00 *p98.63
+700 00 *aUngers*hO. M.
+996 00 *aDBC
+$
