@@ -230,7 +230,7 @@ public class RecordDumpServiceConnector {
         }
 
         public enum OutputFormat {
-            LINE, MARCXHANGE, JSON, ISO;
+            LINE, XML, JSON, ISO;
 
             public static List<String> list() {
                 List<String> res = new ArrayList<>();
