@@ -36,11 +36,9 @@ public class RecordDumpServiceConnector {
 
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
             .retryOn(Collections.singletonList(ProcessingException.class))
-            .retryIf((Response response) -> response.getStatus() == 404
-                    || response.getStatus() == 500
-                    || response.getStatus() == 502)
+            .retryIf((Response response) -> response.getStatus() == 404)
             .withDelay(10, TimeUnit.SECONDS)
-            .withMaxRetries(6);
+            .withMaxRetries(1);
 
     private final FailSafeHttpClient failSafeHttpClient;
     private final String baseUrl;
@@ -162,10 +160,15 @@ public class RecordDumpServiceConnector {
         final Response.Status actualStatus =
                 Response.Status.fromStatusCode(response.getStatus());
         if (actualStatus != expectedStatus) {
-            throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
-                    String.format("Record service returned with unexpected status code: %s",
-                            actualStatus),
-                    actualStatus.getStatusCode());
+            if (actualStatus == Response.Status.BAD_REQUEST) {
+                throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(response.getEntity().toString(),
+                        Response.Status.BAD_REQUEST.getStatusCode());
+            } else {
+                throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
+                        String.format("Record service returned with unexpected status code: %s",
+                                actualStatus),
+                        actualStatus.getStatusCode());
+            }
         }
     }
 
@@ -230,7 +233,7 @@ public class RecordDumpServiceConnector {
         }
 
         public enum OutputFormat {
-            LINE, XML, JSON, ISO;
+            LINE, XML, JSON, ISO, LINE_XML;
 
             public static List<String> list() {
                 List<String> res = new ArrayList<>();
