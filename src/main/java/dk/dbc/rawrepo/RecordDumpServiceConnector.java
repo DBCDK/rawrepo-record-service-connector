@@ -8,6 +8,8 @@ package dk.dbc.rawrepo;
 import dk.dbc.httpclient.FailSafeHttpClient;
 import dk.dbc.httpclient.HttpPost;
 import dk.dbc.invariant.InvariantUtil;
+import dk.dbc.jsonb.JSONBContext;
+import dk.dbc.jsonb.JSONBException;
 import dk.dbc.util.Stopwatch;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
@@ -29,6 +31,8 @@ public class RecordDumpServiceConnector {
     public enum TimingLogLevel {
         TRACE, DEBUG, INFO, WARN, ERROR
     }
+
+    private final JSONBContext jsonbContext = new JSONBContext();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordDumpServiceConnector.class);
     private static final String PATH_DUMP_AGENCY = "/api/v1/dump";
@@ -161,8 +165,17 @@ public class RecordDumpServiceConnector {
                 Response.Status.fromStatusCode(response.getStatus());
         if (actualStatus != expectedStatus) {
             if (actualStatus == Response.Status.BAD_REQUEST) {
-                throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(response.getEntity().toString(),
-                        Response.Status.BAD_REQUEST.getStatusCode());
+                try {
+                    final String entity = response.readEntity(String.class);
+                    final ParamsValidation validation = jsonbContext.unmarshall(entity, ParamsValidation.class);
+
+                    throw new RecordDumpServiceConnectorUnexpectedStatusCodeValidationException(validation, actualStatus.getStatusCode());
+                } catch (JSONBException e) {
+                    throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
+                            String.format("Got error code %s but while reading the message got error %s",
+                                    actualStatus, e.getMessage()),
+                            actualStatus.getStatusCode());
+                }
             } else {
                 throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
                         String.format("Record service returned with unexpected status code: %s",
