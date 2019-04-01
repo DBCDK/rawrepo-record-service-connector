@@ -177,10 +177,20 @@ public class RecordDumpServiceConnector {
                             actualStatus.getStatusCode());
                 }
             } else {
-                throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
-                        String.format("Record service returned with unexpected status code: %s",
-                                actualStatus),
-                        actualStatus.getStatusCode());
+                // Special case handling for MarcReaderException
+                final String marcReaderException = "dk.dbc.marc.reader.MarcReaderException: ";
+                final String message = response.readEntity(String.class);
+                if (message.contains(marcReaderException)) {
+                    throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
+                            String.format("Error from Record service: %s",
+                                    message.substring(message.indexOf(marcReaderException) + marcReaderException.length())),
+                            actualStatus.getStatusCode());
+                } else {
+                    throw new RecordDumpServiceConnectorUnexpectedStatusCodeException(
+                            String.format("Record service returned with unexpected status code: %s",
+                                    actualStatus),
+                            actualStatus.getStatusCode());
+                }
             }
         }
     }
