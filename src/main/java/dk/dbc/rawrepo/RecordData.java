@@ -1,6 +1,7 @@
 package dk.dbc.rawrepo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import dk.dbc.rawrepo.content.ContentJSON;
 
 import java.util.Objects;
 
@@ -77,6 +78,7 @@ public class RecordData {
     private String created;
     private String modified;
     private String trackingId;
+    private ContentJSON contentJSON;
     private byte[] content;
     private String enrichmentTrail;
 
@@ -110,6 +112,14 @@ public class RecordData {
 
     public void setTrackingId(String trackingId) {
         this.trackingId = trackingId;
+    }
+
+    public ContentJSON getContentJSON() {
+        return contentJSON;
+    }
+
+    public void setContentJSON(ContentJSON contentJSON) {
+        this.contentJSON = contentJSON;
     }
 
     public byte[] getContent() {
