@@ -1,7 +1,7 @@
 package dk.dbc.rawrepo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dk.dbc.rawrepo.RecordData.RecordId;
+
 import java.util.List;
 
 /**

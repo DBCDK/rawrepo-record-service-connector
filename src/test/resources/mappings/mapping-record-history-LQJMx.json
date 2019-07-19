@@ -1,0 +1,17 @@
+{
+  "id" : "ba31d608-d8ee-38c9-a226-24b686efb140",
+  "request" : {
+    "url" : "/api/v1/record/870970/44783851/history",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-record-history-LQJMx.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "ba31d608-d8ee-38c9-a226-24b686efb140"
+}

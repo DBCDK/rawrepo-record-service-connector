@@ -3,8 +3,6 @@ package dk.dbc.rawrepo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dk.dbc.rawrepo.content.ContentJSON;
 
-import java.util.Objects;
-
 /**
  * Record data (meta + content) value object
  * <p>
@@ -15,64 +13,7 @@ import java.util.Objects;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecordData {
-
-    public static class RecordId implements Comparable<RecordId>{
-        private String bibliographicRecordId;
-        private int agencyId;
-
-        public RecordId () {
-        }
-
-        public RecordId (String bibliographicRecordId, int agencyId) {
-            this.bibliographicRecordId = bibliographicRecordId;
-            this.agencyId = agencyId;
-        }
-
-        public String getBibliographicRecordId () {
-            return bibliographicRecordId;
-        }
-
-        public int getAgencyId () {
-            return agencyId;
-        }
-
-        @Override
-        public String toString () {
-            return "RecordId{" +
-                    "bibliographicRecordId='" + bibliographicRecordId + '\'' +
-                    ", agencyId=" + agencyId +
-                    '}';
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == this) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            RecordId that = (RecordId) o;
-
-            return agencyId == that.agencyId && bibliographicRecordId.equals(that.bibliographicRecordId);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(bibliographicRecordId, agencyId);
-        }
-
-        @Override
-        public int compareTo(RecordId other) {
-            int ret = Integer.compare(agencyId, other.agencyId);
-            if(ret == 0)
-                ret = bibliographicRecordId.compareTo(other.bibliographicRecordId);
-            return ret;
-        }
-    }
-
-    private RecordData.RecordId recordId;
+    private RecordId recordId;
     private boolean deleted;
     private String mimetype;
     private String created;
@@ -130,10 +71,12 @@ public class RecordData {
         this.content = content;
     }
 
-    public String getEnrichmentTrail() { return enrichmentTrail; }
+    public String getEnrichmentTrail() {
+        return enrichmentTrail;
+    }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "RecordData{" +
                 "recordId=" + recordId +
                 ", deleted=" + deleted +
@@ -141,7 +84,7 @@ public class RecordData {
                 ", created='" + created + '\'' +
                 ", modified='" + modified + '\'' +
                 ", trackingId='" + trackingId + '\'' +
-                    ", enrichmentTrail='" + enrichmentTrail + '\'' +
+                ", enrichmentTrail='" + enrichmentTrail + '\'' +
                 '}';
     }
 }
