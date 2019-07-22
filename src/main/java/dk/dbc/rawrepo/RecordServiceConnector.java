@@ -44,6 +44,7 @@ public class RecordServiceConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordServiceConnector.class);
     private static final String PATH_VARIABLE_AGENCY_ID = "agencyId";
     private static final String PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID = "bibliographicRecordId";
+    private static final String PATH_VARIABLE_MODIFIED_DATE = "modifiedDate";
     private static final String PATH_RECORD_CONTENT = String.format("/api/v1/record/{%s}/{%s}/content",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_META = String.format("/api/v1/record/{%s}/{%s}/meta",
@@ -64,6 +65,8 @@ public class RecordServiceConnector {
             PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_HISTORY = String.format("/api/v1/record/{%s}/{%s}/history",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_HISTORIC_RECORD = String.format("/api/v1/record/{%s}/{%s}/{%s}",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, PATH_VARIABLE_MODIFIED_DATE);
 
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
             .retryOn(Collections.singletonList(ProcessingException.class))
@@ -625,11 +628,43 @@ public class RecordServiceConnector {
         try {
             return sendRequest(PATH_RECORD_HISTORY, agencyId, bibliographicRecordId, null, RecordHistoryCollection.class);
         } finally {
-            logger.log("getAllAgenciesForBibliographicRecordId({}) took {} milliseconds",
+            logger.log("getRecordHistory({}) took {} milliseconds",
                     bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
+    }
 
+    public RecordData getHistoricRecord(String agencyId, String bibliographicRecordId, String modifiedDate) throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_HISTORIC_RECORD, agencyId, bibliographicRecordId, modifiedDate, null, RecordData.class);
+        } finally {
+            logger.log("getHistoricRecord({}) took {} milliseconds",
+                    bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, String modifiedDate, Params params, Class<T> type)
+            throws RecordServiceConnectorException {
+        InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
+        InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
+        InvariantUtil.checkNotNullNotEmptyOrThrow(modifiedDate, "modifiedDate");
+        final PathBuilder path = new PathBuilder(basePath)
+                .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
+                .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId)
+                .bind(PATH_VARIABLE_MODIFIED_DATE, modifiedDate);
+        final HttpGet httpGet = new HttpGet(failSafeHttpClient)
+                .withBaseUrl(baseUrl)
+                .withPathElements(path.build());
+        if (params != null) {
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                httpGet.withQueryParameter(param.getKey(), param.getValue());
+            }
+        }
+        final Response response = httpGet.execute();
+        assertResponseStatus(response, Response.Status.OK);
+        return readResponseEntity(response, type);
     }
 
     private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, Params params, Class<T> type)

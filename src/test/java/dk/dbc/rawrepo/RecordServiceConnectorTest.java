@@ -157,7 +157,7 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    void callRetRecordHistory() throws RecordServiceConnectorException {
+    void callGetRecordHistory() throws RecordServiceConnectorException {
         RecordHistoryCollection dto = connector.getRecordHistory("870970", "44783851");
 
         assertThat(dto, is(notNullValue()));
@@ -181,5 +181,34 @@ class RecordServiceConnectorTest {
         assertThat(historyDTO2.getCreated(), is("2010-01-27T23:00:00Z"));
         assertThat(historyDTO2.getModified(), is("2015-03-16T23:35:30.467032Z"));
         assertThat(historyDTO2.getTrackingId(), is(""));
+    }
+
+    @Test
+    public void callGetHistoricRecord() throws RecordServiceConnectorException {
+        RecordData record1 = connector.getHistoricRecord("870970", "44783851", "2016-06-15T08:58:06.640Z");
+        assertThat(record1, is(notNullValue()));
+        assertThat(record1.getRecordId(), is(notNullValue()));
+        assertThat(record1.getRecordId().getAgencyId(), is(870970));
+        assertThat(record1.getRecordId().getBibliographicRecordId(), is("44783851"));
+        assertThat(record1.isDeleted(), is(false));
+        assertThat(record1.getMimetype(), is("text/marcxchange"));
+        assertThat(record1.getCreated(), is("2010-01-27T23:00:00Z"));
+        assertThat(record1.getModified(), is("2016-06-15T08:58:06.640Z"));
+        assertThat(record1.getTrackingId(), is(""));
+        assertThat(new String(record1.getContent()), containsString("Forlaget Oktober"));
+        assertThat(record1.getEnrichmentTrail(), is("870970"));
+
+        RecordData record2 = connector.getHistoricRecord("870970", "44783851", "2015-03-16T23:35:30.467032Z");
+        assertThat(record2, is(notNullValue()));
+        assertThat(record2.getRecordId(), is(notNullValue()));
+        assertThat(record2.getRecordId().getAgencyId(), is(870970));
+        assertThat(record2.getRecordId().getBibliographicRecordId(), is("44783851"));
+        assertThat(record2.isDeleted(), is(false));
+        assertThat(record2.getMimetype(), is("text/enrichment+marcxchange"));
+        assertThat(record2.getCreated(), is("2010-01-27T23:00:00Z"));
+        assertThat(record2.getModified(), is("2015-03-16T23:35:30.467032Z"));
+        assertThat(record2.getTrackingId(), is(""));
+        assertThat(new String(record2.getContent()), containsString("tag=\"s10\""));
+        assertThat(record2.getEnrichmentTrail(), is("870970"));
     }
 }

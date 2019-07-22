@@ -62,7 +62,8 @@ public class RecordServiceConnectorTestWireMockRecorder {
 
     private static void recordHistoryServiceRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
-        connectorTest.callRetRecordHistory();
+        connectorTest.callGetRecordHistory();
+        connectorTest.callGetHistoricRecord();
     }
 
     private static void recordDumpServiceRequests(RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest)
