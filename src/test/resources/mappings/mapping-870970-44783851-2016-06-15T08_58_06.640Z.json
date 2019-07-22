@@ -6,7 +6,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName" : "body-api-v1-record-870970-44783851-2016-06-15T08_58_06.640Z-35MUv.json",
+    "bodyFileName" : "body-870970-44783851-2016-06-15T08_58_06.640Z.json",
     "headers" : {
       "Server" : "Payara Micro #badassfish",
       "Content-Type" : "application/json",
