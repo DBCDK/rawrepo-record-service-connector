@@ -44,6 +44,7 @@ public class RecordServiceConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordServiceConnector.class);
     private static final String PATH_VARIABLE_AGENCY_ID = "agencyId";
     private static final String PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID = "bibliographicRecordId";
+    private static final String PATH_VARIABLE_MODIFIED_DATE = "modifiedDate";
     private static final String PATH_RECORD_CONTENT = String.format("/api/v1/record/{%s}/{%s}/content",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_META = String.format("/api/v1/record/{%s}/{%s}/meta",
@@ -62,6 +63,10 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_ALL_AGENCIES_FOR = String.format("api/v1/record/{%s}/all-agencies-for",
             PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_HISTORY = String.format("/api/v1/record/{%s}/{%s}/history",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_HISTORIC_RECORD = String.format("/api/v1/record/{%s}/{%s}/{%s}",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, PATH_VARIABLE_MODIFIED_DATE);
 
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
             .retryOn(Collections.singletonList(ProcessingException.class))
@@ -288,7 +293,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData getRecordData(RecordData.RecordId recordId)
+    public RecordData getRecordData(RecordId recordId)
             throws RecordServiceConnectorException {
         return getRecordData(recordId.getAgencyId(), recordId.getBibliographicRecordId(), null);
     }
@@ -300,7 +305,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData getRecordData(RecordData.RecordId recordId, Params params)
+    public RecordData getRecordData(RecordId recordId, Params params)
             throws RecordServiceConnectorException {
         return getRecordData(recordId.getAgencyId(), recordId.getBibliographicRecordId(), params);
     }
@@ -368,7 +373,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public HashMap<String, RecordData> getRecordDataCollection(RecordData.RecordId recordId)
+    public HashMap<String, RecordData> getRecordDataCollection(RecordId recordId)
             throws RecordServiceConnectorException {
         return getRecordDataCollection(recordId.getAgencyId(), recordId.getBibliographicRecordId(), null);
     }
@@ -380,7 +385,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public HashMap<String, RecordData> getRecordDataCollection(RecordData.RecordId recordId, Params params)
+    public HashMap<String, RecordData> getRecordDataCollection(RecordId recordId, Params params)
             throws RecordServiceConnectorException {
         return getRecordDataCollection(recordId.getAgencyId(), recordId.getBibliographicRecordId(), params);
     }
@@ -475,12 +480,12 @@ public class RecordServiceConnector {
         }
     }
 
-    public RecordData recordFetch(RecordData.RecordId recordId)
+    public RecordData recordFetch(RecordId recordId)
             throws RecordServiceConnectorException {
         return recordFetch(recordId, null);
     }
 
-    public RecordData recordFetch(RecordData.RecordId recordId, Params params)
+    public RecordData recordFetch(RecordId recordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
@@ -499,7 +504,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordParents(int agencyId, String bibliographicRecordId)
+    public RecordId[] getRecordParents(int agencyId, String bibliographicRecordId)
             throws RecordServiceConnectorException {
         return getRecordParents(Integer.toString(agencyId), bibliographicRecordId, null);
     }
@@ -512,7 +517,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordParents(int agencyId, String bibliographicRecordId, Params params)
+    public RecordId[] getRecordParents(int agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         return getRecordParents(Integer.toString(agencyId), bibliographicRecordId, params);
     }
@@ -524,7 +529,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordParents(String agencyId, String bibliographicRecordId)
+    public RecordId[] getRecordParents(String agencyId, String bibliographicRecordId)
             throws RecordServiceConnectorException {
         return getRecordParents(agencyId, bibliographicRecordId, null);
     }
@@ -537,7 +542,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordParents(String agencyId, String bibliographicRecordId, Params params)
+    public RecordId[] getRecordParents(String agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
@@ -557,7 +562,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordChildren(int agencyId, String bibliographicRecordId)
+    public RecordId[] getRecordChildren(int agencyId, String bibliographicRecordId)
             throws RecordServiceConnectorException {
         return getRecordChildren(Integer.toString(agencyId), bibliographicRecordId, null);
     }
@@ -570,7 +575,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordChildren(int agencyId, String bibliographicRecordId, Params params)
+    public RecordId[] getRecordChildren(int agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         return getRecordChildren(Integer.toString(agencyId), bibliographicRecordId, params);
     }
@@ -582,7 +587,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordChildren(String agencyId, String bibliographicRecordId)
+    public RecordId[] getRecordChildren(String agencyId, String bibliographicRecordId)
             throws RecordServiceConnectorException {
         return getRecordChildren(agencyId, bibliographicRecordId, null);
     }
@@ -595,7 +600,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public RecordData.RecordId[] getRecordChildren(String agencyId, String bibliographicRecordId, Params params)
+    public RecordId[] getRecordChildren(String agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
@@ -616,6 +621,50 @@ public class RecordServiceConnector {
                     bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
+    }
+
+    public RecordHistoryCollection getRecordHistory(String agencyId, String bibliographicRecordId) throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_HISTORY, agencyId, bibliographicRecordId, null, RecordHistoryCollection.class);
+        } finally {
+            logger.log("getRecordHistory({}) took {} milliseconds",
+                    bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    public RecordData getHistoricRecord(String agencyId, String bibliographicRecordId, String modifiedDate) throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_HISTORIC_RECORD, agencyId, bibliographicRecordId, modifiedDate, null, RecordData.class);
+        } finally {
+            logger.log("getHistoricRecord({}) took {} milliseconds",
+                    bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, String modifiedDate, Params params, Class<T> type)
+            throws RecordServiceConnectorException {
+        InvariantUtil.checkNotNullNotEmptyOrThrow(agencyId, "agencyId");
+        InvariantUtil.checkNotNullNotEmptyOrThrow(bibliographicRecordId, "bibliographicRecordId");
+        InvariantUtil.checkNotNullNotEmptyOrThrow(modifiedDate, "modifiedDate");
+        final PathBuilder path = new PathBuilder(basePath)
+                .bind(PATH_VARIABLE_AGENCY_ID, agencyId)
+                .bind(PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, bibliographicRecordId)
+                .bind(PATH_VARIABLE_MODIFIED_DATE, modifiedDate);
+        final HttpGet httpGet = new HttpGet(failSafeHttpClient)
+                .withBaseUrl(baseUrl)
+                .withPathElements(path.build());
+        if (params != null) {
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                httpGet.withQueryParameter(param.getKey(), param.getValue());
+            }
+        }
+        final Response response = httpGet.execute();
+        assertResponseStatus(response, Response.Status.OK);
+        return readResponseEntity(response, type);
     }
 
     private <T> T sendRequest(String basePath, String agencyId, String bibliographicRecordId, Params params, Class<T> type)
