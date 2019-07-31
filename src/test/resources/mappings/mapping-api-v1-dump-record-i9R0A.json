@@ -1,0 +1,20 @@
+{
+  "id" : "aa9000f2-0aa3-3584-8c44-1fae738dbe8b",
+  "request" : {
+    "url" : "/api/v1/dump/record?output-encoding=UTF-8&output-format=LINE",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "22058037:735000\n22058037:870970\n52722489:870970"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-dump-record-i9R0A.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "text/plain",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "aa9000f2-0aa3-3584-8c44-1fae738dbe8b"
+}

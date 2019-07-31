@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,6 +37,13 @@ public class RecordDumpServiceConnectorTest {
     private final static Client CLIENT = HttpClient.newClient(new ClientConfig()
             .register(new JacksonFeature()));
     private static RecordDumpServiceConnector connector;
+
+    private String loadFileContent(String filename) throws FileNotFoundException {
+        final File file = new File("src/test/resources/" + filename);
+        final FileInputStream fstream = new FileInputStream(file);
+
+        return new BufferedReader(new InputStreamReader(fstream)).lines().collect(Collectors.joining("\n"));
+    }
 
     @BeforeAll
     static void startWireMockServer() {
@@ -56,7 +66,7 @@ public class RecordDumpServiceConnectorTest {
 
     @Test
     void params() {
-        final RecordDumpServiceConnector.Params params = new RecordDumpServiceConnector.Params();
+        final RecordDumpServiceConnector.AgencyParams params = new RecordDumpServiceConnector.AgencyParams();
         params.withAgencies(Collections.singletonList(710100));
         assertThat("param set",
                 params.getAgencies().isPresent(), is(true));
@@ -68,13 +78,13 @@ public class RecordDumpServiceConnectorTest {
     }
 
     @Test
-    void callDumpDryRun() throws RecordDumpServiceConnectorException, IOException {
-        RecordDumpServiceConnector.Params params = new RecordDumpServiceConnector.Params()
+    void callDumpAgencyDryRun() throws RecordDumpServiceConnectorException, IOException {
+        RecordDumpServiceConnector.AgencyParams params = new RecordDumpServiceConnector.AgencyParams()
                 .withAgencies(Collections.singletonList(710100))
-                .withRecordType(Arrays.asList(RecordDumpServiceConnector.Params.RecordType.LOCAL,
-                        RecordDumpServiceConnector.Params.RecordType.ENRICHMENT,
-                        RecordDumpServiceConnector.Params.RecordType.HOLDINGS))
-                .withRecordStatus(RecordDumpServiceConnector.Params.RecordStatus.ACTIVE);
+                .withRecordType(Arrays.asList(RecordDumpServiceConnector.AgencyParams.RecordType.LOCAL,
+                        RecordDumpServiceConnector.AgencyParams.RecordType.ENRICHMENT,
+                        RecordDumpServiceConnector.AgencyParams.RecordType.HOLDINGS))
+                .withRecordStatus(RecordDumpServiceConnector.AgencyParams.RecordStatus.ACTIVE);
 
         try (InputStream inputStream = connector.dumpAgenciesDryRun(params)) {
             String result = new BufferedReader(new InputStreamReader(inputStream))
@@ -85,13 +95,13 @@ public class RecordDumpServiceConnectorTest {
     }
 
     @Test
-    void callDump() throws RecordDumpServiceConnectorException, IOException {
-        RecordDumpServiceConnector.Params params = new RecordDumpServiceConnector.Params()
+    void callDumpAgency() throws RecordDumpServiceConnectorException, IOException {
+        RecordDumpServiceConnector.AgencyParams params = new RecordDumpServiceConnector.AgencyParams()
                 .withAgencies(Collections.singletonList(710100))
-                .withRecordType(Arrays.asList(RecordDumpServiceConnector.Params.RecordType.LOCAL,
-                        RecordDumpServiceConnector.Params.RecordType.ENRICHMENT,
-                        RecordDumpServiceConnector.Params.RecordType.HOLDINGS))
-                .withRecordStatus(RecordDumpServiceConnector.Params.RecordStatus.ACTIVE);
+                .withRecordType(Arrays.asList(RecordDumpServiceConnector.AgencyParams.RecordType.LOCAL,
+                        RecordDumpServiceConnector.AgencyParams.RecordType.ENRICHMENT,
+                        RecordDumpServiceConnector.AgencyParams.RecordType.HOLDINGS))
+                .withRecordStatus(RecordDumpServiceConnector.AgencyParams.RecordStatus.ACTIVE);
 
         String expected = "001 00 *a01118633*b710100*c20190305091812*d19760504*fa\n" +
                 "004 00 *rn*ae\n" +
@@ -117,7 +127,23 @@ public class RecordDumpServiceConnectorTest {
 
             assertThat(result, is(expected));
         }
+    }
 
+    @Test
+    void callDumpRecord() throws RecordDumpServiceConnectorException, IOException {
+        RecordDumpServiceConnector.RecordParams params = new RecordDumpServiceConnector.RecordParams();
+        params.withOutputFormat(RecordDumpServiceConnector.RecordParams.OutputFormat.LINE);
+        params.withOutputEncoding("UTF-8");
 
+        String body = "22058037:735000\n" +
+                "22058037:870970\n" +
+                "52722489:870970";
+
+        try (InputStream inputStream = connector.dumpRecords(params, body)) {
+            String result = new BufferedReader(new InputStreamReader(inputStream))
+                    .lines().collect(Collectors.joining("\n"));
+
+            assertThat(result, is(loadFileContent("dump-record-expected.txt")));
+        }
     }
 }

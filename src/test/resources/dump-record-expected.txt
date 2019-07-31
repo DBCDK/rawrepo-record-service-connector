@@ -1,0 +1,80 @@
+001 00 *a22058037*b735000*c20190731033824*d19991103*fa
+004 00 *rn*ae
+008 00 *&f*tm*ur*a1998*z1999*bdk*då*ldan*ob*v0
+009 00 *aa*gxx
+021 00 *a87-14-19823-1*cib.*dkr. 68,00
+021 00 *a87-14-19489-9*b1. oplag
+032 00 *aDBF199948*xSFD199948*xDAT199946*xDAT981243
+038 00 *abi
+100 00 *aMogensen*hJan*cf. 1945
+245 00 *aHvordan skildpadden fik sit skjold*etekst og illustrationer af Jan Mog
+    ensen
+250 00 *x[Nyt oplag]
+260 00 *&1*aKbh.*bHøst*c2000*ktr. i udl.
+300 00 *a[32] sider*balle ill. i farver
+440 00 *0*&i*aSpiren
+504 00 *&1*aBilledbog. En gang for længe siden havde skildpadden ikke noget skj
+    old. Og den nåede ikke altid af vejen, når de store dyr kom brasende. Men s
+    å en dag møder den en opfinder, der lige har opfundet lerskålen ...
+521 00 *a[1. oplag]*c1998
+652 00 *n86*z096
+652 00 *osk
+666 00 *0*sdyrefortællinger
+666 00 *0*sskildpadder
+666 00 *0*ufor 3 år
+666 00 *0*ufor 4 år
+666 00 *0*ufor 5 år
+666 00 *0*sfabler
+990 00 *bb*bs
+996 00 *aDBC
+$
+001 00 *a22058037*b870970*c20190731053824*d19991103*fa
+004 00 *rn*ae
+008 00 *&f*tm*ur*a1998*z1999*bdk*då*ldan*ob*v0
+009 00 *aa*gxx
+021 00 *a87-14-19823-1*cib.*dkr. 68,00
+021 00 *a87-14-19489-9*b1. oplag
+032 00 *aDBF199948*xSFD199948*xDAT199946*xDAT981243
+038 00 *abi
+100 00 *aMogensen*hJan*cf. 1945
+245 00 *aHvordan skildpadden fik sit skjold*etekst og illustrationer af Jan Mog
+    ensen
+250 00 *x[Nyt oplag]
+260 00 *&1*aKbh.*bHøst*c2000*ktr. i udl.
+300 00 *a[32] sider*balle ill. i farver
+440 00 *0*&i*aSpiren
+504 00 *&1*aBilledbog. En gang for længe siden havde skildpadden ikke noget skj
+    old. Og den nåede ikke altid af vejen, når de store dyr kom brasende. Men s
+    å en dag møder den en opfinder, der lige har opfundet lerskålen ...
+521 00 *a[1. oplag]*c1998
+652 00 *n86*z096
+652 00 *osk
+666 00 *0*sdyrefortællinger
+666 00 *0*sskildpadder
+666 00 *0*ufor 3 år
+666 00 *0*ufor 4 år
+666 00 *0*ufor 5 år
+990 00 *bb*bs
+996 00 *aDBC
+d08 00 *aBØK/SKO kode fjernet ved masserettelse og 990b tilføjet
+d08 00 *anø/lhf-bvl-002/16.11.00 agr
+d08 00 *amasserettet i forb. med konvertering af aldersnoter
+z99 00 *amasseret
+$
+001 00 *a52722489*b870970*c20190731075247*d20161103*fa
+004 00 *rn*ae
+008 00 *tm*v7
+009 00 *aa*gxx
+021 00 *e9788771122930*chf.
+032 00 *xACC201644
+245 00 *aStuderendes orientering i fleksible professionsuddannelsers læringsrum
+     - et narrativt casestudie af vidensudviklingens veje og afveje - Del 2
+260 00 *bꜲlborg Universitetsforlag
+300 00 *asider
+652 00 *mNY TITEL
+996 00 *aDBC
+d08 00 *osah*aBogen er tilbagekaldt af forlaget - forløbig udgave da afhandling
+    en ikke er forsvaret og udgiver
+s11 00 *a0
+z99 00 *asah
+$
