@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -36,6 +37,7 @@ public class RecordDumpServiceConnector {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordDumpServiceConnector.class);
     private static final String PATH_DUMP_AGENCY = "/api/v1/dump";
+    private static final String PATH_DUMP_RECORD = "/api/v1/dump/record";
     private static final String PATH_DUMP_AGENCY_DRYRUN = "/api/v1/dump/dryrun";
 
     private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
@@ -113,10 +115,10 @@ public class RecordDumpServiceConnector {
         }
     }
 
-    public InputStream dumpAgenciesDryRun(Params params) throws RecordDumpServiceConnectorException {
+    public InputStream dumpAgenciesDryRun(AgencyParams params) throws RecordDumpServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            return postRequest(PATH_DUMP_AGENCY_DRYRUN, params, InputStream.class);
+            return postRequestAgency(PATH_DUMP_AGENCY_DRYRUN, params, InputStream.class);
         } finally {
             logger.log("dumpAgencies({}) took {} milliseconds",
                     params,
@@ -124,10 +126,10 @@ public class RecordDumpServiceConnector {
         }
     }
 
-    public InputStream dumpAgencies(Params params) throws RecordDumpServiceConnectorException {
+    public InputStream dumpAgencies(AgencyParams params) throws RecordDumpServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            return postRequest(PATH_DUMP_AGENCY, params, InputStream.class);
+            return postRequestAgency(PATH_DUMP_AGENCY, params, InputStream.class);
         } finally {
             logger.log("dumpAgencies({}) took {} milliseconds",
                     params,
@@ -135,7 +137,19 @@ public class RecordDumpServiceConnector {
         }
     }
 
-    private <S, T> T postRequest(String path, S data, Class<T> returnType) throws RecordDumpServiceConnectorException {
+    public InputStream dumpRecords(RecordParams params, String body) throws RecordDumpServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return postRequestRecord(PATH_DUMP_RECORD, body, params, InputStream.class);
+        } finally {
+            logger.log("dumpRecords({}) took {} milliseconds",
+                    params,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+
+    }
+
+    private <S, T> T postRequestAgency(String path, S data, Class<T> returnType) throws RecordDumpServiceConnectorException {
         logger.log("POST {} with data {}", path, data);
         final HttpPost httpPost = new HttpPost(failSafeHttpClient)
                 .withBaseUrl(baseUrl)
@@ -143,6 +157,23 @@ public class RecordDumpServiceConnector {
                 .withJsonData(data)
                 .withHeader("Accept", "text/plain")
                 .withHeader("Content-type", "application/json");
+        final Response response = httpPost.execute();
+        assertResponseStatus(response, Response.Status.OK);
+        return readResponseEntity(response, returnType);
+    }
+
+    private <S, T> T postRequestRecord(String basePath, String body, RecordParams params, Class<T> returnType) throws RecordDumpServiceConnectorException {
+        logger.log("POST {} with data \n{}", basePath, body);
+        final HttpPost httpPost = new HttpPost(failSafeHttpClient)
+                .withBaseUrl(baseUrl)
+                .withPathElements(basePath)
+                .withData(body, "text/plain")
+                .withHeader("Accept", "text/plain");
+        if (params != null) {
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                httpPost.withQueryParameter(param.getKey(), param.getValue());
+            }
+        }
         final Response response = httpPost.execute();
         assertResponseStatus(response, Response.Status.OK);
         return readResponseEntity(response, returnType);
@@ -204,7 +235,7 @@ public class RecordDumpServiceConnector {
         void log(String format, Object... objs);
     }
 
-    public static class Params extends HashMap<String, Object> {
+    public static class AgencyParams extends HashMap<String, Object> {
         public enum Key {
             AGENCIES("agencies"),
             RECORD_STATUS("recordStatus"),
@@ -269,7 +300,7 @@ public class RecordDumpServiceConnector {
             }
         }
 
-        public Params withAgencies(List<Integer> agencies) {
+        public AgencyParams withAgencies(List<Integer> agencies) {
             putOrRemoveOnNull(Key.AGENCIES, agencies);
             return this;
         }
@@ -278,7 +309,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((List<String>) this.get(Key.AGENCIES));
         }
 
-        public Params withRecordStatus(RecordStatus recordStatus) {
+        public AgencyParams withRecordStatus(RecordStatus recordStatus) {
             putOrRemoveOnNull(Key.RECORD_STATUS, recordStatus.toString());
             return this;
         }
@@ -287,7 +318,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((RecordStatus) this.get(Key.RECORD_STATUS));
         }
 
-        public Params withRecordType(List<RecordType> recordTypes) {
+        public AgencyParams withRecordType(List<RecordType> recordTypes) {
             putOrRemoveOnNull(Key.RECORD_TYPE, recordTypes.stream()
                     .map(Enum::toString)
                     .collect(Collectors.toList()));
@@ -298,7 +329,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((RecordType) this.get(Key.RECORD_TYPE));
         }
 
-        public Params withCreatedFrom(String date) {
+        public AgencyParams withCreatedFrom(String date) {
             putOrRemoveOnNull(Key.CREATED_FROM, date);
             return this;
         }
@@ -307,7 +338,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((String) this.get(Key.CREATED_FROM));
         }
 
-        public Params withCreatedTo(String date) {
+        public AgencyParams withCreatedTo(String date) {
             putOrRemoveOnNull(Key.CREATED_TO, date);
             return this;
         }
@@ -316,7 +347,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((String) this.get(Key.CREATED_TO));
         }
 
-        public Params withModifiedFrom(String date) {
+        public AgencyParams withModifiedFrom(String date) {
             putOrRemoveOnNull(Key.MODIFIED_FROM, date);
             return this;
         }
@@ -325,7 +356,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((String) this.get(Key.MODIFIED_FROM));
         }
 
-        public Params withModifiedTo(String date) {
+        public AgencyParams withModifiedTo(String date) {
             putOrRemoveOnNull(Key.MODIFIED_TO, date);
             return this;
         }
@@ -334,7 +365,7 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((String) this.get(Key.MODIFIED_TO));
         }
 
-        public Params withOutputFormat(OutputFormat outputFormat) {
+        public AgencyParams withOutputFormat(OutputFormat outputFormat) {
             putOrRemoveOnNull(Key.OUTPUT_FORMAT, outputFormat.toString());
             return this;
         }
@@ -343,7 +374,68 @@ public class RecordDumpServiceConnector {
             return Optional.ofNullable((OutputFormat) this.get(Key.OUTPUT_FORMAT));
         }
 
-        public Params withOutputEncoding(String outputEncoding) {
+        public AgencyParams withOutputEncoding(String outputEncoding) {
+            putOrRemoveOnNull(Key.OUTPUT_ENCODING, outputEncoding);
+            return this;
+        }
+
+        public Optional<String> getOutputEncoding() {
+            return Optional.ofNullable((String) this.get(Key.OUTPUT_ENCODING));
+        }
+
+        private void putOrRemoveOnNull(Key param, Object value) {
+            if (value == null) {
+                this.remove(param.keyName);
+            } else {
+                this.put(param.keyName, value);
+            }
+        }
+
+        private Object get(Key param) {
+            return get(param.keyName);
+        }
+    }
+
+    public static class RecordParams extends HashMap<String, Object> {
+        public enum Key {
+            OUTPUT_FORMAT("output-format"),
+            OUTPUT_ENCODING("output-encoding");
+
+            private final String keyName;
+
+            Key(String keyName) {
+                this.keyName = keyName;
+            }
+
+            public String getKeyName() {
+                return keyName;
+            }
+        }
+
+        public enum OutputFormat {
+            LINE, XML, JSON, ISO, LINE_XML;
+
+            public static List<String> list() {
+                List<String> res = new ArrayList<>();
+
+                for (OutputFormat value : OutputFormat.values()) {
+                    res.add(value.name());
+                }
+
+                return res;
+            }
+        }
+
+        public RecordParams withOutputFormat(OutputFormat outputFormat) {
+            putOrRemoveOnNull(Key.OUTPUT_FORMAT, outputFormat.toString());
+            return this;
+        }
+
+        public Optional<OutputFormat> getOutputFormat() {
+            return Optional.ofNullable((OutputFormat) this.get(Key.OUTPUT_FORMAT));
+        }
+
+        public RecordParams withOutputEncoding(String outputEncoding) {
             putOrRemoveOnNull(Key.OUTPUT_ENCODING, outputEncoding);
             return this;
         }

@@ -68,7 +68,8 @@ public class RecordServiceConnectorTestWireMockRecorder {
 
     private static void recordDumpServiceRequests(RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest)
             throws RecordDumpServiceConnectorException, IOException {
-        recordRecordDumpServiceConnectorTest.callDumpDryRun();
-        recordRecordDumpServiceConnectorTest.callDump();
+        recordRecordDumpServiceConnectorTest.callDumpAgencyDryRun();
+        recordRecordDumpServiceConnectorTest.callDumpAgency();
+        recordRecordDumpServiceConnectorTest.callDumpRecord();
     }
 }
