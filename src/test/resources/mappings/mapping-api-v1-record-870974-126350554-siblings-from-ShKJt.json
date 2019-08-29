@@ -1,0 +1,17 @@
+{
+  "id" : "97ac9148-55ce-3935-856b-a2d6a558c405",
+  "request" : {
+    "url" : "/api/v1/record/870974/126350554/siblings-from",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-870974-126350554-siblings-from-ShKJt.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "97ac9148-55ce-3935-856b-a2d6a558c405"
+}

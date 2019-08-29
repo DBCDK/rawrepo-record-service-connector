@@ -157,6 +157,20 @@ class RecordServiceConnectorTest {
     }
 
     @Test
+    public void callGetRecordSiblingsFrom() throws RecordServiceConnectorException {
+        RecordId[] ids = connector.getRecordSiblingsFrom(870974, "126350554");
+
+        assertThat(ids.length, is(0));
+    }
+
+    @Test
+    public void callGetRecordSiblingsTo() throws RecordServiceConnectorException {
+        RecordId[] ids = connector.getRecordSiblingsTo(870974, "126350554");
+
+        assertThat(ids, arrayContaining(new RecordId("126350554", 191919)));
+    }
+
+    @Test
     void callGetRecordHistory() throws RecordServiceConnectorException {
         RecordHistoryCollection dto = connector.getRecordHistory("870970", "44783851");
 
@@ -211,4 +225,6 @@ class RecordServiceConnectorTest {
         assertThat(new String(record2.getContent()), containsString("tag=\"s10\""));
         assertThat(record2.getEnrichmentTrail(), is("870970"));
     }
+
+
 }
