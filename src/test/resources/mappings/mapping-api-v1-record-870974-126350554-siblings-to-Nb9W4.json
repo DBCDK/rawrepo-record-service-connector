@@ -1,0 +1,17 @@
+{
+  "id" : "c7f27f17-3f7e-3500-88e6-a56e9a02f139",
+  "request" : {
+    "url" : "/api/v1/record/870974/126350554/siblings-to",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-870974-126350554-siblings-to-Nb9W4.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "c7f27f17-3f7e-3500-88e6-a56e9a02f139"
+}

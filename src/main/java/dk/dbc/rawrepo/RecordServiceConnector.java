@@ -61,6 +61,10 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_CHILDREN = String.format("/api/v1/record/{%s}/{%s}/children",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_SIBLINGS_FROM = String.format("/api/v1/record/{%s}/{%s}/siblings-from",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_SIBLINGS_TO = String.format("/api/v1/record/{%s}/{%s}/siblings-to",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_ALL_AGENCIES_FOR = String.format("api/v1/record/{%s}/all-agencies-for",
             PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_HISTORY = String.format("/api/v1/record/{%s}/{%s}/history",
@@ -607,6 +611,61 @@ public class RecordServiceConnector {
             return sendRequest(PATH_RECORD_CHILDREN, agencyId, bibliographicRecordId, params, RecordIdCollection.class).toArray();
         } finally {
             logger.log("getRecordChildren({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Array of recordId of siblings which this record points to
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordId[] getRecordSiblingsFrom(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordSiblingsFrom(Integer.toString(agencyId), bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params                request query parameters
+     * @return Array of recordId of siblings which this record points to
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordId[] getRecordSiblingsFrom(String agencyId, String bibliographicRecordId, Params params) throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_SIBLINGS_FROM, agencyId, bibliographicRecordId, params, RecordIdCollection.class).toArray();
+        } finally {
+            logger.log("getRecordSiblingsFrom({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    public RecordId[] getRecordSiblingsTo(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordSiblingsTo(Integer.toString(agencyId), bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params                request query parameters
+     * @return Array of recordId of siblings which point to this record
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordId[] getRecordSiblingsTo(String agencyId, String bibliographicRecordId, Params params) throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_SIBLINGS_TO, agencyId, bibliographicRecordId, params, RecordIdCollection.class).toArray();
+        } finally {
+            logger.log("getRecordSiblingsTo({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
