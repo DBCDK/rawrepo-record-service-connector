@@ -1,0 +1,17 @@
+{
+  "id" : "fc16511d-5dd1-3543-a15a-109ba3bcbfec",
+  "request" : {
+    "url" : "/api/v1/records/870979/68135699/content",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-records-870979-68135699-content-khXgV.xml",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/xml",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "fc16511d-5dd1-3543-a15a-109ba3bcbfec"
+}
