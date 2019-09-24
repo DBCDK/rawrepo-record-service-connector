@@ -87,6 +87,33 @@ class RecordServiceConnectorTest {
     }
 
     @Test
+    void callGetRecordContentCollectionForExistingRecord() throws RecordServiceConnectorException {
+        String expected = "<?xml version='1.0' encoding='UTF-8'?>\n" +
+                "<collection xmlns='info:lc/xmlns/marcxchange-v1' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" +
+                "            xsi:schemaLocation='info:lc/xmlns/marcxchange-v1 http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd'>\n" +
+                "    <record>\n" +
+                "        <leader>00000n 2200000 4500</leader>\n" +
+                "        <datafield ind1='0' ind2='0' tag='001'>\n" +
+                "            <subfield code='a'>68135699</subfield>\n" +
+                "            <subfield code='b'>870979</subfield>\n" +
+                "            <subfield code='c'>20160617172944</subfield>\n" +
+                "            <subfield code='d'>20131129</subfield>\n" +
+                "            <subfield code='f'>a</subfield>\n" +
+                "            <subfield code='t'>faust</subfield>\n" +
+                "        </datafield>\n" +
+                "        <datafield ind1='0' ind2='0' tag='004'>\n" +
+                "            <subfield code='r'>n</subfield>\n" +
+                "            <subfield code='a'>e</subfield>\n" +
+                "            <subfield code='x'>n</subfield>\n" +
+                "        </datafield>\n" +
+                "    </record>\n" +
+                "</collection>";
+
+        assertThat(connector.getRecordContentCollection("870979", "68135699"),
+                is(expected.getBytes()));
+    }
+
+    @Test
     void callGetRecordDataForExistingRecord() throws RecordServiceConnectorException {
         final RecordData record = connector.getRecordData("870970", "52880645");
         assertThat(record, is(notNullValue()));

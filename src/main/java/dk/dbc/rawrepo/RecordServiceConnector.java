@@ -47,6 +47,8 @@ public class RecordServiceConnector {
     private static final String PATH_VARIABLE_MODIFIED_DATE = "modifiedDate";
     private static final String PATH_RECORD_CONTENT = String.format("/api/v1/record/{%s}/{%s}/content",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_CONTENT_COLLECTION = String.format("/api/v1/records/{%s}/{%s}/content",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_META = String.format("/api/v1/record/{%s}/{%s}/meta",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_DATA = String.format("/api/v1/record/{%s}/{%s}",
@@ -262,6 +264,55 @@ public class RecordServiceConnector {
             return sendRequest(PATH_RECORD_CONTENT, agencyId, bibliographicRecordId, params, byte[].class);
         } finally {
             logger.log("getRecordContent({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Collection of related record content as MarcXchange XML collection
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRecordContentCollection(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordContentCollection(Integer.toString(agencyId), bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return Collection of related record content as MarcXchange XML collection
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRecordContentCollection(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRecordContentCollection(agencyId, bibliographicRecordId, null);
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params                request query parameters
+     * @return Collection of related record content as MarcXchange XML collection
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRecordContentCollection(int agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        return getRecordContentCollection(Integer.toString(agencyId), bibliographicRecordId, params);
+    }
+
+    private byte[] getRecordContentCollection(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_CONTENT_COLLECTION, agencyId, bibliographicRecordId, params, byte[].class);
+        } finally {
+            logger.log("getRecordContentCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
