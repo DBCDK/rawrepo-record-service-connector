@@ -970,8 +970,10 @@ public class RecordServiceConnector {
     }
 
     /* This class is used internally to unmarshall
-       response entities of recordExists requests */
-    private static class RecordExistsResponseEntity {
+       response entities of recordExists requests.
+       This needs to be public for org.eclipse.yasson.internal.ReflectionUtils
+       to access it in a JavaEE container  */
+    public static class RecordExistsResponseEntity {
         private boolean value;
 
         public void setValue(boolean value) {
