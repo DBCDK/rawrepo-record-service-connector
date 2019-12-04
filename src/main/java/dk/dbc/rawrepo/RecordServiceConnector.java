@@ -871,7 +871,9 @@ public class RecordServiceConnector {
             /**
              * expand: if true the content is expanded in addition to merged
              */
-            EXPAND("expand");
+            EXPAND("expand"),
+
+            FOR_COREPO("for-corepo");
 
             private final String keyName;
 
@@ -954,6 +956,15 @@ public class RecordServiceConnector {
 
         public Optional<Boolean> getExpand() {
             return Optional.ofNullable((Boolean) this.get(Key.EXPAND));
+        }
+
+        public Params withForCorepo(Boolean forCorepo) {
+            putOrRemoveOnNull(Key.FOR_COREPO, forCorepo);
+            return this;
+        }
+
+        public Optional<Boolean> getForCorepo() {
+            return Optional.ofNullable((Boolean) this.get(Key.FOR_COREPO));
         }
 
         private void putOrRemoveOnNull(Key param, Object value) {

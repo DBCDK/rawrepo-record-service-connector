@@ -1,0 +1,19 @@
+{
+  "id" : "3096d961-288d-3d16-b18f-3d6bc9f57960",
+  "request" : {
+    "url" : "/api/v1/records/770600/05395721/content?use-parent-agency=false&expand=true&keep-aut-fields=false&allow-deleted=true&for-corepo=true",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-records-770600-05395721-content-for-corepo-true.xml",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Language" : "",
+      "Content-Type" : "text/html",
+      "Connection" : "close",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "3096d961-288d-3d16-b18f-3d6bc9f57960"
+}
