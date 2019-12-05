@@ -1,8 +1,5 @@
 package dk.dbc.rawrepo;
 
-import java.time.Instant;
-import java.util.Date;
-
 public class RecordHistory {
 
     private RecordId id;
