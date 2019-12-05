@@ -8,7 +8,7 @@ public class RecordDataCollection {
 
     RecordData[] records;
 
-    public RecordData[] getRecords () {
+    public RecordData[] getRecords() {
         return records;
     }
 
@@ -16,7 +16,7 @@ public class RecordDataCollection {
         return Arrays.stream(records)
                 .collect(
                         Collectors.toMap(
-                                record -> record.getRecordId ().getBibliographicRecordId (),
+                                record -> record.getRecordId().getBibliographicRecordId(),
                                 record -> record,
                                 (first, second) -> second,
                                 HashMap::new));
