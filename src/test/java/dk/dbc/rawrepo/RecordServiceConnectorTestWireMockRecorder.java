@@ -69,6 +69,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
     private static void recordGetRecordDataCollectionRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordDataCollection();
+        connectorTest.callGetRecordDataCollection_NotFound();
     }
 
     private static void recordGetRecordMetaRequests(RecordServiceConnectorTest connectorTest)

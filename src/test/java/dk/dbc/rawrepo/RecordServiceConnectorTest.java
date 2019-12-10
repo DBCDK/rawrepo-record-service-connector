@@ -262,6 +262,17 @@ class RecordServiceConnectorTest {
     }
 
     @Test
+    void callGetRecordDataCollection_NotFound() {
+        final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
+                .withAllowDeleted(true)
+                .withMode(RecordServiceConnector.Params.Mode.EXPANDED);
+
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordDataCollection("870970", "NOTFOUND", params);
+        });
+    }
+
+    @Test
     void callGetRecordMeta_ExistingRecord() throws RecordServiceConnectorException {
         final RecordData recordMeta = connector.getRecordMeta("870970", "52880645");
         assertThat(recordMeta, is(notNullValue()));
