@@ -1,0 +1,16 @@
+{
+  "id" : "906fc52e-b8c0-3d6d-bad3-c765208a13f9",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND/parents",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 204,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-parents-GMI2j.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "906fc52e-b8c0-3d6d-bad3-c765208a13f9"
+}

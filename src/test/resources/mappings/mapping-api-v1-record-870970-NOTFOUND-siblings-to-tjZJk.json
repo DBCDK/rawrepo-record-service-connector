@@ -1,0 +1,16 @@
+{
+  "id" : "086c6b56-ebb1-36f1-a906-68a94f11d64b",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND/siblings-to",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 204,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-siblings-to-tjZJk.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "086c6b56-ebb1-36f1-a906-68a94f11d64b"
+}

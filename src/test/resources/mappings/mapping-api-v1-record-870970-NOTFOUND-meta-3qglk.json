@@ -1,0 +1,16 @@
+{
+  "id" : "3f8ccac1-141d-3a7b-a94f-bab5f20cda9a",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND/meta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 204,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-meta-3qglk.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "3f8ccac1-141d-3a7b-a94f-bab5f20cda9a"
+}

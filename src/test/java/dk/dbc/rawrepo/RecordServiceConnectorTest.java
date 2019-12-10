@@ -10,6 +10,7 @@ import dk.dbc.httpclient.HttpClient;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -243,6 +244,13 @@ class RecordServiceConnectorTest {
     }
 
     @Test
+    void callGetRecordData_NotFound() {
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordData("870970", "NOTFOUND");
+        });
+    }
+
+    @Test
     void callGetRecordDataCollection() throws RecordServiceConnectorException {
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
                 .withAllowDeleted(true)
@@ -254,7 +262,18 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    void callGetRecordMetaForExistingRecord() throws RecordServiceConnectorException {
+    void callGetRecordDataCollection_NotFound() {
+        final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
+                .withAllowDeleted(true)
+                .withMode(RecordServiceConnector.Params.Mode.EXPANDED);
+
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordDataCollection("870970", "NOTFOUND", params);
+        });
+    }
+
+    @Test
+    void callGetRecordMeta_ExistingRecord() throws RecordServiceConnectorException {
         final RecordData recordMeta = connector.getRecordMeta("870970", "52880645");
         assertThat(recordMeta, is(notNullValue()));
         assertThat(recordMeta.getRecordId(), is(notNullValue()));
@@ -267,6 +286,13 @@ class RecordServiceConnectorTest {
         assertThat(recordMeta.getTrackingId(), is("{52880645:870970}-68944211-{52880645:870970}"));
         assertThat(recordMeta.getContent(), is(nullValue()));
         assertThat(recordMeta.getEnrichmentTrail(), is("870970"));
+    }
+
+    @Test
+    void callGetRecordMeta_NotFound() {
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordMeta("870970", "NOTFOUND");
+        });
     }
 
     @Test
@@ -283,6 +309,13 @@ class RecordServiceConnectorTest {
     void callGetRecordParents() throws RecordServiceConnectorException {
         RecordId[] ids = connector.getRecordParents("870970", "44816687");
         assertThat(ids, arrayContaining(new RecordId("44783851", 870970)));
+    }
+
+    @Test
+    void callGetRecordParents_NotFound() {
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordParents("870970", "NOTFOUND");
+        });
     }
 
     @Test
@@ -304,10 +337,24 @@ class RecordServiceConnectorTest {
     }
 
     @Test
+    void callGetRecordSiblingsFrom_NotFound() {
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordSiblingsFrom(870970, "NOTFOUND");
+        });
+    }
+
+    @Test
     public void callGetRecordSiblingsTo() throws RecordServiceConnectorException {
         RecordId[] ids = connector.getRecordSiblingsTo(870974, "126350554");
 
         assertThat(ids, arrayContaining(new RecordId("126350554", 191919)));
+    }
+
+    @Test
+    void callGetRecordSiblingsTo_NotFound() {
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getRecordSiblingsTo(870970, "NOTFOUND");
+        });
     }
 
     @Test
@@ -366,5 +413,11 @@ class RecordServiceConnectorTest {
         assertThat(record2.getEnrichmentTrail(), is("870970"));
     }
 
+    @Test
+    void callGetHistoricRecord_NotFound() {
+        Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
+            connector.getHistoricRecord("870970", "NOTFOUND", "2016-06-15T08:58:06.640Z");
+        });
+    }
 
 }

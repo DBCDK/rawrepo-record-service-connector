@@ -44,9 +44,12 @@ public class RecordServiceConnectorTestWireMockRecorder {
     private static void recordRelationRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordParents();
+        connectorTest.callGetRecordParents_NotFound();
         connectorTest.callGetRecordChildren();
         connectorTest.callGetRecordSiblingsFrom();
+        connectorTest.callGetRecordSiblingsFrom_NotFound();
         connectorTest.callGetRecordSiblingsTo();
+        connectorTest.callGetRecordSiblingsTo_NotFound();
     }
 
     private static void recordGetRecordContentRequests(RecordServiceConnectorTest connectorTest)
@@ -60,22 +63,26 @@ public class RecordServiceConnectorTestWireMockRecorder {
     private static void recordGetRecordDataRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordDataForExistingRecord();
+        connectorTest.callGetRecordData_NotFound();
     }
 
     private static void recordGetRecordDataCollectionRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordDataCollection();
+        connectorTest.callGetRecordDataCollection_NotFound();
     }
 
     private static void recordGetRecordMetaRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
-        connectorTest.callGetRecordMetaForExistingRecord();
+        connectorTest.callGetRecordMeta_ExistingRecord();
+        connectorTest.callGetRecordMeta_NotFound();
     }
 
     private static void recordHistoryServiceRequests(RecordServiceConnectorTest connectorTest)
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordHistory();
         connectorTest.callGetHistoricRecord();
+        connectorTest.callGetHistoricRecord_NotFound();
     }
 
     private static void recordDumpServiceRequests(RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest)
