@@ -826,10 +826,14 @@ public class RecordServiceConnector {
         final Response.Status actualStatus =
                 Response.Status.fromStatusCode(response.getStatus());
         if (actualStatus != expectedStatus) {
-            throw new RecordServiceConnectorUnexpectedStatusCodeException(
-                    String.format("Record service returned with unexpected status code: %s",
-                            actualStatus),
-                    actualStatus.getStatusCode());
+            if (actualStatus == Response.Status.NO_CONTENT) {
+                throw new RecordServiceConnectorNoContentStatusCodeException("No content");
+            } else {
+                throw new RecordServiceConnectorUnexpectedStatusCodeException(
+                        String.format("Record service returned with unexpected status code: %s",
+                                actualStatus),
+                        actualStatus.getStatusCode());
+            }
         }
     }
 
