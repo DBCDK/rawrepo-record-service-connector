@@ -1,0 +1,16 @@
+{
+  "id" : "8df741e1-25f4-3e8c-99c0-d831b80831ce",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 204,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-woNPI.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "8df741e1-25f4-3e8c-99c0-d831b80831ce"
+}

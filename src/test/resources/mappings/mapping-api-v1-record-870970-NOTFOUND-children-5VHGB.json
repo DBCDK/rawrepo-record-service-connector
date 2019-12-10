@@ -1,0 +1,17 @@
+{
+  "id" : "e37c88ce-2faa-3601-9b91-a362becf951a",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND/children",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-children-5VHGB.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "e37c88ce-2faa-3601-9b91-a362becf951a"
+}

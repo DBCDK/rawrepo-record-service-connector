@@ -1,0 +1,16 @@
+{
+  "id" : "91d3063e-a77d-3760-b5e2-dc3c05c160e9",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND/siblings-from",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 204,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-siblings-from-QL2iS.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "91d3063e-a77d-3760-b5e2-dc3c05c160e9"
+}

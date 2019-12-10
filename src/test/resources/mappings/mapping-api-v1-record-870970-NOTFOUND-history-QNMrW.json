@@ -1,0 +1,17 @@
+{
+  "id" : "eb57cc1b-d49e-3e13-98ee-4d13dee6512d",
+  "request" : {
+    "url" : "/api/v1/record/870970/NOTFOUND/history",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-870970-NOTFOUND-history-QNMrW.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "eb57cc1b-d49e-3e13-98ee-4d13dee6512d"
+}
