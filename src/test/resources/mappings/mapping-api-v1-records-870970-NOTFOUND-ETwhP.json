@@ -1,0 +1,16 @@
+{
+  "id" : "88f1d03e-73aa-32be-a87e-8a85a31f6162",
+  "request" : {
+    "url" : "/api/v1/records/870970/NOTFOUND?mode=expanded&allow-deleted=true",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 204,
+    "bodyFileName" : "body-api-v1-records-870970-NOTFOUND-ETwhP.txt",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "88f1d03e-73aa-32be-a87e-8a85a31f6162"
+}
