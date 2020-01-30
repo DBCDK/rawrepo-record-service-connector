@@ -245,7 +245,8 @@ public class RecordDumpServiceConnector {
             MODIFIED_FROM("modifiedFrom"),
             MODIFIED_TO("modifiedTo"),
             OUTPUT_FORMAT("outputFormat"),
-            OUTPUT_ENCODING("outputEncoding");
+            OUTPUT_ENCODING("outputEncoding"),
+            MODE("mode");
 
             private final String keyName;
 
@@ -293,6 +294,20 @@ public class RecordDumpServiceConnector {
                 List<String> res = new ArrayList<>();
 
                 for (OutputFormat value : OutputFormat.values()) {
+                    res.add(value.name());
+                }
+
+                return res;
+            }
+        }
+
+        public enum Mode {
+            RAW, MERGED, EXPANDED;
+
+            public static List<String> list() {
+                List<String> res = new ArrayList<>();
+
+                for (Mode value : Mode.values()) {
                     res.add(value.name());
                 }
 
@@ -381,6 +396,15 @@ public class RecordDumpServiceConnector {
 
         public Optional<String> getOutputEncoding() {
             return Optional.ofNullable((String) this.get(Key.OUTPUT_ENCODING));
+        }
+
+        public AgencyParams withMode(Mode mode) {
+            putOrRemoveOnNull(Key.MODE, mode.toString());
+            return this;
+        }
+
+        public Optional<Mode> getMode() {
+            return Optional.ofNullable((Mode) this.get(Key.MODE));
         }
 
         private void putOrRemoveOnNull(Key param, Object value) {
