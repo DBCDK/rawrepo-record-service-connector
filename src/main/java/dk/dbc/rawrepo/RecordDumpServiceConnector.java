@@ -423,7 +423,8 @@ public class RecordDumpServiceConnector {
     public static class RecordParams extends HashMap<String, Object> {
         public enum Key {
             OUTPUT_FORMAT("output-format"),
-            OUTPUT_ENCODING("output-encoding");
+            OUTPUT_ENCODING("output-encoding"),
+            MODE("mode");
 
             private final String keyName;
 
@@ -466,6 +467,15 @@ public class RecordDumpServiceConnector {
 
         public Optional<String> getOutputEncoding() {
             return Optional.ofNullable((String) this.get(Key.OUTPUT_ENCODING));
+        }
+
+        public RecordParams withMode(AgencyParams.Mode mode) {
+            putOrRemoveOnNull(Key.MODE, mode.toString());
+            return this;
+        }
+
+        public Optional<AgencyParams.Mode> getMode() {
+            return Optional.ofNullable((AgencyParams.Mode) this.get(AgencyParams.Key.MODE));
         }
 
         private void putOrRemoveOnNull(Key param, Object value) {
