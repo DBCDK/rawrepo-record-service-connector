@@ -1,0 +1,18 @@
+{
+  "id" : "4a3eaf4a-9001-3fd1-8883-4e6ac9050bf4",
+  "request" : {
+    "url" : "/api/v1/records/761500/51563697/dataio?expand=true",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-records-761500-51563697-dataio.xml",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/xml",
+      "Transfer-Encoding" : "chunked",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "4a3eaf4a-9001-3fd1-8883-4e6ac9050bf4"
+}

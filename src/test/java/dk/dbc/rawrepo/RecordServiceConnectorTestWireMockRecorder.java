@@ -56,8 +56,8 @@ public class RecordServiceConnectorTestWireMockRecorder {
             throws RecordServiceConnectorException {
         connectorTest.callGetRecordContentForExistingRecord();
         connectorTest.callGetRecordContentCollectionForExistingRecord();
-        connectorTest.callGetRecordContentCollection_WithoutForCorepo();
-        connectorTest.callGetRecordContentCollection_WithForCorepo();
+        connectorTest.callGetRecordContentCollection();
+        connectorTest.callGetRecordContentCollection_DataIO();
     }
 
     private static void recordGetRecordDataRequests(RecordServiceConnectorTest connectorTest)
