@@ -49,6 +49,8 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_CONTENT_COLLECTION = String.format("/api/v1/records/{%s}/{%s}/content",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_RECORD_CONTENT_COLLECTION_DATAIO = String.format("/api/v1/records/{%s}/{%s}/dataio",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_META = String.format("/api/v1/record/{%s}/{%s}/meta",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_DATA = String.format("/api/v1/record/{%s}/{%s}",
@@ -306,11 +308,28 @@ public class RecordServiceConnector {
         return getRecordContentCollection(Integer.toString(agencyId), bibliographicRecordId, params);
     }
 
+    public byte[] getRecordContentCollectionDataIO(int agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        return getRecordContentCollectionDataIO(Integer.toString(agencyId), bibliographicRecordId, params);
+    }
+
     private byte[] getRecordContentCollection(String agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             return sendRequest(PATH_RECORD_CONTENT_COLLECTION, agencyId, bibliographicRecordId, params, byte[].class);
+        } finally {
+            logger.log("getRecordContentCollection({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    private byte[] getRecordContentCollectionDataIO(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_CONTENT_COLLECTION_DATAIO, agencyId, bibliographicRecordId, params, byte[].class);
         } finally {
             logger.log("getRecordContentCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,

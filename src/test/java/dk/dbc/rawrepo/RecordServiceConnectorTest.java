@@ -115,7 +115,7 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    void callGetRecordContentCollection_WithoutForCorepo() throws RecordServiceConnectorException {
+    void callGetRecordContentCollection() throws RecordServiceConnectorException {
         final String expected = "<?xml version='1.0' encoding='UTF-8'?>\n" +
                 "<collection xmlns='info:lc/xmlns/marcxchange-v1' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" +
                 "            xsi:schemaLocation='info:lc/xmlns/marcxchange-v1 http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd'>\n" +
@@ -163,67 +163,55 @@ class RecordServiceConnectorTest {
                 .withAllowDeleted(true)
                 .withUseParentAgency(false)
                 .withKeepAutFields(false)
-                .withExpand(true)
-                .withForCorepo(false);
+                .withExpand(true);
 
         assertThat(connector.getRecordContentCollection(770600, "05395721", params),
                 is(expected.getBytes()));
     }
 
     @Test
-    void callGetRecordContentCollection_WithForCorepo() throws RecordServiceConnectorException {
+    void callGetRecordContentCollection_DataIO() throws RecordServiceConnectorException {
         final String expected = "<?xml version='1.0' encoding='UTF-8'?>\n" +
                 "<collection xmlns='info:lc/xmlns/marcxchange-v1' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" +
                 "            xsi:schemaLocation='info:lc/xmlns/marcxchange-v1 http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd'>\n" +
-                "    <record format=\"danMARC2\" type=\"Bibliographic\">\n" +
+                "    <record>\n" +
                 "        <leader>00000n 2200000 4500</leader>\n" +
-                "        <datafield tag=\"001\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"a\">05395720</subfield>\n" +
-                "            <subfield code=\"b\">870970</subfield>\n" +
-                "            <subfield code=\"c\">20190725153839</subfield>\n" +
-                "            <subfield code=\"d\">19790614</subfield>\n" +
-                "            <subfield code=\"f\">a</subfield>\n" +
-                "            <subfield code=\"o\">c</subfield>\n" +
+                "        <datafield ind1='0' ind2='0' tag='001'>\n" +
+                "            <subfield code='a'>51563697</subfield>\n" +
+                "            <subfield code='b'>761500</subfield>\n" +
+                "            <subfield code='c'>20160413152805</subfield>\n" +
+                "            <subfield code='d'>20150129</subfield>\n" +
+                "            <subfield code='f'>a</subfield>\n" +
                 "        </datafield>\n" +
-                "        <datafield tag=\"004\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"r\">n</subfield>\n" +
-                "            <subfield code=\"a\">b</subfield>\n" +
+                "        <datafield ind1='0' ind2='0' tag='004'>\n" +
+                "            <subfield code='r'>n</subfield>\n" +
+                "            <subfield code='a'>e</subfield>\n" +
                 "        </datafield>\n" +
-                "        <datafield tag=\"014\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"a\">50129691</subfield>\n" +
+                "        <datafield ind1='0' ind2='0' tag='005'>\n" +
+                "            <subfield code='z'>p</subfield>\n" +
                 "        </datafield>\n" +
-                "        <datafield tag=\"996\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"a\">DBC</subfield>\n" +
+                "        <datafield ind1='0' ind2='0' tag='008'>\n" +
+                "            <subfield code='t'>s</subfield>\n" +
+                "            <subfield code='u'>u</subfield>\n" +
+                "            <subfield code='a'>2015</subfield>\n" +
+                "            <subfield code='b'>dk</subfield>\n" +
+                "            <subfield code='d'>2</subfield>\n" +
+                "            <subfield code='d'>x</subfield>\n" +
+                "            <subfield code='j'>p</subfield>\n" +
+                "            <subfield code='l'>dan</subfield>\n" +
+                "            <subfield code='o'>b</subfield>\n" +
+                "            <subfield code='v'>0</subfield>\n" +
                 "        </datafield>\n" +
-                "    </record>\n" +
-                "    <record format=\"danMARC2\" type=\"Bibliographic\">\n" +
-                "        <leader>00000n 2200000 4500</leader>\n" +
-                "        <datafield tag=\"001\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"a\">50129691</subfield>\n" +
-                "            <subfield code=\"b\">870970</subfield>\n" +
-                "            <subfield code=\"c\">19920212</subfield>\n" +
-                "            <subfield code=\"d\">19790614</subfield>\n" +
-                "            <subfield code=\"f\">a</subfield>\n" +
-                "            <subfield code=\"o\">c</subfield>\n" +
-                "        </datafield>\n" +
-                "        <datafield tag=\"004\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"r\">n</subfield>\n" +
-                "            <subfield code=\"a\">h</subfield>\n" +
-                "        </datafield>\n" +
-                "        <datafield tag=\"996\" ind1=\"0\" ind2=\"0\">\n" +
-                "            <subfield code=\"a\">DBC</subfield>\n" +
+                "        <datafield ind1='0' ind2='0' tag='996'>\n" +
+                "            <subfield code='a'>DBC</subfield>\n" +
                 "        </datafield>\n" +
                 "    </record>\n" +
                 "</collection>";
 
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
-                .withAllowDeleted(true)
-                .withUseParentAgency(false)
-                .withKeepAutFields(false)
-                .withExpand(true)
-                .withForCorepo(true);
+                .withExpand(true);
 
-        assertThat(connector.getRecordContentCollection(770600, "05395721", params),
+        assertThat(connector.getRecordContentCollectionDataIO(761500, "51563697", params),
                 is(expected.getBytes()));
     }
 
