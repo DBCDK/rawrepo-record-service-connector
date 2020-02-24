@@ -1,0 +1,128 @@
+{
+  "records": [
+    {
+      "recordId": {
+        "bibliographicRecordId": "51563697",
+        "agencyId": 761500
+      },
+      "mimetype": "text/marcxchange",
+      "created": "2016-04-13T11:28:06.683Z",
+      "modified": "2020-02-24T13:15:47.945Z",
+      "trackingId": "",
+      "contentJSON": {
+        "fields": [
+          {
+            "name": "001",
+            "indicators": "00",
+            "subfields": [
+              {
+                "name": "a",
+                "value": "51563697"
+              },
+              {
+                "name": "b",
+                "value": "761500"
+              },
+              {
+                "name": "c",
+                "value": "20160413152805"
+              },
+              {
+                "name": "d",
+                "value": "20150129"
+              },
+              {
+                "name": "f",
+                "value": "a"
+              }
+            ]
+          },
+          {
+            "name": "004",
+            "indicators": "00",
+            "subfields": [
+              {
+                "name": "r",
+                "value": "n"
+              },
+              {
+                "name": "a",
+                "value": "e"
+              }
+            ]
+          },
+          {
+            "name": "005",
+            "indicators": "00",
+            "subfields": [
+              {
+                "name": "z",
+                "value": "p"
+              }
+            ]
+          },
+          {
+            "name": "008",
+            "indicators": "00",
+            "subfields": [
+              {
+                "name": "t",
+                "value": "s"
+              },
+              {
+                "name": "u",
+                "value": "u"
+              },
+              {
+                "name": "a",
+                "value": "2015"
+              },
+              {
+                "name": "b",
+                "value": "dk"
+              },
+              {
+                "name": "d",
+                "value": "2"
+              },
+              {
+                "name": "d",
+                "value": "x"
+              },
+              {
+                "name": "j",
+                "value": "p"
+              },
+              {
+                "name": "l",
+                "value": "dan"
+              },
+              {
+                "name": "o",
+                "value": "b"
+              },
+              {
+                "name": "v",
+                "value": "0"
+              }
+            ]
+          },
+          {
+            "name": "996",
+            "indicators": "00",
+            "subfields": [
+              {
+                "name": "a",
+                "value": "DBC"
+              }
+            ]
+          }
+        ],
+        "leader": "00000n    2200000   4500"
+      },
+      "content": "PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4KPHJlY29yZCB4bWxucz0naW5mbzpsYy94bWxucy9tYXJjeGNoYW5nZS12MScgeG1sbnM6eHNpPSdodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZScgeHNpOnNjaGVtYUxvY2F0aW9uPSdpbmZvOmxjL3htbG5zL21hcmN4Y2hhbmdlLXYxIGh0dHA6Ly93d3cubG9jLmdvdi9zdGFuZGFyZHMvaXNvMjU1NzcvbWFyY3hjaGFuZ2UtMS0xLnhzZCc+PGxlYWRlcj4wMDAwMG4gMjIwMDAwMCA0NTAwPC9sZWFkZXI+PGRhdGFmaWVsZCBpbmQxPScwJyBpbmQyPScwJyB0YWc9JzAwMSc+PHN1YmZpZWxkIGNvZGU9J2EnPjUxNTYzNjk3PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0nYic+NzYxNTAwPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0nYyc+MjAxNjA0MTMxNTI4MDU8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSdkJz4yMDE1MDEyOTwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9J2YnPmE8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgaW5kMT0nMCcgaW5kMj0nMCcgdGFnPScwMDQnPjxzdWJmaWVsZCBjb2RlPSdyJz5uPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0nYSc+ZTwvc3ViZmllbGQ+PC9kYXRhZmllbGQ+PGRhdGFmaWVsZCBpbmQxPScwJyBpbmQyPScwJyB0YWc9JzAwNSc+PHN1YmZpZWxkIGNvZGU9J3onPnA8L3N1YmZpZWxkPjwvZGF0YWZpZWxkPjxkYXRhZmllbGQgaW5kMT0nMCcgaW5kMj0nMCcgdGFnPScwMDgnPjxzdWJmaWVsZCBjb2RlPSd0Jz5zPC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0ndSc+dTwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9J2EnPjIwMTU8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSdiJz5kazwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9J2QnPjI8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSdkJz54PC9zdWJmaWVsZD48c3ViZmllbGQgY29kZT0naic+cDwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9J2wnPmRhbjwvc3ViZmllbGQ+PHN1YmZpZWxkIGNvZGU9J28nPmI8L3N1YmZpZWxkPjxzdWJmaWVsZCBjb2RlPSd2Jz4wPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48ZGF0YWZpZWxkIGluZDE9JzAnIGluZDI9JzAnIHRhZz0nOTk2Jz48c3ViZmllbGQgY29kZT0nYSc+REJDPC9zdWJmaWVsZD48L2RhdGFmaWVsZD48L3JlY29yZD4=",
+      "enrichmentTrail": "870970,761500",
+      "deleted": false
+    }
+  ]
+}

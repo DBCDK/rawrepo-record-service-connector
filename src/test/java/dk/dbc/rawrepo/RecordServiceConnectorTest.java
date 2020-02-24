@@ -171,48 +171,19 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordContentCollection_DataIO() throws RecordServiceConnectorException {
-        final String expected = "<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<collection xmlns='info:lc/xmlns/marcxchange-v1' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" +
-                "            xsi:schemaLocation='info:lc/xmlns/marcxchange-v1 http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd'>\n" +
-                "    <record>\n" +
-                "        <leader>00000n 2200000 4500</leader>\n" +
-                "        <datafield ind1='0' ind2='0' tag='001'>\n" +
-                "            <subfield code='a'>51563697</subfield>\n" +
-                "            <subfield code='b'>761500</subfield>\n" +
-                "            <subfield code='c'>20160413152805</subfield>\n" +
-                "            <subfield code='d'>20150129</subfield>\n" +
-                "            <subfield code='f'>a</subfield>\n" +
-                "        </datafield>\n" +
-                "        <datafield ind1='0' ind2='0' tag='004'>\n" +
-                "            <subfield code='r'>n</subfield>\n" +
-                "            <subfield code='a'>e</subfield>\n" +
-                "        </datafield>\n" +
-                "        <datafield ind1='0' ind2='0' tag='005'>\n" +
-                "            <subfield code='z'>p</subfield>\n" +
-                "        </datafield>\n" +
-                "        <datafield ind1='0' ind2='0' tag='008'>\n" +
-                "            <subfield code='t'>s</subfield>\n" +
-                "            <subfield code='u'>u</subfield>\n" +
-                "            <subfield code='a'>2015</subfield>\n" +
-                "            <subfield code='b'>dk</subfield>\n" +
-                "            <subfield code='d'>2</subfield>\n" +
-                "            <subfield code='d'>x</subfield>\n" +
-                "            <subfield code='j'>p</subfield>\n" +
-                "            <subfield code='l'>dan</subfield>\n" +
-                "            <subfield code='o'>b</subfield>\n" +
-                "            <subfield code='v'>0</subfield>\n" +
-                "        </datafield>\n" +
-                "        <datafield ind1='0' ind2='0' tag='996'>\n" +
-                "            <subfield code='a'>DBC</subfield>\n" +
-                "        </datafield>\n" +
-                "    </record>\n" +
-                "</collection>";
-
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
                 .withExpand(true);
 
-        assertThat(connector.getRecordContentCollectionDataIO(761500, "51563697", params),
-                is(expected.getBytes()));
+        final HashMap<String, RecordData> actual = connector.getRecordDataCollectionDataIO(new RecordId("51563697", 761500), params);
+        assertThat(actual.size(), is(1));
+        assertThat(actual.get("51563697").getRecordId(), is(new RecordId("51563697", 761500)));
+        assertThat(actual.get("51563697").getCreated(), is("2016-04-13T11:28:06.683Z"));
+        assertThat(actual.get("51563697").getEnrichmentTrail(), is("870970,761500"));
+        assertThat(actual.get("51563697").getMimetype(), is("text/marcxchange"));
+        assertThat(actual.get("51563697").getModified(), is("2020-02-24T13:15:47.945Z"));
+        assertThat(actual.get("51563697").getTrackingId(), is(""));
+        assertThat(actual.get("51563697").isDeleted(), is(false));
+        assertThat(new String(actual.get("51563697").getContent()), containsString("marcxchange-v1"));
     }
 
     @Test
