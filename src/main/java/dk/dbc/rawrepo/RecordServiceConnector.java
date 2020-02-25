@@ -308,28 +308,11 @@ public class RecordServiceConnector {
         return getRecordContentCollection(Integer.toString(agencyId), bibliographicRecordId, params);
     }
 
-    public byte[] getRecordContentCollectionDataIO(int agencyId, String bibliographicRecordId, Params params)
-            throws RecordServiceConnectorException {
-        return getRecordContentCollectionDataIO(Integer.toString(agencyId), bibliographicRecordId, params);
-    }
-
     private byte[] getRecordContentCollection(String agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             return sendRequest(PATH_RECORD_CONTENT_COLLECTION, agencyId, bibliographicRecordId, params, byte[].class);
-        } finally {
-            logger.log("getRecordContentCollection({}, {}) took {} milliseconds",
-                    agencyId, bibliographicRecordId,
-                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
-        }
-    }
-
-    private byte[] getRecordContentCollectionDataIO(String agencyId, String bibliographicRecordId, Params params)
-            throws RecordServiceConnectorException {
-        final Stopwatch stopwatch = new Stopwatch();
-        try {
-            return sendRequest(PATH_RECORD_CONTENT_COLLECTION_DATAIO, agencyId, bibliographicRecordId, params, byte[].class);
         } finally {
             logger.log("getRecordContentCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
@@ -490,6 +473,51 @@ public class RecordServiceConnector {
         final Stopwatch stopwatch = new Stopwatch();
         try {
             return sendRequest(PATH_RECORD_DATA_COLLECTION, agencyId, bibliographicRecordId, params, RecordDataCollection.class).toMap();
+        } finally {
+            logger.log("getRecordDataCollection({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params                request query parameters
+     * @return record content as map of agencyId:RecordData-object
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public HashMap<String, RecordData> getRecordDataCollectionDataio(int agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        return getRecordDataCollection(Integer.toString(agencyId), bibliographicRecordId, params);
+    }
+
+    /**
+     * @param recordId record id
+     * @param params   request query parameters
+     * @return record content as map of agencyId:RecordData-object
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public HashMap<String, RecordData> getRecordDataCollectionDataIO(RecordId recordId, Params params)
+            throws RecordServiceConnectorException {
+        return getRecordDataCollection(recordId.getAgencyId(), recordId.getBibliographicRecordId(), params);
+    }
+
+    /**
+     * @param agencyId              agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @param params                request query parameters
+     * @return record content as map of agencyId:RecordData-object
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public HashMap<String, RecordData> getRecordDataCollectionDataIO(String agencyId, String bibliographicRecordId, Params params)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_CONTENT_COLLECTION_DATAIO, agencyId, bibliographicRecordId, params, RecordDataCollection.class).toMap();
         } finally {
             logger.log("getRecordDataCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
