@@ -481,6 +481,17 @@ public class RecordServiceConnector {
     }
 
     /**
+     * @param recordId record id
+     * @return record content as map of agencyId:RecordData-object
+     * @throws RecordServiceConnectorException                     on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public HashMap<String, RecordData> getRecordDataCollectionDataIO(RecordId recordId)
+            throws RecordServiceConnectorException {
+        return getRecordDataCollection(recordId.getAgencyId(), recordId.getBibliographicRecordId(), null);
+    }
+
+    /**
      * @param agencyId              agency ID
      * @param bibliographicRecordId bibliographic record ID
      * @param params                request query parameters
@@ -488,7 +499,7 @@ public class RecordServiceConnector {
      * @throws RecordServiceConnectorException                     on failure to read result entity from response
      * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
      */
-    public HashMap<String, RecordData> getRecordDataCollectionDataio(int agencyId, String bibliographicRecordId, Params params)
+    public HashMap<String, RecordData> getRecordDataCollectionDataIO(int agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
         return getRecordDataCollection(Integer.toString(agencyId), bibliographicRecordId, params);
     }
