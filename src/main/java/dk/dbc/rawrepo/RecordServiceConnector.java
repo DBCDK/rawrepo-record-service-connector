@@ -488,7 +488,7 @@ public class RecordServiceConnector {
      */
     public HashMap<String, RecordData> getRecordDataCollectionDataIO(RecordId recordId)
             throws RecordServiceConnectorException {
-        return getRecordDataCollection(recordId.getAgencyId(), recordId.getBibliographicRecordId(), null);
+        return getRecordDataCollectionDataIO(recordId.getAgencyId(), recordId.getBibliographicRecordId(), null);
     }
 
     /**
@@ -501,7 +501,7 @@ public class RecordServiceConnector {
      */
     public HashMap<String, RecordData> getRecordDataCollectionDataIO(int agencyId, String bibliographicRecordId, Params params)
             throws RecordServiceConnectorException {
-        return getRecordDataCollection(Integer.toString(agencyId), bibliographicRecordId, params);
+        return getRecordDataCollectionDataIO(Integer.toString(agencyId), bibliographicRecordId, params);
     }
 
     /**
@@ -513,7 +513,7 @@ public class RecordServiceConnector {
      */
     public HashMap<String, RecordData> getRecordDataCollectionDataIO(RecordId recordId, Params params)
             throws RecordServiceConnectorException {
-        return getRecordDataCollection(recordId.getAgencyId(), recordId.getBibliographicRecordId(), params);
+        return getRecordDataCollectionDataIO(recordId.getAgencyId(), recordId.getBibliographicRecordId(), params);
     }
 
     /**
