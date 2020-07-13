@@ -104,6 +104,10 @@ public class RecordAgencyServiceConnector {
         }
     }
 
+    public void close() {
+        failSafeHttpClient.getClient().close();
+    }
+
     public Integer[] getAllAgencies() throws RecordAgencyServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {

@@ -16,42 +16,42 @@ import javax.ws.rs.client.Client;
 public class RecordAgencyServiceConnectorFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordAgencyServiceConnectorFactory.class);
 
-    public static RecordServiceConnector create(String recordServiceBaseUrl) {
+    public static RecordAgencyServiceConnector create(String recordAgencyServiceBaseUrl) {
         final Client client = HttpClient.newClient(new ClientConfig()
                 .register(new JacksonFeature()));
-        LOGGER.info("Creating RecordServiceConnector for: {}", recordServiceBaseUrl);
-        return new RecordServiceConnector(client, recordServiceBaseUrl);
+        LOGGER.info("Creating RecordAgencyServiceConnector for: {}", recordAgencyServiceBaseUrl);
+        return new RecordAgencyServiceConnector(client, recordAgencyServiceBaseUrl);
     }
 
-    public static RecordServiceConnector create(String recordServiceBaseUrl, RecordServiceConnector.TimingLogLevel level) {
+    public static RecordAgencyServiceConnector create(String recordAgencyServiceBaseUrl, RecordAgencyServiceConnector.TimingLogLevel level) {
         final Client client = HttpClient.newClient(new ClientConfig()
                 .register(new JacksonFeature()));
-        LOGGER.info("Creating RecordServiceConnector for: {}", recordServiceBaseUrl);
-        return new RecordServiceConnector(client, recordServiceBaseUrl, level);
+        LOGGER.info("Creating RecordAgencyServiceConnector for: {}", recordAgencyServiceBaseUrl);
+        return new RecordAgencyServiceConnector(client, recordAgencyServiceBaseUrl, level);
     }
 
     @Inject
     @ConfigProperty(name = "RAWREPO_RECORD_SERVICE_URL")
-    private String recordServiceBaseUrl;
+    private String recordAgencyServiceBaseUrl;
 
     @Inject
     @ConfigProperty(name = "RAWREPO_RECORD_SERVICE_TIMING_LOG_LEVEL", defaultValue = "INFO")
-    private RecordServiceConnector.TimingLogLevel level;
+    private RecordAgencyServiceConnector.TimingLogLevel level;
 
-    RecordServiceConnector recordServiceConnector;
+    RecordAgencyServiceConnector recordAgencyServiceConnector;
 
     @PostConstruct
     public void initializeConnector() {
-        recordServiceConnector = RecordServiceConnectorFactory.create(recordServiceBaseUrl, level);
+        recordAgencyServiceConnector = RecordAgencyServiceConnectorFactory.create(recordAgencyServiceBaseUrl, level);
     }
 
     @Produces
-    public RecordServiceConnector getInstance() {
-        return recordServiceConnector;
+    public RecordAgencyServiceConnector getInstance() {
+        return recordAgencyServiceConnector;
     }
 
     @PreDestroy
     public void tearDownConnector() {
-        recordServiceConnector.close();
+        recordAgencyServiceConnector.close();
     }
 }
