@@ -1,0 +1,17 @@
+{
+  "id" : "442c8a81-920d-3d64-98f1-bddeb94e1d1f",
+  "request" : {
+    "url" : "/api/v1/agency/000000/recordids",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-agency-000000-recordids-akkfk.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "442c8a81-920d-3d64-98f1-bddeb94e1d1f"
+}

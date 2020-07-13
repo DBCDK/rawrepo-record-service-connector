@@ -1,0 +1,17 @@
+{
+  "id" : "8e48e5bd-93af-339b-b331-7f96bcbc03e2",
+  "request" : {
+    "url" : "/api/v1/agencies",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-agencies-xgZXO.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "8e48e5bd-93af-339b-b331-7f96bcbc03e2"
+}
