@@ -32,6 +32,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
         recordGetRecordDataCollectionRequests(recordServiceConnectorTest);
         recordGetRecordMetaRequests(recordServiceConnectorTest);
         recordHistoryServiceRequests(recordServiceConnectorTest);
+        recordAllAgenciesForBibliographicRecordId(recordServiceConnectorTest);
         recordDumpServiceRequests(recordRecordDumpServiceConnectorTest);
     }
 
@@ -83,6 +84,12 @@ public class RecordServiceConnectorTestWireMockRecorder {
         connectorTest.callGetRecordHistory();
         connectorTest.callGetHistoricRecord();
         connectorTest.callGetHistoricRecord_NotFound();
+    }
+
+    private static void recordAllAgenciesForBibliographicRecordId(RecordServiceConnectorTest connectorTest)
+            throws RecordServiceConnectorException {
+        connectorTest.callGetAllAgenciesForBibliographicRecordId();
+        connectorTest.callGetAllAgenciesForBibliographicRecordId_NoRecord();
     }
 
     private static void recordDumpServiceRequests(RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest)

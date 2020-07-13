@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
@@ -167,6 +168,23 @@ class RecordServiceConnectorTest {
 
         assertThat(connector.getRecordContentCollection(770600, "05395721", params),
                 is(expected.getBytes()));
+    }
+
+    @Test
+    void callGetAllAgenciesForBibliographicRecordId() throws RecordServiceConnectorException {
+        final Integer[] actual = connector.getAllAgenciesForBibliographicRecordId("27722342");
+        assertThat(actual.length, is(4));
+
+        for (Integer agencyId : Arrays.asList(191919, 710100, 761500, 870970)) {
+            assertThat(Arrays.asList(actual).contains(agencyId), is(true));
+        }
+    }
+
+    @Test
+    void callGetAllAgenciesForBibliographicRecordId_NoRecord() throws RecordServiceConnectorException {
+        final Integer[] actual = connector.getAllAgenciesForBibliographicRecordId("00000000");
+
+        assertThat(actual.length, is(0));
     }
 
     @Test
