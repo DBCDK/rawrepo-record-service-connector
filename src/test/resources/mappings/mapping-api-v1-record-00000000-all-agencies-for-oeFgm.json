@@ -1,0 +1,17 @@
+{
+  "id" : "ac1ea8de-c22a-3c1e-bf34-4ffd921d4a4a",
+  "request" : {
+    "url" : "/api/v1/record/00000000/all-agencies-for",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-00000000-all-agencies-for-oeFgm.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "ac1ea8de-c22a-3c1e-bf34-4ffd921d4a4a"
+}

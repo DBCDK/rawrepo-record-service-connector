@@ -1,0 +1,17 @@
+{
+  "id" : "80002a7d-902d-31ee-98fa-43678241fa6e",
+  "request" : {
+    "url" : "/api/v1/record/27722342/all-agencies-for",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-27722342-all-agencies-for-gvBzR.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "80002a7d-902d-31ee-98fa-43678241fa6e"
+}
