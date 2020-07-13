@@ -21,10 +21,18 @@ public class RecordServiceConnectorTestWireMockRecorder {
 
     public static void main(String[] args) throws Exception {
         RecordServiceConnectorTest.connector = new RecordServiceConnector(
-                RecordServiceConnectorTest.CLIENT, "http://localhost:8080");
+                RecordServiceConnectorTest.CLIENT, "http://localhost:8070");
+        RecordAgencyServiceConnectorTest.connector = new RecordAgencyServiceConnector(
+                RecordAgencyServiceConnectorTest.CLIENT, "http://localhost:8070");
+
+        final RecordAgencyServiceConnectorTest recordAgencyServiceConnectorTest =
+                new RecordAgencyServiceConnectorTest();
         final RecordServiceConnectorTest recordServiceConnectorTest = new RecordServiceConnectorTest();
         final RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest =
                 new RecordDumpServiceConnectorTest();
+
+        agencyAllAgencies(recordAgencyServiceConnectorTest);
+
         recordRecordExistsRequests(recordServiceConnectorTest);
         recordRelationRequests(recordServiceConnectorTest);
         recordGetRecordContentRequests(recordServiceConnectorTest);
@@ -33,6 +41,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
         recordGetRecordMetaRequests(recordServiceConnectorTest);
         recordHistoryServiceRequests(recordServiceConnectorTest);
         recordAllAgenciesForBibliographicRecordId(recordServiceConnectorTest);
+
         recordDumpServiceRequests(recordRecordDumpServiceConnectorTest);
     }
 
@@ -90,6 +99,13 @@ public class RecordServiceConnectorTestWireMockRecorder {
             throws RecordServiceConnectorException {
         connectorTest.callGetAllAgenciesForBibliographicRecordId();
         connectorTest.callGetAllAgenciesForBibliographicRecordId_NoRecord();
+    }
+
+    private static void agencyAllAgencies(RecordAgencyServiceConnectorTest recordAgencyServiceConnectorTest)
+            throws RecordAgencyServiceConnectorException {
+        recordAgencyServiceConnectorTest.callGetAllAgencies();
+        recordAgencyServiceConnectorTest.callGetBibliographicRecordIdsForAgencyId();
+        recordAgencyServiceConnectorTest.callGetBibliographicRecordIdsForAgencyId_NoRecords();
     }
 
     private static void recordDumpServiceRequests(RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest)

@@ -1,0 +1,17 @@
+{
+  "id" : "2b25f04f-a60a-3cd1-9250-8c6f660c9879",
+  "request" : {
+    "url" : "/api/v1/agency/710100/recordids",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-agency-710100-recordids-eHQDJ.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "2b25f04f-a60a-3cd1-9250-8c6f660c9879"
+}
