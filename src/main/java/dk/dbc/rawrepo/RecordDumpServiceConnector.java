@@ -320,8 +320,8 @@ public class RecordDumpServiceConnector {
             return this;
         }
 
-        public Optional<List<String>> getAgencies() {
-            return Optional.ofNullable((List<String>) this.get(Key.AGENCIES));
+        public Optional<List<Integer>> getAgencies() {
+            return Optional.ofNullable((List<Integer>) this.get(Key.AGENCIES));
         }
 
         public AgencyParams withRecordStatus(RecordStatus recordStatus) {
