@@ -3,7 +3,7 @@
  * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -35,7 +35,7 @@ public class RecordIdCollection {
      *
      * @return sorted array
      */
-    RecordId[] toArray() {
+    public RecordId[] toArray() {
         return recordIds.stream()
                 .sorted()
                 .toArray(RecordId[]::new);

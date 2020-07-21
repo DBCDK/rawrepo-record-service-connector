@@ -3,7 +3,7 @@
  *  See license text at https://opensource.dbc.dk/licenses/gpl-3.0
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.dto;
 
 public class ParamsValidationItem {
 

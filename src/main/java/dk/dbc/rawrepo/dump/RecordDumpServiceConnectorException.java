@@ -3,10 +3,10 @@
  * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.dump;
 
-public class RecordAgencyServiceConnectorException extends Exception {
-    public RecordAgencyServiceConnectorException(String msg) {
+public class RecordDumpServiceConnectorException extends Exception {
+    public RecordDumpServiceConnectorException(String msg) {
         super(msg);
     }
 }

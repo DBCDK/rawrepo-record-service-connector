@@ -7,6 +7,8 @@ package dk.dbc.rawrepo;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
+import dk.dbc.rawrepo.dump.RecordDumpServiceConnector;
+import dk.dbc.rawrepo.dump.RecordDumpServiceConnectorException;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.jupiter.api.AfterAll;

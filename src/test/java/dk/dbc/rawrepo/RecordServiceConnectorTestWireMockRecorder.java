@@ -5,6 +5,12 @@
 
 package dk.dbc.rawrepo;
 
+import dk.dbc.rawrepo.agency.RecordAgencyServiceConnector;
+import dk.dbc.rawrepo.agency.RecordAgencyServiceConnectorException;
+import dk.dbc.rawrepo.dump.RecordDumpServiceConnectorException;
+import dk.dbc.rawrepo.record.RecordServiceConnector;
+import dk.dbc.rawrepo.record.RecordServiceConnectorException;
+
 import java.io.IOException;
 
 public class RecordServiceConnectorTestWireMockRecorder {

@@ -3,9 +3,9 @@
  * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.agency;
 
-public class RecordDumpServiceConnectorUnexpectedStatusCodeException extends RecordDumpServiceConnectorException {
+public class RecordAgencyServiceConnectorUnexpectedStatusCodeException extends RecordAgencyServiceConnectorException {
     private final int statusCode;
 
     /**
@@ -18,7 +18,7 @@ public class RecordDumpServiceConnectorUnexpectedStatusCodeException extends Rec
      *                   {@link #getMessage()} method. May be null.
      * @param statusCode the http status code returned by the REST service
      */
-    public RecordDumpServiceConnectorUnexpectedStatusCodeException(String message, int statusCode) {
+    public RecordAgencyServiceConnectorUnexpectedStatusCodeException(String message, int statusCode) {
         super(message);
         this.statusCode = statusCode;
     }

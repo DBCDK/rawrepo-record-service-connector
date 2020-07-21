@@ -3,7 +3,7 @@
  *  See license text at https://opensource.dbc.dk/licenses/gpl-3.0
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.dto;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class AgencyCollectionDTO {
         this.agencies = agencies;
     }
 
-    Integer[] toArray() {
+    public Integer[] toArray() {
         return agencies.stream()
                 .sorted()
                 .toArray(Integer[]::new);

@@ -5,6 +5,7 @@
 
 package dk.dbc.rawrepo;
 
+import dk.dbc.rawrepo.dto.RecordId;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
