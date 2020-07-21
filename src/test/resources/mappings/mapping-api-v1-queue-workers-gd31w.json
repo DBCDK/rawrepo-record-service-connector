@@ -1,0 +1,17 @@
+{
+  "id" : "ab79dd0a-c1cf-3dc1-b16e-d599d7e7a120",
+  "request" : {
+    "url" : "/api/v1/queue/workers",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-queue-workers-gd31w.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "ab79dd0a-c1cf-3dc1-b16e-d599d7e7a120"
+}

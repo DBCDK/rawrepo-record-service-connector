@@ -1,0 +1,17 @@
+{
+  "id" : "59f563fe-16a0-3a35-8b49-a0dd09f8d329",
+  "request" : {
+    "url" : "/api/v1/queue/providers",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-queue-providers-ESkeh.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "59f563fe-16a0-3a35-8b49-a0dd09f8d329"
+}

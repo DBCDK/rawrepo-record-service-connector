@@ -1,0 +1,17 @@
+{
+  "id" : "3fdae291-297c-3f8e-baf5-74a35a9d3236",
+  "request" : {
+    "url" : "/api/v1/queue/870971/socl-sync",
+    "method" : "POST"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-queue-870971-socl-sync-gnkUM.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "3fdae291-297c-3f8e-baf5-74a35a9d3236"
+}
