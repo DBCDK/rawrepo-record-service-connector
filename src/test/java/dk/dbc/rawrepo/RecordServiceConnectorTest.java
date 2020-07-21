@@ -7,10 +7,10 @@ package dk.dbc.rawrepo;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
-import dk.dbc.rawrepo.dto.RecordData;
-import dk.dbc.rawrepo.dto.RecordHistory;
-import dk.dbc.rawrepo.dto.RecordHistoryCollection;
-import dk.dbc.rawrepo.dto.RecordId;
+import dk.dbc.rawrepo.dto.RecordDTO;
+import dk.dbc.rawrepo.dto.RecordHistoryCollectionDTO;
+import dk.dbc.rawrepo.dto.RecordHistoryDTO;
+import dk.dbc.rawrepo.dto.RecordIdDTO;
 import dk.dbc.rawrepo.record.RecordServiceConnector;
 import dk.dbc.rawrepo.record.RecordServiceConnectorException;
 import dk.dbc.rawrepo.record.RecordServiceConnectorNoContentStatusCodeException;
@@ -199,9 +199,9 @@ class RecordServiceConnectorTest {
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
                 .withExpand(true);
 
-        final HashMap<String, RecordData> actual = connector.getRecordDataCollectionDataIO(new RecordId("51563697", 761500), params);
+        final HashMap<String, RecordDTO> actual = connector.getRecordDataCollectionDataIO(new RecordIdDTO("51563697", 761500), params);
         assertThat(actual.size(), is(1));
-        assertThat(actual.get("51563697").getRecordId(), is(new RecordId("51563697", 761500)));
+        assertThat(actual.get("51563697").getRecordId(), is(new RecordIdDTO("51563697", 761500)));
         assertThat(actual.get("51563697").getCreated(), is("2016-04-13T11:28:06.683Z"));
         assertThat(actual.get("51563697").getEnrichmentTrail(), is("870970,761500"));
         assertThat(actual.get("51563697").getMimetype(), is("text/marcxchange"));
@@ -213,7 +213,7 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordDataForExistingRecord() throws RecordServiceConnectorException {
-        final RecordData record = connector.getRecordData("870970", "52880645");
+        final RecordDTO record = connector.getRecordData("870970", "52880645");
         assertThat(record, is(notNullValue()));
         assertThat(record.getRecordId(), is(notNullValue()));
         assertThat(record.getRecordId().getAgencyId(), is(870970));
@@ -239,7 +239,7 @@ class RecordServiceConnectorTest {
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
                 .withAllowDeleted(true)
                 .withMode(RecordServiceConnector.Params.Mode.EXPANDED);
-        final HashMap<String, RecordData> recordCollection = connector.getRecordDataCollection("870970", "52880645", params);
+        final HashMap<String, RecordDTO> recordCollection = connector.getRecordDataCollection("870970", "52880645", params);
         assertThat(recordCollection.size(), is(2));
         assertThat("Record from 870970", recordCollection.values().stream().anyMatch(r -> r.getRecordId().getAgencyId() == 870970));
         assertThat("Record from 870979", recordCollection.values().stream().anyMatch(r -> r.getRecordId().getAgencyId() == 870979));
@@ -258,7 +258,7 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordMeta_ExistingRecord() throws RecordServiceConnectorException {
-        final RecordData recordMeta = connector.getRecordMeta("870970", "52880645");
+        final RecordDTO recordMeta = connector.getRecordMeta("870970", "52880645");
         assertThat(recordMeta, is(notNullValue()));
         assertThat(recordMeta.getRecordId(), is(notNullValue()));
         assertThat(recordMeta.getRecordId().getAgencyId(), is(870970));
@@ -291,8 +291,8 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordParents() throws RecordServiceConnectorException {
-        RecordId[] ids = connector.getRecordParents("870970", "44816687");
-        assertThat(ids, arrayContaining(new RecordId("44783851", 870970)));
+        RecordIdDTO[] ids = connector.getRecordParents("870970", "44816687");
+        assertThat(ids, arrayContaining(new RecordIdDTO("44783851", 870970)));
     }
 
     @Test
@@ -304,18 +304,18 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordChildren() throws RecordServiceConnectorException {
-        RecordId[] ids = connector.getRecordChildren("870970", "44783851");
-        assertThat(ids, arrayContaining(new RecordId("44741172", 870970),
-                new RecordId("44816660", 870970),
-                new RecordId("44816679", 870970),
-                new RecordId("44816687", 870970),
-                new RecordId("44871106", 870970),
-                new RecordId("45015920", 870970)));
+        RecordIdDTO[] ids = connector.getRecordChildren("870970", "44783851");
+        assertThat(ids, arrayContaining(new RecordIdDTO("44741172", 870970),
+                new RecordIdDTO("44816660", 870970),
+                new RecordIdDTO("44816679", 870970),
+                new RecordIdDTO("44816687", 870970),
+                new RecordIdDTO("44871106", 870970),
+                new RecordIdDTO("45015920", 870970)));
     }
 
     @Test
     public void callGetRecordSiblingsFrom() throws RecordServiceConnectorException {
-        RecordId[] ids = connector.getRecordSiblingsFrom(870974, "126350554");
+        RecordIdDTO[] ids = connector.getRecordSiblingsFrom(870974, "126350554");
 
         assertThat(ids.length, is(0));
     }
@@ -329,9 +329,9 @@ class RecordServiceConnectorTest {
 
     @Test
     public void callGetRecordSiblingsTo() throws RecordServiceConnectorException {
-        RecordId[] ids = connector.getRecordSiblingsTo(870974, "126350554");
+        RecordIdDTO[] ids = connector.getRecordSiblingsTo(870974, "126350554");
 
-        assertThat(ids, arrayContaining(new RecordId("126350554", 191919)));
+        assertThat(ids, arrayContaining(new RecordIdDTO("126350554", 191919)));
     }
 
     @Test
@@ -343,13 +343,13 @@ class RecordServiceConnectorTest {
 
     @Test
     void callGetRecordHistory() throws RecordServiceConnectorException {
-        RecordHistoryCollection dto = connector.getRecordHistory("870970", "44783851");
+        RecordHistoryCollectionDTO dto = connector.getRecordHistory("870970", "44783851");
 
         assertThat(dto, is(notNullValue()));
         assertThat(dto.getRecordHistoryList(), is(notNullValue()));
         assertThat(dto.getRecordHistoryList().size(), is(2));
 
-        RecordHistory historyDTO1 = dto.getRecordHistoryList().get(0);
+        RecordHistoryDTO historyDTO1 = dto.getRecordHistoryList().get(0);
         assertThat(historyDTO1.getId().getAgencyId(), is(870970));
         assertThat(historyDTO1.getId().getBibliographicRecordId(), is("44783851"));
         assertThat(historyDTO1.isDeleted(), is(false));
@@ -358,7 +358,7 @@ class RecordServiceConnectorTest {
         assertThat(historyDTO1.getModified(), is("2016-06-15T08:58:06.640Z"));
         assertThat(historyDTO1.getTrackingId(), is(""));
 
-        RecordHistory historyDTO2 = dto.getRecordHistoryList().get(1);
+        RecordHistoryDTO historyDTO2 = dto.getRecordHistoryList().get(1);
         assertThat(historyDTO2.getId().getAgencyId(), is(870970));
         assertThat(historyDTO2.getId().getBibliographicRecordId(), is("44783851"));
         assertThat(historyDTO2.isDeleted(), is(false));
@@ -370,7 +370,7 @@ class RecordServiceConnectorTest {
 
     @Test
     public void callGetHistoricRecord() throws RecordServiceConnectorException {
-        RecordData record1 = connector.getHistoricRecord("870970", "44783851", "2016-06-15T08:58:06.640Z");
+        RecordDTO record1 = connector.getHistoricRecord("870970", "44783851", "2016-06-15T08:58:06.640Z");
         assertThat(record1, is(notNullValue()));
         assertThat(record1.getRecordId(), is(notNullValue()));
         assertThat(record1.getRecordId().getAgencyId(), is(870970));
@@ -383,7 +383,7 @@ class RecordServiceConnectorTest {
         assertThat(new String(record1.getContent()), containsString("Forlaget Oktober"));
         assertThat(record1.getEnrichmentTrail(), is("870970"));
 
-        RecordData record2 = connector.getHistoricRecord("870970", "44783851", "2015-03-16T23:35:30.467032Z");
+        RecordDTO record2 = connector.getHistoricRecord("870970", "44783851", "2015-03-16T23:35:30.467032Z");
         assertThat(record2, is(notNullValue()));
         assertThat(record2.getRecordId(), is(notNullValue()));
         assertThat(record2.getRecordId().getAgencyId(), is(870970));

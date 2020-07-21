@@ -5,7 +5,7 @@
 
 package dk.dbc.rawrepo;
 
-import dk.dbc.rawrepo.dto.RecordId;
+import dk.dbc.rawrepo.dto.RecordIdDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,22 +17,22 @@ public class RecordDataTest {
 
     @Test
     void RecordIdEquals() {
-        RecordId recordId = new RecordId("123456", 870970);
+        RecordIdDTO recordId = new RecordIdDTO("123456", 870970);
 
         assertThat(recordId, notNullValue());
         assertThat(recordId.equals(null), is(false));
         assertThat(recordId.equals(recordId), is(true));
-        assertThat(recordId.equals(new RecordId("123456", 870970)), is(true));
-        assertThat(recordId.equals(new RecordId("123456", 700000)), is(false));
-        assertThat(recordId.equals(new RecordId("654321", 870970)), is(false));
+        assertThat(recordId.equals(new RecordIdDTO("123456", 870970)), is(true));
+        assertThat(recordId.equals(new RecordIdDTO("123456", 700000)), is(false));
+        assertThat(recordId.equals(new RecordIdDTO("654321", 870970)), is(false));
     }
 
     @Test
     void RecordIdHashCode() {
-        RecordId recordId_1 = new RecordId("123456", 870970);
-        RecordId recordId_2 = new RecordId("123456", 870970);
-        RecordId recordId_3 = new RecordId("654321", 870970);
-        RecordId recordId_4 = new RecordId("123456", 870971);
+        RecordIdDTO recordId_1 = new RecordIdDTO("123456", 870970);
+        RecordIdDTO recordId_2 = new RecordIdDTO("123456", 870970);
+        RecordIdDTO recordId_3 = new RecordIdDTO("654321", 870970);
+        RecordIdDTO recordId_4 = new RecordIdDTO("123456", 870971);
 
         assertThat(recordId_1.hashCode(), is(recordId_1.hashCode()));
         assertThat(recordId_1.hashCode(), is(recordId_2.hashCode()));

@@ -10,7 +10,7 @@ import dk.dbc.httpclient.HttpPost;
 import dk.dbc.invariant.InvariantUtil;
 import dk.dbc.jsonb.JSONBContext;
 import dk.dbc.jsonb.JSONBException;
-import dk.dbc.rawrepo.dto.ParamsValidation;
+import dk.dbc.rawrepo.dto.ParamsValidationDTO;
 import dk.dbc.util.Stopwatch;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
@@ -199,7 +199,7 @@ public class RecordDumpServiceConnector {
             if (actualStatus == Response.Status.BAD_REQUEST) {
                 try {
                     final String entity = response.readEntity(String.class);
-                    final ParamsValidation validation = jsonbContext.unmarshall(entity, ParamsValidation.class);
+                    final ParamsValidationDTO validation = jsonbContext.unmarshall(entity, ParamsValidationDTO.class);
 
                     throw new RecordDumpServiceConnectorUnexpectedStatusCodeValidationException(validation, actualStatus.getStatusCode());
                 } catch (JSONBException e) {

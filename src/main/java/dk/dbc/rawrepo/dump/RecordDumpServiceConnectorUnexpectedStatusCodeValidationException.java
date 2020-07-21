@@ -5,18 +5,18 @@
 
 package dk.dbc.rawrepo.dump;
 
-import dk.dbc.rawrepo.dto.ParamsValidation;
+import dk.dbc.rawrepo.dto.ParamsValidationDTO;
 
 public class RecordDumpServiceConnectorUnexpectedStatusCodeValidationException extends RecordDumpServiceConnectorUnexpectedStatusCodeException {
 
-    private ParamsValidation paramsValidation;
+    private ParamsValidationDTO paramsValidation;
 
-    public RecordDumpServiceConnectorUnexpectedStatusCodeValidationException(ParamsValidation paramsValidation, int statusCode) {
+    public RecordDumpServiceConnectorUnexpectedStatusCodeValidationException(ParamsValidationDTO paramsValidation, int statusCode) {
         super("Validation exception", statusCode);
         this.paramsValidation = paramsValidation;
     }
 
-    public ParamsValidation getParamsValidation() {
+    public ParamsValidationDTO getParamsValidation() {
         return paramsValidation;
     }
 }

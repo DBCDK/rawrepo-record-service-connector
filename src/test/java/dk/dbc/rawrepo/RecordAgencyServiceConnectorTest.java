@@ -9,8 +9,8 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
 import dk.dbc.rawrepo.agency.RecordAgencyServiceConnector;
 import dk.dbc.rawrepo.agency.RecordAgencyServiceConnectorException;
-import dk.dbc.rawrepo.dto.RecordId;
-import dk.dbc.rawrepo.dto.RecordIdCollection;
+import dk.dbc.rawrepo.dto.RecordIdDTO;
+import dk.dbc.rawrepo.dto.RecordIdCollectionDTO;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.jupiter.api.AfterAll;
@@ -64,18 +64,18 @@ public class RecordAgencyServiceConnectorTest {
 
     @Test
     void callGetBibliographicRecordIdsForAgencyId() throws RecordAgencyServiceConnectorException {
-        RecordIdCollection actual = connector.getBibliographicRecordIdsForAgencyId("710100");
+        RecordIdCollectionDTO actual = connector.getBibliographicRecordIdsForAgencyId("710100");
 
         assertThat(actual.getRecordIds().size(), is(8));
 
         for (String bibliographicRecordId : Arrays.asList("27722342", "28920806", "49345011", "52871948", "54316267", "54338600", "54730837", "54800053")) {
-            assertThat(actual.getRecordIds().contains(new RecordId(bibliographicRecordId, 710100)), is(true));
+            assertThat(actual.getRecordIds().contains(new RecordIdDTO(bibliographicRecordId, 710100)), is(true));
         }
     }
 
     @Test
     void callGetBibliographicRecordIdsForAgencyId_NoRecords() throws RecordAgencyServiceConnectorException {
-        RecordIdCollection actual = connector.getBibliographicRecordIdsForAgencyId("000000");
+        RecordIdCollectionDTO actual = connector.getBibliographicRecordIdsForAgencyId("000000");
 
         assertThat(actual.getRecordIds().size(), is(0));
     }
