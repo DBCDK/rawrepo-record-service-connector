@@ -192,17 +192,29 @@ public class QueueServiceConnector {
 
     public EnqueueAgencyResponseDTO enqueueAgency(int agencyId, String worker, EnqueueParams params)
             throws QueueServiceConnectorException {
-        return postEnqueueAgencyRequest(PATH_ENQUEUE_AGENCY, agencyId, worker, params, EnqueueAgencyResponseDTO.class);
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return postEnqueueAgencyRequest(PATH_ENQUEUE_AGENCY, agencyId, worker, params, EnqueueAgencyResponseDTO.class);
+        } finally {
+            logger.log("enqueueAgency() took {} milliseconds",
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
     }
 
     public EnqueueResultCollectionDTO enqueueRecord(int agencyId, String bibliographicRecordId, String provider)
             throws QueueServiceConnectorException {
-        return enqueueRecord( agencyId, bibliographicRecordId, provider, null);
+        return enqueueRecord(agencyId, bibliographicRecordId, provider, null);
     }
 
     public EnqueueResultCollectionDTO enqueueRecord(int agencyId, String bibliographicRecordId, String provider, EnqueueParams params)
             throws QueueServiceConnectorException {
-        return postEnqueueRecordRequest(PATH_ENQUEUE_RECORD, agencyId, bibliographicRecordId, provider, params, EnqueueResultCollectionDTO.class);
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return postEnqueueRecordRequest(PATH_ENQUEUE_RECORD, agencyId, bibliographicRecordId, provider, params, EnqueueResultCollectionDTO.class);
+        } finally {
+            logger.log("enqueueRecord() took {} milliseconds",
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
     }
 
     private <S, T> T postEnqueueAgencyRequest(String basePath,
