@@ -1,0 +1,22 @@
+{
+  "enqueueResults": [
+    {
+      "bibliographicRecordId": "50129691",
+      "agencyId": 870970,
+      "worker": "broend-sync",
+      "queued": true
+    },
+    {
+      "bibliographicRecordId": "50129691",
+      "agencyId": 870970,
+      "worker": "danbib-ph-libv3",
+      "queued": true
+    },
+    {
+      "bibliographicRecordId": "50129691",
+      "agencyId": 870970,
+      "worker": "socl-sync",
+      "queued": true
+    }
+  ]
+}

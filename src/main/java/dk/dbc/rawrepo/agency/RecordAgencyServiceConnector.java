@@ -3,12 +3,14 @@
  * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.agency;
 
 import dk.dbc.httpclient.FailSafeHttpClient;
 import dk.dbc.httpclient.HttpGet;
 import dk.dbc.httpclient.PathBuilder;
 import dk.dbc.invariant.InvariantUtil;
+import dk.dbc.rawrepo.dto.AgencyCollectionDTO;
+import dk.dbc.rawrepo.dto.RecordIdCollectionDTO;
 import dk.dbc.util.Stopwatch;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
@@ -123,10 +125,10 @@ public class RecordAgencyServiceConnector {
         }
     }
 
-    public RecordIdCollection getBibliographicRecordIdsForAgencyId(String agencyId) throws RecordAgencyServiceConnectorException {
+    public RecordIdCollectionDTO getBibliographicRecordIdsForAgencyId(String agencyId) throws RecordAgencyServiceConnectorException {
         final Stopwatch stopwatch = new Stopwatch();
         try {
-            return sendRequest(PATH_BIBLIOGRAPHIC_RECORD_IDS_FOR_AGENCY, agencyId, RecordIdCollection.class);
+            return sendRequest(PATH_BIBLIOGRAPHIC_RECORD_IDS_FOR_AGENCY, agencyId, RecordIdCollectionDTO.class);
         } finally {
             logger.log("getBibliographicRecordIdsForAgencyId({}) took {} milliseconds",
                     agencyId,

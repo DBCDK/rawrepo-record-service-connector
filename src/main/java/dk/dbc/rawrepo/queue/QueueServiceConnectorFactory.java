@@ -3,7 +3,7 @@
  * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.queue;
 
 import dk.dbc.httpclient.HttpClient;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -20,21 +20,21 @@ import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 
 @ApplicationScoped
-public class RecordDumpServiceConnectorFactory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecordDumpServiceConnectorFactory.class);
+public class QueueServiceConnectorFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueueServiceConnectorFactory.class);
 
-    public static RecordDumpServiceConnector create(String recordServiceBaseUrl) {
+    public static QueueServiceConnector create(String recordServiceBaseUrl) {
         final Client client = HttpClient.newClient(new ClientConfig()
                 .register(new JacksonFeature()));
-        LOGGER.info("Creating RecordDumpServiceConnector for: {}", recordServiceBaseUrl);
-        return new RecordDumpServiceConnector(client, recordServiceBaseUrl);
+        LOGGER.info("Creating QueueServiceConnector for: {}", recordServiceBaseUrl);
+        return new QueueServiceConnector(client, recordServiceBaseUrl);
     }
 
-    public static RecordDumpServiceConnector create(String recordServiceBaseUrl, RecordDumpServiceConnector.TimingLogLevel level) {
+    public static QueueServiceConnector create(String recordServiceBaseUrl, QueueServiceConnector.TimingLogLevel level) {
         final Client client = HttpClient.newClient(new ClientConfig()
                 .register(new JacksonFeature()));
-        LOGGER.info("Creating RecordDumpServiceConnector for: {}", recordServiceBaseUrl);
-        return new RecordDumpServiceConnector(client, recordServiceBaseUrl, level);
+        LOGGER.info("Creating QueueServiceConnector for: {}", recordServiceBaseUrl);
+        return new QueueServiceConnector(client, recordServiceBaseUrl, level);
     }
 
     @Inject
@@ -43,22 +43,22 @@ public class RecordDumpServiceConnectorFactory {
 
     @Inject
     @ConfigProperty(name = "RAWREPO_RECORD_SERVICE_TIMING_LOG_LEVEL", defaultValue = "INFO")
-    private RecordDumpServiceConnector.TimingLogLevel level;
+    private QueueServiceConnector.TimingLogLevel level;
 
-    RecordDumpServiceConnector recordDumpServiceConnector;
+    QueueServiceConnector queueServiceConnector;
 
     @PostConstruct
     public void initializeConnector() {
-        recordDumpServiceConnector = RecordDumpServiceConnectorFactory.create(recordServiceBaseUrl, level);
+        queueServiceConnector = QueueServiceConnectorFactory.create(recordServiceBaseUrl, level);
     }
 
     @Produces
-    public RecordDumpServiceConnector getInstance() {
-        return recordDumpServiceConnector;
+    public QueueServiceConnector getInstance() {
+        return queueServiceConnector;
     }
 
     @PreDestroy
     public void tearDownConnector() {
-        recordDumpServiceConnector.close();
+        queueServiceConnector.close();
     }
 }

@@ -1,0 +1,15 @@
+{
+  "workers": [
+    "basis-decentral",
+    "broend-sync",
+    "danbib-ph-libv3",
+    "dataio-bulk-sync",
+    "dataio-socl-sync-bulk",
+    "ims-bulk-sync",
+    "ims-sync",
+    "oai-set-matcher",
+    "socl-sync",
+    "solr-sync-basis",
+    "solr-sync-bulk"
+  ]
+}

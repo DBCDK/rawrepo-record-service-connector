@@ -1,0 +1,235 @@
+{
+  "queueRules": [
+    {
+      "provider": "agency-delete",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "agency-delete",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "agency-maintain",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "agency-maintain",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "bulk-broend",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-bulk",
+      "worker": "dataio-bulk-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-bulk",
+      "worker": "dataio-socl-sync-bulk",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "dataio-bulk",
+      "worker": "oai-set-matcher",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-ph-holding-update",
+      "worker": "danbib-ph-libv3",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-update",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-update",
+      "worker": "oai-set-matcher",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-update",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "dataio-update",
+      "worker": "solr-sync-basis",
+      "changed": "A",
+      "leaf": "A",
+      "description": "Den rørte post og alle poster som er afhængige af den"
+    },
+    {
+      "provider": "dataio-update-well3.5",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-update-well3.5",
+      "worker": "ims-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "dataio-update-well3.5",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "dataio-update-well3.5",
+      "worker": "solr-sync-basis",
+      "changed": "A",
+      "leaf": "A",
+      "description": "Den rørte post og alle poster som er afhængige af den"
+    },
+    {
+      "provider": "fbs-ph-update",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "fbs-ph-update",
+      "worker": "danbib-ph-libv3",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "fbs-ph-update",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "fbs-update",
+      "worker": "basis-decentral",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "fbs-update",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "fbs-update",
+      "worker": "ims-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "fbs-update",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "fbs-update",
+      "worker": "solr-sync-basis",
+      "changed": "A",
+      "leaf": "A",
+      "description": "Den rørte post og alle poster som er afhængige af den"
+    },
+    {
+      "provider": "ims",
+      "worker": "ims-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "ims-bulk",
+      "worker": "ims-bulk-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "opencataloging-update",
+      "worker": "basis-decentral",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "opencataloging-update",
+      "worker": "broend-sync",
+      "changed": "A",
+      "leaf": "Y",
+      "description": "Alle Bind/Enkeltstående poster som er afhængige af den rørte post incl den rørte post"
+    },
+    {
+      "provider": "opencataloging-update",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "A",
+      "description": "Den rørte post"
+    },
+    {
+      "provider": "solr-sync-bulk",
+      "worker": "solr-sync-bulk",
+      "changed": "Y",
+      "leaf": "N",
+      "description": "Den rørte post, hvis det er en Hoved/Sektionsport"
+    },
+    {
+      "provider": "update-rawrepo-solr-sync",
+      "worker": "socl-sync",
+      "changed": "Y",
+      "leaf": "N",
+      "description": "Den rørte post, hvis det er en Hoved/Sektionsport"
+    },
+    {
+      "provider": "update-rawrepo-solr-sync",
+      "worker": "solr-sync-basis",
+      "changed": "A",
+      "leaf": "N",
+      "description": "Alle Hoved/Sektionsposter som er afhængige af den rørte post incl den rørte post"
+    }
+  ]
+}

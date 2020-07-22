@@ -1,0 +1,18 @@
+{
+  "providers": [
+    "agency-delete",
+    "agency-maintain",
+    "bulk-broend",
+    "dataio-bulk",
+    "dataio-ph-holding-update",
+    "dataio-update",
+    "dataio-update-well3.5",
+    "fbs-ph-update",
+    "fbs-update",
+    "ims",
+    "ims-bulk",
+    "opencataloging-update",
+    "solr-sync-bulk",
+    "update-rawrepo-solr-sync"
+  ]
+}

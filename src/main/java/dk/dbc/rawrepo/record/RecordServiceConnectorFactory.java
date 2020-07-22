@@ -3,10 +3,10 @@
  * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
  */
 
-package dk.dbc.rawrepo;
+package dk.dbc.rawrepo.record;
 
 import dk.dbc.httpclient.HttpClient;
-import dk.dbc.rawrepo.RecordServiceConnector.TimingLogLevel;
+import dk.dbc.rawrepo.record.RecordServiceConnector.TimingLogLevel;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;

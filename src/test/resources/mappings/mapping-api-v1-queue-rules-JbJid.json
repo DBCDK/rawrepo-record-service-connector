@@ -1,0 +1,17 @@
+{
+  "id" : "5030cf64-7001-3782-80fa-a7860f9f2f1b",
+  "request" : {
+    "url" : "/api/v1/queue/rules",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-queue-rules-JbJid.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "5030cf64-7001-3782-80fa-a7860f9f2f1b"
+}

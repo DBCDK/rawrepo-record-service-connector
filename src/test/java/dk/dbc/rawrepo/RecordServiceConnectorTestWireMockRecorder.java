@@ -5,6 +5,14 @@
 
 package dk.dbc.rawrepo;
 
+import dk.dbc.rawrepo.agency.RecordAgencyServiceConnector;
+import dk.dbc.rawrepo.agency.RecordAgencyServiceConnectorException;
+import dk.dbc.rawrepo.dump.RecordDumpServiceConnectorException;
+import dk.dbc.rawrepo.queue.QueueServiceConnector;
+import dk.dbc.rawrepo.queue.QueueServiceConnectorException;
+import dk.dbc.rawrepo.record.RecordServiceConnector;
+import dk.dbc.rawrepo.record.RecordServiceConnectorException;
+
 import java.io.IOException;
 
 public class RecordServiceConnectorTestWireMockRecorder {
@@ -24,12 +32,13 @@ public class RecordServiceConnectorTestWireMockRecorder {
                 RecordServiceConnectorTest.CLIENT, "http://localhost:8070");
         RecordAgencyServiceConnectorTest.connector = new RecordAgencyServiceConnector(
                 RecordAgencyServiceConnectorTest.CLIENT, "http://localhost:8070");
+        QueueServiceConnectorTest.connector = new QueueServiceConnector(
+                QueueServiceConnectorTest.CLIENT, "http://localhost:8070");
 
-        final RecordAgencyServiceConnectorTest recordAgencyServiceConnectorTest =
-                new RecordAgencyServiceConnectorTest();
+        final RecordAgencyServiceConnectorTest recordAgencyServiceConnectorTest = new RecordAgencyServiceConnectorTest();
         final RecordServiceConnectorTest recordServiceConnectorTest = new RecordServiceConnectorTest();
-        final RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest =
-                new RecordDumpServiceConnectorTest();
+        final RecordDumpServiceConnectorTest recordRecordDumpServiceConnectorTest = new RecordDumpServiceConnectorTest();
+        final QueueServiceConnectorTest queueServiceConnectorTest = new QueueServiceConnectorTest();
 
         agencyAllAgencies(recordAgencyServiceConnectorTest);
 
@@ -43,6 +52,9 @@ public class RecordServiceConnectorTestWireMockRecorder {
         recordAllAgenciesForBibliographicRecordId(recordServiceConnectorTest);
 
         recordDumpServiceRequests(recordRecordDumpServiceConnectorTest);
+
+        queueRules(queueServiceConnectorTest);
+        enqueue(queueServiceConnectorTest);
     }
 
     private static void recordRecordExistsRequests(RecordServiceConnectorTest connectorTest)
@@ -113,5 +125,20 @@ public class RecordServiceConnectorTestWireMockRecorder {
         recordRecordDumpServiceConnectorTest.callDumpAgencyDryRun();
         recordRecordDumpServiceConnectorTest.callDumpAgency();
         recordRecordDumpServiceConnectorTest.callDumpRecord();
+    }
+
+    private static void queueRules(QueueServiceConnectorTest queueServiceConnectorTest)
+            throws QueueServiceConnectorException {
+        queueServiceConnectorTest.getQueueRulesTest();
+        queueServiceConnectorTest.getQueueProviders();
+        queueServiceConnectorTest.getQueueWorkers();
+    }
+
+    private static void enqueue(QueueServiceConnectorTest queueServiceConnectorTest)
+            throws QueueServiceConnectorException {
+        queueServiceConnectorTest.enqueueRecordNoParams();
+        queueServiceConnectorTest.enqueueRecordParams();
+        queueServiceConnectorTest.enqueueAgencyNoParams();
+        queueServiceConnectorTest.enqueueAgencyAsAgency();
     }
 }
