@@ -7,14 +7,18 @@ package dk.dbc.rawrepo.record;
 
 import dk.dbc.httpclient.FailSafeHttpClient;
 import dk.dbc.httpclient.HttpGet;
+import dk.dbc.httpclient.HttpPost;
 import dk.dbc.httpclient.PathBuilder;
 import dk.dbc.invariant.InvariantUtil;
+import dk.dbc.jsonb.JSONBContext;
+import dk.dbc.jsonb.JSONBException;
 import dk.dbc.rawrepo.dto.AgencyCollectionDTO;
-import dk.dbc.rawrepo.dto.RecordDTO;
 import dk.dbc.rawrepo.dto.RecordCollectionDTO;
+import dk.dbc.rawrepo.dto.RecordCollectionDTOv2;
+import dk.dbc.rawrepo.dto.RecordDTO;
 import dk.dbc.rawrepo.dto.RecordHistoryCollectionDTO;
-import dk.dbc.rawrepo.dto.RecordIdDTO;
 import dk.dbc.rawrepo.dto.RecordIdCollectionDTO;
+import dk.dbc.rawrepo.dto.RecordIdDTO;
 import dk.dbc.util.Stopwatch;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
@@ -25,6 +29,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +52,8 @@ public class RecordServiceConnector {
         TRACE, DEBUG, INFO, WARN, ERROR
     }
 
+    private static final JSONBContext jsonbContext = new JSONBContext();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordServiceConnector.class);
     private static final String PATH_VARIABLE_AGENCY_ID = "agencyId";
     private static final String PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID = "bibliographicRecordId";
@@ -63,6 +70,7 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_DATA_COLLECTION = String.format("/api/v1/records/{%s}/{%s}",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+    private static final String PATH_FETCH_RECORD_COLLECTION = "/api/v1/records/fetch/";
     private static final String PATH_RECORD_EXISTS = String.format("/api/v1/record/{%s}/{%s}/exists",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_RECORD_FETCH = String.format("/api/v1/record/{%s}/{%s}/fetch",
@@ -322,6 +330,25 @@ public class RecordServiceConnector {
         } finally {
             logger.log("getRecordContentCollection({}, {}) took {} milliseconds",
                     agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    public RecordCollectionDTOv2 fetchRecordList(List<RecordIdDTO> recordIds) throws RecordServiceConnectorException {
+        return fetchRecordList(recordIds, null);
+    }
+
+    public RecordCollectionDTOv2 fetchRecordList(List<RecordIdDTO> recordIds, Params params) throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            final RecordIdCollectionDTO recordIdCollectionDTO = new RecordIdCollectionDTO();
+            recordIdCollectionDTO.setRecordIds(recordIds);
+
+            return postRequest(PATH_FETCH_RECORD_COLLECTION, jsonbContext.marshall(recordIdCollectionDTO), params, RecordCollectionDTOv2.class);
+        } catch (JSONBException e) {
+            throw new RecordServiceConnectorException("Failed to marshall recordIds", e);
+        } finally {
+            logger.log("fetchRecordList took {} milliseconds",
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
     }
@@ -872,6 +899,22 @@ public class RecordServiceConnector {
         final Response response = httpGet.execute();
         assertResponseStatus(response, Response.Status.OK);
         return readResponseEntity(response, type);
+    }
+
+    private <S, T> T postRequest(String basePath, String body, Params params, Class<T> returnType) throws RecordServiceConnectorException {
+        final HttpPost httpPost = new HttpPost(failSafeHttpClient)
+                .withBaseUrl(baseUrl)
+                .withPathElements(basePath)
+                .withData(body, "application/json")
+                .withHeader("Accept", "application/json");
+        if (params != null) {
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                httpPost.withQueryParameter(param.getKey(), param.getValue());
+            }
+        }
+        final Response response = httpPost.execute();
+        assertResponseStatus(response, Response.Status.OK);
+        return readResponseEntity(response, returnType);
     }
 
     private <T> T readResponseEntity(Response response, Class<T> type)

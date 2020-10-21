@@ -50,6 +50,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
         recordGetRecordMetaRequests(recordServiceConnectorTest);
         recordHistoryServiceRequests(recordServiceConnectorTest);
         recordAllAgenciesForBibliographicRecordId(recordServiceConnectorTest);
+        fetchRecordList(recordServiceConnectorTest);
 
         recordDumpServiceRequests(recordRecordDumpServiceConnectorTest);
 
@@ -111,6 +112,12 @@ public class RecordServiceConnectorTestWireMockRecorder {
             throws RecordServiceConnectorException {
         connectorTest.callGetAllAgenciesForBibliographicRecordId();
         connectorTest.callGetAllAgenciesForBibliographicRecordId_NoRecord();
+    }
+
+    private static void fetchRecordList(RecordServiceConnectorTest recordServiceConnectorTest)
+            throws RecordServiceConnectorException {
+        recordServiceConnectorTest.fetchRecordList_NoParams();
+        recordServiceConnectorTest.fetchRecordList_Merged();
     }
 
     private static void agencyAllAgencies(RecordAgencyServiceConnectorTest recordAgencyServiceConnectorTest)

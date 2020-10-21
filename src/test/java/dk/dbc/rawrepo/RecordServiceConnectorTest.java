@@ -7,6 +7,7 @@ package dk.dbc.rawrepo;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
+import dk.dbc.rawrepo.dto.RecordCollectionDTOv2;
 import dk.dbc.rawrepo.dto.RecordDTO;
 import dk.dbc.rawrepo.dto.RecordHistoryCollectionDTO;
 import dk.dbc.rawrepo.dto.RecordHistoryDTO;
@@ -16,14 +17,17 @@ import dk.dbc.rawrepo.record.RecordServiceConnectorException;
 import dk.dbc.rawrepo.record.RecordServiceConnectorNoContentStatusCodeException;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
@@ -402,6 +406,67 @@ class RecordServiceConnectorTest {
         Assertions.assertThrows(RecordServiceConnectorNoContentStatusCodeException.class, () -> {
             connector.getHistoricRecord("870970", "NOTFOUND", "2016-06-15T08:58:06.640Z");
         });
+    }
+
+    @Test
+    void fetchRecordList_NoParams() throws RecordServiceConnectorException {
+        final List<RecordIdDTO> recordIds = new ArrayList<>();
+        recordIds.add(new RecordIdDTO("55103461", 870970));
+        recordIds.add(new RecordIdDTO("54936931", 870970));
+        recordIds.add(new RecordIdDTO("missing", 123456));
+
+        RecordCollectionDTOv2 actual = connector.fetchRecordList(recordIds);
+
+        RecordDTO recordDTO = actual.getFound().get(0);
+        assertThat("collection contains 55103461", recordDTO.getRecordId(), is(new RecordIdDTO("55103461", 870970)));
+        assertThat("collection mimetype 55103461", recordDTO.getMimetype(), is("text/marcxchange"));
+        assertThat("collection created 55103461", recordDTO.getCreated(), is("2018-10-25T09:41:55.891Z"));
+        assertThat("collection modified 55103461", recordDTO.getModified(), is("2018-10-25T09:41:55.891Z"));
+        assertThat("collection enrichment trail 55103461", recordDTO.getEnrichmentTrail(), is("870970"));
+        assertThat("collection content 55103461", new String(recordDTO.getContent()), is("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><record xsi:schemaLocation=\"http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd\" xmlns=\"info:lc/xmlns/marcxchange-v1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><leader>00000n    2200000   4500</leader><datafield tag=\"001\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">55103461</subfield><subfield code=\"b\">870970</subfield><subfield code=\"c\">20181025114155</subfield><subfield code=\"d\">20181025</subfield><subfield code=\"f\">a</subfield></datafield><datafield tag=\"004\" ind1=\"0\" ind2=\"0\"><subfield code=\"r\">c</subfield><subfield code=\"a\">b</subfield></datafield><datafield tag=\"008\" ind1=\"0\" ind2=\"0\"><subfield code=\"t\">m</subfield><subfield code=\"u\">f</subfield><subfield code=\"a\">2018</subfield><subfield code=\"v\">0</subfield></datafield><datafield tag=\"014\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">44304937</subfield></datafield><datafield tag=\"021\" ind1=\"0\" ind2=\"0\"><subfield code=\"e\">9781421596020</subfield><subfield code=\"d\">85</subfield></datafield><datafield tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield code=\"G\">74</subfield><subfield code=\"g\">Vol. 74</subfield><subfield code=\"a\">Death &amp; strawberry</subfield></datafield><datafield tag=\"250\" ind1=\"0\" ind2=\"0\"><subfield code=\"x\">1. printing</subfield></datafield><datafield tag=\"260\" ind1=\"0\" ind2=\"0\"><subfield code=\"c\">2018</subfield></datafield><datafield tag=\"300\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Ca. 180 sider</subfield></datafield><datafield tag=\"504\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">The final battle against Yhwach gets under way as Ichigo and his allies reach the Quincy King’s throne room. Can Ichigo put an end to the thousand-year war between the Soul Reapers and Quincies? The emotional conclusion of Bleach is here!</subfield></datafield><datafield tag=\"996\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">717500</subfield></datafield></record>"));
+
+        recordDTO = actual.getFound().get(1);
+        assertThat("collection contains 54936931", recordDTO.getRecordId(), is(new RecordIdDTO("54936931", 870970)));
+        assertThat("collection mimetype 54936931", recordDTO.getMimetype(), is("text/marcxchange"));
+        assertThat("collection created 54936931", recordDTO.getCreated(), is("2018-09-28T08:35:23.977Z"));
+        assertThat("collection modified 54936931", recordDTO.getModified(), is("2018-09-28T08:35:23.977Z"));
+        assertThat("collection enrichment trail 54936931", recordDTO.getEnrichmentTrail(), Matchers.is("870970"));
+        assertThat("collection content 54936931", new String(recordDTO.getContent()), is("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><record xsi:schemaLocation=\"http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd\" xmlns=\"info:lc/xmlns/marcxchange-v1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><leader>00000n    2200000   4500</leader><datafield tag=\"001\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">54936931</subfield><subfield code=\"b\">870970</subfield><subfield code=\"c\">20180928103523</subfield><subfield code=\"d\">20180928</subfield><subfield code=\"f\">a</subfield></datafield><datafield tag=\"004\" ind1=\"0\" ind2=\"0\"><subfield code=\"r\">c</subfield><subfield code=\"a\">b</subfield></datafield><datafield tag=\"008\" ind1=\"0\" ind2=\"0\"><subfield code=\"t\">m</subfield><subfield code=\"u\">f</subfield><subfield code=\"a\">2018</subfield><subfield code=\"v\">0</subfield></datafield><datafield tag=\"014\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">44304937</subfield></datafield><datafield tag=\"021\" ind1=\"0\" ind2=\"0\"><subfield code=\"e\">9781421594347</subfield><subfield code=\"d\">85</subfield></datafield><datafield tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield code=\"G\">73</subfield><subfield code=\"g\">Vol. 73</subfield><subfield code=\"a\">Battlefield burning</subfield></datafield><datafield tag=\"250\" ind1=\"0\" ind2=\"0\"><subfield code=\"x\">1. printing</subfield></datafield><datafield tag=\"260\" ind1=\"0\" ind2=\"0\"><subfield code=\"c\">2018</subfield></datafield><datafield tag=\"300\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Ca. 180 sider</subfield></datafield><datafield tag=\"504\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Facing a powerful opponent, the mysterious Kisuke Urahara is forced to reveal his Bankai for the first time. Meanwhile, Ichigo finally makes it to Yhwach’s throne room, but what can he do against an enemy whose power is omnipotence?!</subfield></datafield><datafield tag=\"996\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">717500</subfield></datafield></record>"));
+
+        assertThat("collection is missing record", actual.getMissing().size(), is(1));
+        assertThat("collection is missing record", actual.getMissing().get(0), is(new RecordIdDTO("missing", 123456)));
+    }
+
+    @Test
+    void fetchRecordList_Merged() throws RecordServiceConnectorException {
+        final List<RecordIdDTO> recordIds = new ArrayList<>();
+        recordIds.add(new RecordIdDTO("55103461", 191919));
+        recordIds.add(new RecordIdDTO("54936931", 191919));
+        recordIds.add(new RecordIdDTO("missing", 123456));
+
+        RecordServiceConnector.Params params = new RecordServiceConnector.Params()
+                .withAllowDeleted(true)
+                .withMode(RecordServiceConnector.Params.Mode.EXPANDED)
+                .withUseParentAgency(true);
+
+        RecordCollectionDTOv2 actual = connector.fetchRecordList(recordIds, params);
+
+        RecordDTO recordDTO = actual.getFound().get(0);
+        assertThat("collection contains 55103461", recordDTO.getRecordId(), is(new RecordIdDTO("55103461", 191919)));
+        assertThat("collection mimetype 55103461", recordDTO.getMimetype(), is("text/marcxchange"));
+        assertThat("collection created 55103461", recordDTO.getCreated(), is("2018-10-25T09:41:57.251Z"));
+        assertThat("collection enrichment trail 55103461", recordDTO.getEnrichmentTrail(), is("870970,191919"));
+        assertThat("collection content 55103461", new String(recordDTO.getContent()), is("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><record xsi:schemaLocation=\"http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd\" xmlns=\"info:lc/xmlns/marcxchange-v1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><leader>00000n    2200000   4500</leader><datafield tag=\"001\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">55103461</subfield><subfield code=\"b\">870970</subfield><subfield code=\"c\">20181025114155</subfield><subfield code=\"d\">20181025</subfield><subfield code=\"f\">a</subfield></datafield><datafield tag=\"004\" ind1=\"0\" ind2=\"0\"><subfield code=\"r\">c</subfield><subfield code=\"a\">b</subfield></datafield><datafield tag=\"008\" ind1=\"0\" ind2=\"0\"><subfield code=\"t\">m</subfield><subfield code=\"u\">f</subfield><subfield code=\"a\">2018</subfield><subfield code=\"v\">0</subfield></datafield><datafield tag=\"014\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">44304937</subfield></datafield><datafield tag=\"021\" ind1=\"0\" ind2=\"0\"><subfield code=\"e\">9781421596020</subfield><subfield code=\"d\">85</subfield></datafield><datafield tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield code=\"G\">74</subfield><subfield code=\"g\">Vol. 74</subfield><subfield code=\"a\">Death &amp; strawberry</subfield></datafield><datafield tag=\"250\" ind1=\"0\" ind2=\"0\"><subfield code=\"x\">1. printing</subfield></datafield><datafield tag=\"260\" ind1=\"0\" ind2=\"0\"><subfield code=\"c\">2018</subfield></datafield><datafield tag=\"300\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Ca. 180 sider</subfield></datafield><datafield tag=\"504\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">The final battle against Yhwach gets under way as Ichigo and his allies reach the Quincy King’s throne room. Can Ichigo put an end to the thousand-year war between the Soul Reapers and Quincies? The emotional conclusion of Bleach is here!</subfield></datafield><datafield tag=\"996\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">717500</subfield></datafield></record>"));
+
+        recordDTO = actual.getFound().get(1);
+        assertThat("collection contains 54936931", recordDTO.getRecordId(), is(new RecordIdDTO("54936931", 191919)));
+        assertThat("collection mimetype 54936931", recordDTO.getMimetype(), is("text/marcxchange"));
+        assertThat("collection created 54936931", recordDTO.getCreated(), is("2018-09-28T08:35:24.453Z"));
+        assertThat("collection enrichment trail 54936931", recordDTO.getEnrichmentTrail(), Matchers.is("870970,191919"));
+        assertThat("collection content 54936931", new String(recordDTO.getContent()), is("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><record xsi:schemaLocation=\"http://www.loc.gov/standards/iso25577/marcxchange-1-1.xsd\" xmlns=\"info:lc/xmlns/marcxchange-v1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><leader>00000n    2200000   4500</leader><datafield tag=\"001\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">54936931</subfield><subfield code=\"b\">870970</subfield><subfield code=\"c\">20180928103523</subfield><subfield code=\"d\">20180928</subfield><subfield code=\"f\">a</subfield></datafield><datafield tag=\"004\" ind1=\"0\" ind2=\"0\"><subfield code=\"r\">c</subfield><subfield code=\"a\">b</subfield></datafield><datafield tag=\"008\" ind1=\"0\" ind2=\"0\"><subfield code=\"t\">m</subfield><subfield code=\"u\">f</subfield><subfield code=\"a\">2018</subfield><subfield code=\"v\">0</subfield></datafield><datafield tag=\"014\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">44304937</subfield></datafield><datafield tag=\"021\" ind1=\"0\" ind2=\"0\"><subfield code=\"e\">9781421594347</subfield><subfield code=\"d\">85</subfield></datafield><datafield tag=\"245\" ind1=\"0\" ind2=\"0\"><subfield code=\"G\">73</subfield><subfield code=\"g\">Vol. 73</subfield><subfield code=\"a\">Battlefield burning</subfield></datafield><datafield tag=\"250\" ind1=\"0\" ind2=\"0\"><subfield code=\"x\">1. printing</subfield></datafield><datafield tag=\"260\" ind1=\"0\" ind2=\"0\"><subfield code=\"c\">2018</subfield></datafield><datafield tag=\"300\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Ca. 180 sider</subfield></datafield><datafield tag=\"504\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">Facing a powerful opponent, the mysterious Kisuke Urahara is forced to reveal his Bankai for the first time. Meanwhile, Ichigo finally makes it to Yhwach’s throne room, but what can he do against an enemy whose power is omnipotence?!</subfield></datafield><datafield tag=\"996\" ind1=\"0\" ind2=\"0\"><subfield code=\"a\">717500</subfield></datafield></record>"));
+
+        assertThat("collection is missing record", actual.getMissing().size(), is(1));
+        assertThat("collection is missing record", actual.getMissing().get(0), is(new RecordIdDTO("missing", 123456)));
     }
 
 }

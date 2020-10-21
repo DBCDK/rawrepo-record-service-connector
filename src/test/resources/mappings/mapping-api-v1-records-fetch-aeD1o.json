@@ -1,0 +1,22 @@
+{
+  "id" : "41c1b140-188a-32ba-94f0-4c6513b4ce32",
+  "request" : {
+    "url" : "/api/v1/records/fetch/?mode=expanded&use-parent-agency=true&allow-deleted=true",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"recordIds\":[{\"bibliographicRecordId\":\"55103461\",\"agencyId\":191919},{\"bibliographicRecordId\":\"54936931\",\"agencyId\":191919},{\"bibliographicRecordId\":\"missing\",\"agencyId\":123456}]}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-records-fetch-aeD1o.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "41c1b140-188a-32ba-94f0-4c6513b4ce32"
+}

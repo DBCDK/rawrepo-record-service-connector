@@ -9,4 +9,8 @@ public class RecordServiceConnectorException extends Exception {
     public RecordServiceConnectorException(String message) {
         super(message);
     }
+
+    public RecordServiceConnectorException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
 }
