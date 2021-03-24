@@ -1,7 +1,7 @@
 {
   "id" : "fcbdaa96-4441-3b0f-9fab-328b76996eaa",
   "request" : {
-    "url" : "/api/v1/record/870970/44783851/2016-06-15T08:58:06.640Z",
+    "url" : "/api/v1/record/870970/44783851/2016-06-15T08%3A58%3A06.640Z",
     "method" : "GET"
   },
   "response" : {
