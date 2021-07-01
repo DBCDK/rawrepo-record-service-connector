@@ -216,6 +216,34 @@ class RecordServiceConnectorTest {
     }
 
     @Test
+    void callGetRecordContentCollection_DataIO_handle520n() throws RecordServiceConnectorException {
+        final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
+                .withExpand(true)
+                .withHandle520n(true);
+
+        final HashMap<String, RecordDTO> actual = connector.getRecordDataCollectionDataIO(new RecordIdDTO("38519387", 191919), params);
+        assertThat(actual.size(), is(2));
+
+        assertThat(actual.get("38519387").getRecordId(), is(new RecordIdDTO("38519387", 191919)));
+        assertThat(actual.get("38519387").getCreated(), is("2020-12-11T11:08:07.010008Z"));
+        assertThat(actual.get("38519387").getEnrichmentTrail(), is("870970,191919"));
+        assertThat(actual.get("38519387").getMimetype(), is("text/marcxchange"));
+        assertThat(actual.get("38519387").getModified(), is("2021-06-30T07:30:16.630495Z"));
+        assertThat(actual.get("38519387").getTrackingId(), is("{38519387:bog} - kga-{38519387:191919}"));
+        assertThat(actual.get("38519387").isDeleted(), is(false));
+        assertThat(new String(actual.get("38519387").getContent()), containsString("marcxchange-v1"));
+
+        assertThat(actual.get("28947216").getRecordId(), is(new RecordIdDTO("28947216", 191919)));
+        assertThat(actual.get("28947216").getCreated(), is("2016-07-09T09:15:57.550Z"));
+        assertThat(actual.get("28947216").getEnrichmentTrail(), is("870970,191919"));
+        assertThat(actual.get("28947216").getMimetype(), is("text/marcxchange"));
+        assertThat(actual.get("28947216").getModified(), is("2021-06-30T07:30:17.173666Z"));
+        assertThat(actual.get("28947216").getTrackingId(), is("{68594693:autoritet} - kfm-{28947216:191919}"));
+        assertThat(actual.get("28947216").isDeleted(), is(false));
+        assertThat(new String(actual.get("28947216").getContent()), containsString("marcxchange-v1"));
+    }
+
+    @Test
     void callGetRecordDataForExistingRecord() throws RecordServiceConnectorException {
         final RecordDTO record = connector.getRecordData("870970", "52880645");
         assertThat(record, is(notNullValue()));
