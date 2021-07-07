@@ -216,10 +216,10 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    void callGetRecordContentCollection_DataIO_handle520n() throws RecordServiceConnectorException {
+    void callGetRecordContentCollection_DataIO_handleControlRecords() throws RecordServiceConnectorException {
         final RecordServiceConnector.Params params = new RecordServiceConnector.Params()
                 .withExpand(true)
-                .withHandle520n(true);
+                .withHandleControlRecords(true);
 
         final HashMap<String, RecordDTO> actual = connector.getRecordDataCollectionDataIO(new RecordIdDTO("38519387", 191919), params);
         assertThat(actual.size(), is(2));

@@ -81,7 +81,7 @@ public class RecordServiceConnectorTestWireMockRecorder {
         connectorTest.callGetRecordContentCollectionForExistingRecord();
         connectorTest.callGetRecordContentCollection();
         connectorTest.callGetRecordContentCollection_DataIO();
-        connectorTest.callGetRecordContentCollection_DataIO_handle520n();
+        connectorTest.callGetRecordContentCollection_DataIO_handleControlRecords();
     }
 
     private static void recordGetRecordDataRequests(RecordServiceConnectorTest connectorTest)

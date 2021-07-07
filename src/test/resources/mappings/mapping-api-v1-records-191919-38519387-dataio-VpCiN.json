@@ -1,7 +1,7 @@
 {
   "id" : "f5644496-ea21-3c8d-9014-2b434cb9ae1f",
   "request" : {
-    "url" : "/api/v1/records/191919/38519387/dataio?expand=true&handle-520n=true",
+    "url" : "/api/v1/records/191919/38519387/dataio?expand=true&handle-control-records=true",
     "method" : "GET"
   },
   "response" : {

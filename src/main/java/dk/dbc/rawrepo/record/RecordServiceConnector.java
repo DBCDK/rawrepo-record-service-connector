@@ -986,10 +986,10 @@ public class RecordServiceConnector {
 
             FOR_COREPO("for-corepo"),
             /**
-             * handle-520n: if true indicates that 520 *n referenced records should be included in the collection.
+             * handle-control-records: if true indicates that 520 and 526 *n referenced records should be included in the collection.
              * Only applicable for dataio collection.
              */
-            HANDLE_520N("handle-520n");
+            HANDLE_CONTROL_RECORDS("handle-control-records");
 
             private final String keyName;
 
@@ -1083,13 +1083,13 @@ public class RecordServiceConnector {
             return Optional.ofNullable((Boolean) this.get(Key.FOR_COREPO));
         }
 
-        public Params withHandle520n(Boolean handle520n) {
-            putOrRemoveOnNull(Key.HANDLE_520N, handle520n);
+        public Params withHandleControlRecords(Boolean handleControlRecords) {
+            putOrRemoveOnNull(Key.HANDLE_CONTROL_RECORDS, handleControlRecords);
             return this;
         }
 
-        public Optional<Boolean> getHandle520n() {
-            return Optional.ofNullable((Boolean) this.get(Key.HANDLE_520N));
+        public Optional<Boolean> getHandleControlRecords() {
+            return Optional.ofNullable((Boolean) this.get(Key.HANDLE_CONTROL_RECORDS));
         }
 
         private void putOrRemoveOnNull(Key param, Object value) {
