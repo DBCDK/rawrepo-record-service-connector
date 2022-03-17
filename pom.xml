@@ -66,9 +66,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            <type>pom</type>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
