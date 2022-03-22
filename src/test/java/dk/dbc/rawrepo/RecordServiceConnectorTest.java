@@ -7,8 +7,11 @@ package dk.dbc.rawrepo;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
+import dk.dbc.jsonb.JSONBContext;
+import dk.dbc.jsonb.JSONBException;
 import dk.dbc.rawrepo.dto.RecordCollectionDTOv2;
 import dk.dbc.rawrepo.dto.RecordDTO;
+import dk.dbc.rawrepo.dto.RecordEntryDTO;
 import dk.dbc.rawrepo.dto.RecordHistoryCollectionDTO;
 import dk.dbc.rawrepo.dto.RecordHistoryDTO;
 import dk.dbc.rawrepo.dto.RecordIdDTO;
@@ -24,6 +27,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -91,6 +95,31 @@ class RecordServiceConnectorTest {
                 .withAllowDeleted(true);
         assertThat(connector.recordExists("870979", "NoSuchRecord", params),
                 is(false));
+    }
+
+    @Test
+    void callGetRecordEntryDTO() throws RecordServiceConnectorException {
+        final RecordEntryDTO recordEntryDTO = connector.getRawRecordEntryDTO("870979", "19000001");
+        assertThat("get agencyId", recordEntryDTO.getRecordId().getAgencyId(),
+                is(870979));
+        assertThat("get bibliographicRecordid", recordEntryDTO.getRecordId().getBibliographicRecordId(),
+                is("19000001"));
+        assertThat("content is MarcJson", recordEntryDTO.getContent().has("leader"),
+                is(true));
+    }
+
+    @Test
+    void callGetRecordEntry() throws RecordServiceConnectorException, JSONBException {
+        final byte[] recordEntryBytes = connector.getRawRecordEntry("870979", "19000001");
+        final JSONBContext jsonbContext = new JSONBContext();
+        final RecordEntryDTO recordEntryDTO = jsonbContext.unmarshall(
+                new String(recordEntryBytes, StandardCharsets.UTF_8), RecordEntryDTO.class);
+        assertThat("get agencyId", recordEntryDTO.getRecordId().getAgencyId(),
+                is(870979));
+        assertThat("get bibliographicRecordid", recordEntryDTO.getRecordId().getBibliographicRecordId(),
+                is("19000001"));
+        assertThat("content is MarcJson", recordEntryDTO.getContent().has("leader"),
+                is(true));
     }
 
     @Test

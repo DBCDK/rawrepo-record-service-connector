@@ -16,6 +16,7 @@ import dk.dbc.rawrepo.dto.AgencyCollectionDTO;
 import dk.dbc.rawrepo.dto.RecordCollectionDTO;
 import dk.dbc.rawrepo.dto.RecordCollectionDTOv2;
 import dk.dbc.rawrepo.dto.RecordDTO;
+import dk.dbc.rawrepo.dto.RecordEntryDTO;
 import dk.dbc.rawrepo.dto.RecordHistoryCollectionDTO;
 import dk.dbc.rawrepo.dto.RecordIdCollectionDTO;
 import dk.dbc.rawrepo.dto.RecordIdDTO;
@@ -89,6 +90,9 @@ public class RecordServiceConnector {
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
     private static final String PATH_HISTORIC_RECORD = String.format("/api/v1/record/{%s}/{%s}/{%s}",
             PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID, PATH_VARIABLE_MODIFIED_DATE);
+    private static final String PATH_RECORD_ENTRY_RAW = String.format("/api/v1/record-entries/{%s}/{%s}/raw",
+            PATH_VARIABLE_AGENCY_ID, PATH_VARIABLE_BIBLIOGRAPHIC_RECORD_ID);
+
 
     private static final RetryPolicy<Response> RETRY_POLICY = new RetryPolicy<Response>()
             .handle(ProcessingException.class)
@@ -348,6 +352,102 @@ public class RecordServiceConnector {
             throw new RecordServiceConnectorException("Failed to marshall recordIds", e);
         } finally {
             logger.log("fetchRecordList took {} milliseconds",
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * Gets all data from the corresponding record row entry in its raw form.
+     * Marc record is presented as MarcJson.
+     * @param recordIdDTO record ID
+     * @return record entry as {@link RecordEntryDTO} object
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordEntryDTO getRawRecordEntryDTO(RecordIdDTO recordIdDTO)
+            throws RecordServiceConnectorException {
+        return getRawRecordEntryDTO(recordIdDTO.getAgencyId(), recordIdDTO.getBibliographicRecordId());
+    }
+
+    /**
+     * Gets all data from the corresponding record row entry in its raw form.
+     * Marc record is presented as MarcJson.
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record entry as {@link RecordEntryDTO} object
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordEntryDTO getRawRecordEntryDTO(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRawRecordEntryDTO(Integer.toString(agencyId), bibliographicRecordId);
+    }
+
+    /**
+     * Gets all data from the corresponding record row entry in its raw form.
+     * Marc record is presented as MarcJson.
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record entry as {@link RecordEntryDTO} object
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public RecordEntryDTO getRawRecordEntryDTO(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_ENTRY_RAW, agencyId, bibliographicRecordId, null, RecordEntryDTO.class);
+        } finally {
+            logger.log("getRawRecordEntryDTO({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
+                    stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
+        }
+    }
+
+    /**
+     * Gets all data from the corresponding record row entry in its raw form.
+     * Marc record is presented as MarcJson.
+     * @param recordIdDTO record ID
+     * @return record entry as bytes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRawRecordEntry(RecordIdDTO recordIdDTO)
+            throws RecordServiceConnectorException {
+        return getRawRecordEntry(recordIdDTO.getAgencyId(), recordIdDTO.getBibliographicRecordId());
+    }
+
+    /**
+     * Gets all data from the corresponding record row entry in its raw form.
+     * Marc record is presented as MarcJson.
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record entry as bytes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRawRecordEntry(int agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        return getRawRecordEntry(Integer.toString(agencyId), bibliographicRecordId);
+    }
+
+    /**
+     * Gets all data from the corresponding record row entry in its raw form.
+     * Marc record is presented as MarcJson.
+     * @param agencyId agency ID
+     * @param bibliographicRecordId bibliographic record ID
+     * @return record entry as bytes
+     * @throws RecordServiceConnectorException on failure to read result entity from response
+     * @throws RecordServiceConnectorUnexpectedStatusCodeException on unexpected response status code
+     */
+    public byte[] getRawRecordEntry(String agencyId, String bibliographicRecordId)
+            throws RecordServiceConnectorException {
+        final Stopwatch stopwatch = new Stopwatch();
+        try {
+            return sendRequest(PATH_RECORD_ENTRY_RAW, agencyId, bibliographicRecordId, null, byte[].class);
+        } finally {
+            logger.log("getRawRecordEntry({}, {}) took {} milliseconds",
+                    agencyId, bibliographicRecordId,
                     stopwatch.getElapsedTime(TimeUnit.MILLISECONDS));
         }
     }

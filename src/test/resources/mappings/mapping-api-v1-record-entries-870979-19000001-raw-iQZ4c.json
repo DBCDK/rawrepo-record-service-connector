@@ -1,0 +1,17 @@
+{
+  "id" : "d19e2898-3d94-367b-a512-312b83f2fccf",
+  "request" : {
+    "url" : "/api/v1/record-entries/870979/19000001/raw",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-api-v1-record-entries-870979-19000001-raw-iQZ4c.json",
+    "headers" : {
+      "Server" : "Payara Micro #badassfish",
+      "Content-Type" : "application/json",
+      "X-Frame-Options" : "SAMEORIGIN"
+    }
+  },
+  "uuid" : "d19e2898-3d94-367b-a512-312b83f2fccf"
+}
