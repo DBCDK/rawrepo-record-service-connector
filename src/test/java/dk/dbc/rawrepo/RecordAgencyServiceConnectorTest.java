@@ -1,23 +1,18 @@
-/*
- * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
- * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
- */
-
 package dk.dbc.rawrepo;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dk.dbc.httpclient.HttpClient;
 import dk.dbc.rawrepo.agency.RecordAgencyServiceConnector;
 import dk.dbc.rawrepo.agency.RecordAgencyServiceConnectorException;
-import dk.dbc.rawrepo.dto.RecordIdDTO;
 import dk.dbc.rawrepo.dto.RecordIdCollectionDTO;
+import dk.dbc.rawrepo.dto.RecordIdDTO;
+import jakarta.ws.rs.client.Client;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.client.Client;
 import java.util.Arrays;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
@@ -25,7 +20,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class RecordAgencyServiceConnectorTest {
+class RecordAgencyServiceConnectorTest {
     private static WireMockServer wireMockServer;
     private static String wireMockHost;
 
