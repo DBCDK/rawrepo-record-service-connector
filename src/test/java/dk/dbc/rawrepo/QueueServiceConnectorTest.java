@@ -11,13 +11,12 @@ import dk.dbc.rawrepo.dto.QueueRuleDTO;
 import dk.dbc.rawrepo.dto.QueueWorkerCollectionDTO;
 import dk.dbc.rawrepo.queue.QueueServiceConnector;
 import dk.dbc.rawrepo.queue.QueueServiceConnectorException;
+import jakarta.ws.rs.client.Client;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import javax.ws.rs.client.Client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +27,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class QueueServiceConnectorTest {
+class QueueServiceConnectorTest {
     private static WireMockServer wireMockServer;
     private static String wireMockHost;
 

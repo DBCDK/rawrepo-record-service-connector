@@ -1,14 +1,9 @@
-/*
- * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
- * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
- */
-
 package dk.dbc.rawrepo;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import dk.dbc.commons.jsonb.JSONBContext;
+import dk.dbc.commons.jsonb.JSONBException;
 import dk.dbc.httpclient.HttpClient;
-import dk.dbc.jsonb.JSONBContext;
-import dk.dbc.jsonb.JSONBException;
 import dk.dbc.rawrepo.dto.RecordCollectionDTOv2;
 import dk.dbc.rawrepo.dto.RecordDTO;
 import dk.dbc.rawrepo.dto.RecordEntryDTO;
@@ -18,6 +13,7 @@ import dk.dbc.rawrepo.dto.RecordIdDTO;
 import dk.dbc.rawrepo.record.RecordServiceConnector;
 import dk.dbc.rawrepo.record.RecordServiceConnectorException;
 import dk.dbc.rawrepo.record.RecordServiceConnectorNoContentStatusCodeException;
+import jakarta.ws.rs.client.Client;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.hamcrest.Matchers;
@@ -26,7 +22,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.client.Client;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -375,7 +370,7 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    public void callGetRecordSiblingsFrom() throws RecordServiceConnectorException {
+    void callGetRecordSiblingsFrom() throws RecordServiceConnectorException {
         RecordIdDTO[] ids = connector.getRecordSiblingsFrom(870974, "126350554");
 
         assertThat(ids.length, is(0));
@@ -389,7 +384,7 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    public void callGetRecordSiblingsTo() throws RecordServiceConnectorException {
+    void callGetRecordSiblingsTo() throws RecordServiceConnectorException {
         RecordIdDTO[] ids = connector.getRecordSiblingsTo(870974, "126350554");
 
         assertThat(ids, arrayContaining(new RecordIdDTO("126350554", 191919)));
@@ -430,7 +425,7 @@ class RecordServiceConnectorTest {
     }
 
     @Test
-    public void callGetHistoricRecord() throws RecordServiceConnectorException {
+    void callGetHistoricRecord() throws RecordServiceConnectorException {
         RecordDTO record1 = connector.getHistoricRecord("870970", "44783851", "2016-06-15T08:58:06.640Z");
         assertThat(record1, is(notNullValue()));
         assertThat(record1.getRecordId(), is(notNullValue()));

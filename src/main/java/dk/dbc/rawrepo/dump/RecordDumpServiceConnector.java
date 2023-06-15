@@ -1,24 +1,19 @@
-/*
- * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
- * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
- */
-
 package dk.dbc.rawrepo.dump;
 
+import dk.dbc.commons.jsonb.JSONBContext;
+import dk.dbc.commons.jsonb.JSONBException;
 import dk.dbc.httpclient.FailSafeHttpClient;
 import dk.dbc.httpclient.HttpPost;
 import dk.dbc.invariant.InvariantUtil;
-import dk.dbc.jsonb.JSONBContext;
-import dk.dbc.jsonb.JSONBException;
 import dk.dbc.rawrepo.dto.ParamsValidationDTO;
 import dk.dbc.util.Stopwatch;
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -28,6 +23,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
 public class RecordDumpServiceConnector {
     public enum TimingLogLevel {
@@ -156,8 +154,8 @@ public class RecordDumpServiceConnector {
                 .withBaseUrl(baseUrl)
                 .withPathElements(path)
                 .withJsonData(data)
-                .withHeader("Accept", "text/plain")
-                .withHeader("Content-type", "application/json");
+                .withHeader("Accept", TEXT_PLAIN)
+                .withHeader("Content-type", APPLICATION_JSON);
         final Response response = httpPost.execute();
         assertResponseStatus(response, Response.Status.OK);
         return readResponseEntity(response, returnType);
@@ -168,8 +166,8 @@ public class RecordDumpServiceConnector {
         final HttpPost httpPost = new HttpPost(failSafeHttpClient)
                 .withBaseUrl(baseUrl)
                 .withPathElements(basePath)
-                .withData(body, "text/plain")
-                .withHeader("Accept", "text/plain");
+                .withData(body, TEXT_PLAIN)
+                .withHeader("Accept", TEXT_PLAIN);
         if (params != null) {
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 httpPost.withQueryParameter(param.getKey(), param.getValue());
